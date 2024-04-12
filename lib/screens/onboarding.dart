@@ -72,7 +72,7 @@ class _OnboardingState extends State<Onboarding> {
                                   fontSize: 21.sp,
                                   fontWeight: FontWeight.w700,
                                   color:
-                                      Utilities().appColors(context).primary),
+                                      Utilities().appColors(context).secondary),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(

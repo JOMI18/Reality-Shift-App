@@ -17,24 +17,23 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: "Acme",
           colorScheme: ColorScheme.fromSeed(
-              primary: const Color.fromARGB(255, 15, 34, 45),
-              secondary: const Color.fromARGB(255, 255, 245, 208),
-              background: const Color.fromARGB(255, 15, 34, 45),
-              seedColor: const Color.fromARGB(255, 15, 34, 45)),
+              primary: Color(0xFF0F222D),
+              secondary: Color(0xFFFFF5D0),
+              background: Color(0xFF0F222D),
+              seedColor: Color(0xFF0F222D)),
           textTheme: const TextTheme(
             bodyMedium: TextStyle(color: Colors.white),
             bodyLarge: TextStyle(color: Colors.white),
             bodySmall: TextStyle(color: Colors.white),
           ),
           bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            backgroundColor: Color(0xFFFFF5D0),
-          ),
+              backgroundColor: Color(0xFF0F222D)),
           bottomAppBarTheme: const BottomAppBarTheme(
-            color: Color(0xFFFFF5D0),
+            color: Color(0xFF0F222D),
           ),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Color(0xFFFFF5D0),
-          ),
+          appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF0F222D)
+              // backgroundColor: Color(0xFFFFF5D0),
+              ),
           useMaterial3: true,
         ),
         initialRoute: "index",
@@ -43,6 +42,7 @@ class MyApp extends StatelessWidget {
           "onboarding": (context) => Onboarding(),
           "signup": (context) => SignUp(),
           "cta": (context) => CTA(),
+          "verification": (context) => Verification(),
         },
       );
     });
@@ -51,3 +51,5 @@ class MyApp extends StatelessWidget {
 
 // world time api 
 // https://worldtimeapi.org/api/timezone/
+// build backend api
+// Localization
