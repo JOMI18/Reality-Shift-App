@@ -40,7 +40,6 @@ class CTA extends StatelessWidget {
                 ),
                 ComponentSlideIns(
                   beginOffset: Offset(2, 0),
-                  duration: Duration(milliseconds: 1000),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 20),
