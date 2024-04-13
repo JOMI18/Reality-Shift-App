@@ -33,10 +33,9 @@ class CTA extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 8),
                   child: Divider(
-                    height: 25,
-                    thickness: 6,
-                    color: Colors.black,
-                  ),
+                      height: 25,
+                      thickness: 6,
+                      color: Utilities().appColors(context).secondary),
                 ),
                 ComponentSlideIns(
                   beginOffset: Offset(2, 0),
@@ -56,7 +55,7 @@ class CTA extends StatelessWidget {
             ComponentSlideIns(
               beginOffset: Offset(0, 2),
               child: Btns().btn(context, "Let's begin our list", () {
-                Navigator.popAndPushNamed(context, "signup");
+                Navigator.pushNamed(context, "choose_signup");
               }),
             )
           ],

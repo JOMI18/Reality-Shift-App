@@ -40,9 +40,11 @@ class MyApp extends StatelessWidget {
         routes: {
           "index": (context) => Index(),
           "onboarding": (context) => Onboarding(),
+          "choose_signup": (context) => ChooseSignUp(),
           "signup": (context) => SignUp(),
           "cta": (context) => CTA(),
           "verification": (context) => Verification(),
+          "login": (context) => Login(),
         },
       );
     });
@@ -52,4 +54,7 @@ class MyApp extends StatelessWidget {
 // world time api 
 // https://worldtimeapi.org/api/timezone/
 // build backend api
+  // configure apple and google sign in properly
+
 // Localization
+// correct timer for verification

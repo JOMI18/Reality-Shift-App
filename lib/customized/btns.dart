@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reality_shift/imports.dart';
 
 class Btns {
   ColorScheme? colorScheme;
@@ -24,40 +25,33 @@ class Btns {
             )));
   }
 
-  Widget trnsBtn(context, title, func) {
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-
+  Widget buildButton(
+    BuildContext context, {
+    required String text,
+    required Widget icon,
+    required Color backgroundColor,
+    Color? surfaceTintColor,
+    required VoidCallback onPressed,
+    Color? foregroundColor,
+  }) {
     return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            elevation: 0,
-            fixedSize: const Size(350, 60),
-            backgroundColor: colorScheme.secondary,
-            foregroundColor: Colors.black,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)))),
-        onPressed: func,
-        child: Text("$title",
-            style: const TextStyle(
-              fontWeight: FontWeight.w800,
-            )));
-  }
-
-  Widget textBtn(context, title, func) {
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            elevation: 5,
-            fixedSize: const Size(120, 50),
-            foregroundColor: colorScheme.primary,
-            backgroundColor: Colors.white,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)))),
-        onPressed: func,
-        child: Text("$title",
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-            )));
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        elevation: 5,
+        fixedSize: const Size(400, 60),
+        backgroundColor: backgroundColor,
+        surfaceTintColor: surfaceTintColor,
+        foregroundColor: foregroundColor ?? Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          icon,
+          SizedBox(width: 15),
+          Text(text, style: TextStyle(fontSize: 17.sp)),
+        ],
+      ),
+    );
   }
 }

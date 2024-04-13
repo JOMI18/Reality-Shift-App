@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
+import 'package:intl/intl.dart';
 
 class CustomBottomSheet {
   CustomBottomSheet();
@@ -43,7 +44,6 @@ class CustomBottomSheet {
                   color: Colors.black,
                 ),
               ),
-              // const SizedBox(height: 20.0),
               ListTile(
                 title: const Text(
                   'Male',
@@ -85,13 +85,12 @@ class CustomBottomSheet {
             color: Utilities().appColors(context).secondary,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
           ),
-          padding: const EdgeInsets.all(5.0),
+          padding: EdgeInsets.all(5.0),
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.date,
             initialDateTime: DateTime.now(),
             onDateTimeChanged: (DateTime newDateTime) {
-              // onDateSelected( DateFormat('MM/dd/yyyy').format(newDateTime));
-             
+              onDateSelected(DateFormat('MM/dd/yyyy').format(newDateTime));
             },
           ),
         );

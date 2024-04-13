@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:reality_shift/customized/custom_bottom_sheet.dart';
 import 'package:reality_shift/imports.dart';
 
 class SignUp extends StatefulWidget {
@@ -58,22 +55,23 @@ class _SignUpState extends State<SignUp> {
 
   void submit() {
     // FORT-- RETURNS AT FIRST TRUTH
-    // if (surnameCt.text == "" ||
-    //     firstnameCt.text == "" ||
-    //     middlenameCt.text == "" ||
-    //     dobCt.text == "" ||
-    //     emailCt.text == "" ||
-    //     numCt.text == "" ||
-    //     passwordCt.text == "" ||
-    //     cfpasswordCt == "") {
-    //   alert.message = "Sorry, you can't proceed no value was entered!";
-    //   alert.showAlertDialog(context);
-    // }
-    // if (cfpasswordCt.text != passwordCt.text) {
-    //   alert.message = "Passwords not match";
-    //   alert.showAlertDialog(context);
-    //   return;
-    // }
+    if (surnameCt.text == "" ||
+        firstnameCt.text == "" ||
+        middlenameCt.text == "" ||
+        dobCt.text == "" ||
+        emailCt.text == "" ||
+        numCt.text == "" ||
+        passwordCt.text == "" ||
+        cfpasswordCt == "") {
+      alert.message = "Sorry, you can't proceed no value was entered!";
+      alert.showAlertDialog(context);
+      // return;
+    }
+    if (cfpasswordCt.text != passwordCt.text) {
+      alert.message = "Passwords not match";
+      alert.showAlertDialog(context);
+      return;
+    }
 
 // confirm email
     Navigator.pushNamed(context, "verification");
@@ -119,94 +117,129 @@ class _SignUpState extends State<SignUp> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      CustomTextField.input(context,
-                          hint: "Reyes",
-                          fieldname: "Surname",
-                          controller: surnameCt),
+                      ComponentSlideIns(
+                        beginOffset: Offset(2, 0),
+                        duration: Duration(milliseconds: 1200),
+                        child: CustomTextField.input(context,
+                            hint: "Reyes",
+                            fieldname: "Surname",
+                            controller: surnameCt),
+                      ),
                       SizedBox(
                         height: 2.h,
                       ),
-                      CustomTextField.input(context,
-                          hint: "Jonathan",
-                          fieldname: "Firstname",
-                          controller: firstnameCt),
+                      ComponentSlideIns(
+                        beginOffset: Offset(2, 0),
+                        duration: Duration(milliseconds: 1300),
+                        child: CustomTextField.input(context,
+                            hint: "Jonathan",
+                            fieldname: "Firstname",
+                            controller: firstnameCt),
+                      ),
                       SizedBox(
                         height: 2.h,
                       ),
-                      CustomTextField.input(context,
-                          hint: "Smith",
-                          fieldname: "Middlename",
-                          controller: middlenameCt),
+                      ComponentSlideIns(
+                        beginOffset: Offset(2, 0),
+                        duration: Duration(milliseconds: 1400),
+                        child: CustomTextField.input(context,
+                            hint: "Smith",
+                            fieldname: "Middlename",
+                            controller: middlenameCt),
+                      ),
                       SizedBox(
                         height: 2.h,
                       ),
-                      CustomTextField.input(context,
-                          hint: "mm-dd-yyyy", readOnly: true, onTap: () {
-                        CustomBottomSheet.showDatePicker(context,
-                            onDateSelected: (date) {
-                          dobCt.text = "$date";
-                        });
-                      },
-                          suffixIcon: Icon(Icons.calendar_today),
-                          fieldname: "Date of Birth",
-                          controller: dobCt),
+                      ComponentSlideIns(
+                        beginOffset: Offset(3, 0),
+                        duration: Duration(milliseconds: 1500),
+                        child: CustomTextField.input(context,
+                            hint: "mm-dd-yyyy", readOnly: true, onTap: () {
+                          CustomBottomSheet.showDatePicker(context,
+                              onDateSelected: (date) {
+                            dobCt.text = "$date";
+                          });
+                        },
+                            suffixIcon: Icon(Icons.calendar_today),
+                            fieldname: "Date of Birth",
+                            controller: dobCt),
+                      ),
                       SizedBox(
                         height: 2.h,
                       ),
-                      CustomTextField.input(context,
-                          suffixIcon: Icon(Icons.arrow_drop_down_rounded),
-                          hint: "male",
-                          readOnly: true, onTap: () {
-                        print("reaching gen");
-                        CustomBottomSheet.showGenderSelection(context,
-                            onSelect: (gender) {
-                          genderCt.text = gender;
-                        });
-                      }, fieldname: "Gender", controller: genderCt),
+                      ComponentSlideIns(
+                        beginOffset: Offset(3, 0),
+                        duration: Duration(milliseconds: 1600),
+                        child: CustomTextField.input(context,
+                            suffixIcon: Icon(Icons.arrow_drop_down_rounded),
+                            hint: "male",
+                            readOnly: true, onTap: () {
+                          CustomBottomSheet.showGenderSelection(context,
+                              onSelect: (gender) {
+                            genderCt.text = gender;
+                          });
+                        }, fieldname: "Gender", controller: genderCt),
+                      ),
                       SizedBox(
                         height: 2.h,
                       ),
-                      CustomTextField.input(context,
-                          hint: "jonathansmith21@gmail.com",
-                          fieldname: "Email",
-                          controller: emailCt),
+                      ComponentSlideIns(
+                        beginOffset: Offset(3, 0),
+                        duration: Duration(milliseconds: 1700),
+                        child: CustomTextField.input(context,
+                            hint: "jonathansmith21@gmail.com",
+                            fieldname: "Email",
+                            controller: emailCt),
+                      ),
                       SizedBox(
                         height: 2.h,
                       ),
-                      CustomTextField.input(context,
-                          hint: "xxx-xxx-xxx",
-                          fieldname: "Phone Number",
-                          controller: numCt),
+                      ComponentSlideIns(
+                        beginOffset: Offset(3, 0),
+                        duration: Duration(milliseconds: 1800),
+                        child: CustomTextField.input(context,
+                            hint: "xxx-xxx-xxx",
+                            fieldname: "Phone Number",
+                            controller: numCt),
+                      ),
                       SizedBox(
                         height: 2.h,
                       ),
-                      CustomTextField.input(context,
-                          hint: "xxxxxxxxx",
-                          fieldname: "Password",
-                          controller: passwordCt,
-                          obscureText: isPasswordObscure,
-                          suffixIcon: isPasswordObscure
-                              ? Icon(Icons.visibility_off)
-                              : Icon(Icons.visibility), onSuffixIconTap: () {
-                        setState(() {
-                          isPasswordObscure = !isPasswordObscure;
-                        });
-                      }),
+                      ComponentSlideIns(
+                        beginOffset: Offset(4, 0),
+                        duration: Duration(milliseconds: 1900),
+                        child: CustomTextField.input(context,
+                            hint: "xxxxxxxxx",
+                            fieldname: "Password",
+                            controller: passwordCt,
+                            obscureText: isPasswordObscure,
+                            suffixIcon: isPasswordObscure
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility), onSuffixIconTap: () {
+                          setState(() {
+                            isPasswordObscure = !isPasswordObscure;
+                          });
+                        }),
+                      ),
                       SizedBox(
                         height: 2.h,
                       ),
-                      CustomTextField.input(context,
-                          hint: "xxxxxxxxx",
-                          fieldname: "Confirm Password",
-                          controller: cfpasswordCt,
-                          obscureText: isCfPasswordObscure,
-                          suffixIcon: isCfPasswordObscure
-                              ? Icon(Icons.visibility_off)
-                              : Icon(Icons.visibility), onSuffixIconTap: () {
-                        setState(() {
-                          isCfPasswordObscure = !isCfPasswordObscure;
-                        });
-                      }),
+                      ComponentSlideIns(
+                        beginOffset: Offset(4, 0),
+                        duration: Duration(milliseconds: 2000),
+                        child: CustomTextField.input(context,
+                            hint: "xxxxxxxxx",
+                            fieldname: "Confirm Password",
+                            controller: cfpasswordCt,
+                            obscureText: isCfPasswordObscure,
+                            suffixIcon: isCfPasswordObscure
+                                ? Icon(Icons.visibility_off)
+                                : Icon(Icons.visibility), onSuffixIconTap: () {
+                          setState(() {
+                            isCfPasswordObscure = !isCfPasswordObscure;
+                          });
+                        }),
+                      ),
                       SizedBox(
                         height: 4.h,
                       ),
@@ -214,12 +247,16 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  Btns().btn(context, "Submit", () {
-                    submit();
-                  })
-                ],
+              ComponentSlideIns(
+                beginOffset: Offset(0, 2),
+                duration: Duration(milliseconds: 1200),
+                child: Column(
+                  children: [
+                    Btns().btn(context, "Submit", () {
+                      submit();
+                    })
+                  ],
+                ),
               )
             ],
           ),
