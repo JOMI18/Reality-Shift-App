@@ -113,7 +113,7 @@ class _OnboardingState extends State<Onboarding> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.popAndPushNamed(context, "signup");
+                    Navigator.popAndPushNamed(context, "choose_signup");
                   },
                   child: Text(
                     "Skip",

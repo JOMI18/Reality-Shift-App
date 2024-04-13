@@ -37,21 +37,9 @@ class _VerificationState extends State<Verification> {
   void initState() {
     super.initState();
 
-    setState(() {
-      Timer.periodic(Duration(seconds: 1), (timer) {
-        setState(() {
-          seconds--;
-        });
+    // Start countdown timer
+    startTimer();
 
-        if (seconds == 0) {
-          timer.cancel();
-          setState(() {
-            canSendAgain = true;
-            codeExpired = true;
-          });
-        }
-      });
-    });
     _controller1 = TextEditingController();
     _controller2 = TextEditingController();
     _controller3 = TextEditingController();
@@ -69,21 +57,23 @@ class _VerificationState extends State<Verification> {
     _focusnode1.requestFocus();
   }
 
-  void dispose() {
-    super.dispose();
-    _controller1.dispose();
-    _controller2.dispose();
-    _controller3.dispose();
-    _controller4.dispose();
-    _controller5.dispose();
-    _controller6.dispose();
+  void startTimer() {
+    canSendAgain = false;
+    setState(() {
+      Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          seconds--;
+        });
 
-    _focusnode1.dispose();
-    _focusnode2.dispose();
-    _focusnode3.dispose();
-    _focusnode4.dispose();
-    _focusnode5.dispose();
-    _focusnode6.dispose();
+        if (seconds == 0) {
+          timer.cancel();
+          setState(() {
+            codeExpired = true;
+            canSendAgain = true;
+          });
+        }
+      });
+    });
   }
 
   void submit() async {
@@ -113,10 +103,27 @@ class _VerificationState extends State<Verification> {
     });
   }
 
+  void dispose() {
+    super.dispose();
+    _controller1.dispose();
+    _controller2.dispose();
+    _controller3.dispose();
+    _controller4.dispose();
+    _controller5.dispose();
+    _controller6.dispose();
+
+    _focusnode1.dispose();
+    _focusnode2.dispose();
+    _focusnode3.dispose();
+    _focusnode4.dispose();
+    _focusnode5.dispose();
+    _focusnode6.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar().welcomebar(context, "Email Verification"),
+      appBar: CustomAppBar().welcomebar(context, "Email / Number Verification"),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(

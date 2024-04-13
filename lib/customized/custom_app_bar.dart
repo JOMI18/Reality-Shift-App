@@ -16,20 +16,23 @@ class CustomAppBar {
       ),
       automaticallyImplyLeading: false,
       foregroundColor: Utilities().appColors(context).secondary,
-      title: Row(
-        children: [
-          Image.asset(
-            "lib/assets/images/logo-icon.png",
-            height: 5.h,
-          ),
-          SizedBox(
-            width: 10.w,
-          ),
-          Text(
-            "$title",
-            style: TextStyle(fontSize: 20.sp),
-          ),
-        ],
+      title: ComponentSlideIns(
+        beginOffset: Offset(0, -2),
+        child: Row(
+          children: [
+            Image.asset(
+              "lib/assets/images/logo-icon.png",
+              height: 5.h,
+            ),
+            SizedBox(
+              width: 10.w,
+            ),
+            Text(
+              "$title",
+              style: TextStyle(fontSize: 20.sp),
+            ),
+          ],
+        ),
       ),
     );
   }
