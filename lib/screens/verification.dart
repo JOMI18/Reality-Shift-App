@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
+import 'package:reality_shift/transitions/item_slide_ins.dart';
 
 class Verification extends StatefulWidget {
   const Verification({super.key});
@@ -11,6 +12,8 @@ class Verification extends StatefulWidget {
 }
 
 class _VerificationState extends State<Verification> {
+  Timer? _timer; // Declare timer variable
+
   late TextEditingController _controller1;
   late TextEditingController _controller2;
   late TextEditingController _controller3;
@@ -29,7 +32,7 @@ class _VerificationState extends State<Verification> {
   AlertLoading alertLoading = AlertLoading();
 
   bool codeExpired = false;
-  bool canSendAgain = false;
+  bool canSendAgain = true;
   int remainingSeconds = 0;
   int seconds = 60;
 
@@ -58,9 +61,10 @@ class _VerificationState extends State<Verification> {
   }
 
   void startTimer() {
-    canSendAgain = false;
+    // Start countdown timer for OTP expiration
+    codeExpired = false;
     setState(() {
-      Timer.periodic(Duration(seconds: 1), (timer) {
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         setState(() {
           seconds--;
         });
@@ -69,7 +73,6 @@ class _VerificationState extends State<Verification> {
           timer.cancel();
           setState(() {
             codeExpired = true;
-            canSendAgain = true;
           });
         }
       });
@@ -84,13 +87,15 @@ class _VerificationState extends State<Verification> {
     // alertLoading.showAlertDialog(context);
     // alertLoading.closeDialog(context);
   }
+
   void sendAgain() async {
     setState(() {
       canSendAgain = false;
+      codeExpired = true;
       remainingSeconds = 60;
     });
 
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         remainingSeconds--;
       });
@@ -118,88 +123,115 @@ class _VerificationState extends State<Verification> {
     _focusnode4.dispose();
     _focusnode5.dispose();
     _focusnode6.dispose();
+    _timer?.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar().welcomebar(context, "Email / Number Verification"),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.phone_android_rounded,
-                size: 60, color: Utilities().appColors(context).secondary),
-            SizedBox(
-              height: 6.h,
-            ),
-            Text(
-              "Enter the 6-digit code sent to number or email. Never disclose this to anyone!",
-              // "Enter the 6-digit code sent to ${Utilities.hidePhoneNumber(user.phone)} or ${Utilities.hideEmailAddress(user.email)}. Never disclose this to anyone!",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                OtpInputs().otpField(context, _controller1, _focusnode1),
-                OtpInputs().otpField(context, _controller2, _focusnode2),
-                OtpInputs().otpField(context, _controller3, _focusnode3),
-                OtpInputs().otpField(context, _controller4, _focusnode4),
-                OtpInputs().otpField(context, _controller5, _focusnode5),
-                OtpInputs().otpField(context, _controller6, _focusnode6),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              codeExpired
-                  ? "Code Expired, Try Resending..."
-                  : "Code expires in $seconds seconds",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Color.fromARGB(255, 243, 55, 42)),
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Didn't receive the code? ",
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: CustomAppBar().welcomebar(context, "Two-Factor Authentication"),
+        body: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.phone_android_rounded,
+                  size: 60, color: Utilities().appColors(context).secondary),
+              SizedBox(
+                height: 6.h,
+              ),
+              ComponentSlideIns(
+                beginOffset: Offset(-2, 0),
+                child: Text(
+                  "A message with a 6-digit verification code has been sent to number or email. Please enter the code to continue. Never disclose this to anyone!",
+                  // "Enter the 6-digit code sent to ${Utilities.hidePhoneNumber(user.phone)} or ${Utilities.hideEmailAddress(user.email)}. Never disclose this to anyone!",
+                  textAlign: TextAlign.center,
+                  style:
+                      TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
+                ),
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              ComponentSlideIns(
+                beginOffset: Offset(2, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    OtpInputs().otpField(context, _controller1, _focusnode1,
+                        nextFocusNode: _focusnode2),
+                    OtpInputs().otpField(context, _controller2, _focusnode2,
+                        prevFocusNode: _focusnode1, nextFocusNode: _focusnode3),
+                    OtpInputs().otpField(context, _controller3, _focusnode3,
+                        prevFocusNode: _focusnode2, nextFocusNode: _focusnode4),
+                    OtpInputs().otpField(context, _controller4, _focusnode4,
+                        prevFocusNode: _focusnode3, nextFocusNode: _focusnode5),
+                    OtpInputs().otpField(context, _controller5, _focusnode5,
+                        prevFocusNode: _focusnode4, nextFocusNode: _focusnode6),
+                    OtpInputs().otpField(context, _controller6, _focusnode6,
+                        isLast: true, func: submit, prevFocusNode: _focusnode5),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              ComponentSlideIns(
+                beginOffset: Offset(-2, 0),
+                child: Text(
+                  canSendAgain
+                      ? codeExpired
+                          ? "Code Expired, Try Resending..."
+                          : "Code expires in $seconds seconds"
+                      : "",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color.fromARGB(255, 243, 55, 42)),
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    sendAgain();
-                  },
-                  child: Text(
-                    canSendAgain
-                        ? 'Send again'
-                        : 'Send again in $remainingSeconds seconds',
-                    style: TextStyle(
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              ComponentSlideIns(
+                beginOffset: Offset(0, 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Didn't receive the code? ",
+                      style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
-                        color: Utilities().appColors(context).secondary),
-                  ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        sendAgain();
+                      },
+                      child: Text(
+                        canSendAgain
+                            ? "Send Again"
+                            : 'Send again in $remainingSeconds seconds',
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Utilities().appColors(context).secondary),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

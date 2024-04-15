@@ -115,7 +115,7 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
                 ),
 
                 ComponentSlideIns(
-                  beginOffset: Offset(2, 0),
+                  beginOffset: Offset(-2, 0),
                   child: Btns().buildButton(context,
                       text: 'Continue with Reality Shift',
                       icon: Image.asset(

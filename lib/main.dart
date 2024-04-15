@@ -12,13 +12,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, screenType) {
       return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Reality Shift',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: "Acme",
           colorScheme: ColorScheme.fromSeed(
-              primary: Color(0xFF0F222D),
-              secondary: Color(0xFFFFF5D0),
+              primary: Color.fromARGB(255, 15, 34, 45),
+              secondary: Color.fromARGB(255, 255, 245, 208),
               background: Color(0xFF0F222D),
               seedColor: Color(0xFF0F222D)),
           textTheme: const TextTheme(
