@@ -15,6 +15,7 @@ class _SignUpState extends State<SignUp> {
   late TextEditingController dobCt;
   late TextEditingController emailCt;
   late TextEditingController numCt;
+  late TextEditingController countryCt;
   late TextEditingController passwordCt;
   late TextEditingController cfpasswordCt;
   late TextEditingController genderCt;
@@ -33,6 +34,7 @@ class _SignUpState extends State<SignUp> {
     dobCt = TextEditingController();
     emailCt = TextEditingController();
     numCt = TextEditingController();
+    countryCt = TextEditingController();
     passwordCt = TextEditingController();
     cfpasswordCt = TextEditingController();
     genderCt = TextEditingController();
@@ -48,6 +50,7 @@ class _SignUpState extends State<SignUp> {
     dobCt.dispose();
     emailCt.dispose();
     numCt.dispose();
+    countryCt.dispose();
     passwordCt.dispose();
     cfpasswordCt.dispose();
     genderCt.dispose();
@@ -61,6 +64,7 @@ class _SignUpState extends State<SignUp> {
         dobCt.text == "" ||
         emailCt.text == "" ||
         numCt.text == "" ||
+        countryCt.text == "" ||
         passwordCt.text == "" ||
         cfpasswordCt == "") {
       alert.message = "Sorry, you can't proceed no value was entered!";
@@ -179,6 +183,17 @@ class _SignUpState extends State<SignUp> {
                             genderCt.text = gender;
                           });
                         }, fieldname: "Gender", controller: genderCt),
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      ComponentSlideIns(
+                        beginOffset: Offset(3, 0),
+                        duration: Duration(milliseconds: 1600),
+                        child: CustomTextField.input(context,
+                            hint: "Nigeria",
+                            fieldname: "Country",
+                            controller: countryCt),
                       ),
                       SizedBox(
                         height: 2.h,
