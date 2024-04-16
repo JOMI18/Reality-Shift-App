@@ -57,4 +57,4 @@ class MyApp extends StatelessWidget {
   // configure apple and google sign in properly
 
 // Localization
-// correct timer for verification
+// ask about     isAggregator: 0,

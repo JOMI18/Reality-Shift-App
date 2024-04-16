@@ -13,9 +13,16 @@ export 'package:lottie/lottie.dart';
 export 'package:smooth_page_indicator/smooth_page_indicator.dart';
 export 'package:google_sign_in/google_sign_in.dart';
 export 'package:sign_in_with_apple/sign_in_with_apple.dart';
+export 'package:dio/dio.dart';
+export 'package:shared_preferences/shared_preferences.dart';
+export 'package:flutter_riverpod/flutter_riverpod.dart';
+export 'package:device_info_plus/device_info_plus.dart';
+
 
 // services
 export 'package:reality_shift/services/utilities.dart';
+export 'package:reality_shift/services/shared_prefernces.dart';
+
 
 // custom
 export 'package:reality_shift/customized/btns.dart';

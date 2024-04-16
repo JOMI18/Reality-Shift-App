@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
-import 'package:reality_shift/transitions/item_slide_ins.dart';
 
 class Verification extends StatefulWidget {
   const Verification({super.key});
