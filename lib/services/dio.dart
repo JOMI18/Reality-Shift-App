@@ -5,7 +5,7 @@ String? errorMsg;
 CustomSharedPreference pref = CustomSharedPreference();
 
 Dio axios() {
-  dio.options.baseUrl = "http://10.0.2.2:8000/api/";
+  dio.options.baseUrl = "http://10.0.2.2:8000/api/"; // localhost for flutter
   dio.options.connectTimeout = Duration(seconds: 7);
   dio.options.receiveTimeout = Duration(seconds: 3);
   //data form to accept
@@ -24,7 +24,7 @@ Dio axios() {
       return handler.next(response);
     },
     onError: (DioException err, ErrorInterceptorHandler handler) {
-      // errorMsg;
+      String errorMsg;
 
       switch (err.type) {
         case DioExceptionType.badResponse:

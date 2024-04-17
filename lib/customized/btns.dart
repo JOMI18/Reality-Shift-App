@@ -38,7 +38,7 @@ class Btns {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         elevation: 5,
-        fixedSize: const Size(400, 60),
+        fixedSize: const Size(420, 60),
         backgroundColor: backgroundColor,
         surfaceTintColor: surfaceTintColor,
         foregroundColor: foregroundColor ?? Colors.white,

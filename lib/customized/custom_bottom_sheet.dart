@@ -80,7 +80,7 @@ class CustomBottomSheet {
       builder: (BuildContext context) {
         return Container(
           width: 98.w,
-          height: 25.h,
+          height: 28.h,
           decoration: BoxDecoration(
             color: Utilities().appColors(context).secondary,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),

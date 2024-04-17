@@ -18,11 +18,18 @@ export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:device_info_plus/device_info_plus.dart';
 
-
 // services
 export 'package:reality_shift/services/utilities.dart';
 export 'package:reality_shift/services/shared_prefernces.dart';
+export 'package:reality_shift/services/dio.dart';
+export 'package:reality_shift/services/state_providers.dart';
 
+//  models
+
+export 'package:reality_shift/models/user_model.dart';
+
+// controllers
+export 'package:reality_shift/controllers/auth_controller.dart';
 
 // custom
 export 'package:reality_shift/customized/btns.dart';
