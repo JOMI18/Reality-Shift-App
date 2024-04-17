@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reality_shift/imports.dart';
+import 'package:reality_shift/screens/dashboard.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
           "cta": (context) => CTA(),
           "verification": (context) => Verification(),
           "login": (context) => Login(),
+          "dashboard": (context) => Dashboard(),
         },
       );
     });
@@ -58,3 +61,6 @@ class MyApp extends StatelessWidget {
 
 // Localization
 // ask about     isAggregator: 0,
+// log in
+// handle setting tokens to prevent reviewing screens when set
+// fix being able to click send again consistently

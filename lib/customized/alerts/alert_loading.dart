@@ -15,7 +15,7 @@ class AlertLoading {
       surfaceTintColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(vertical: 10),
       content: SizedBox(
-          height: 100,
+          height: 150,
           width: 320,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -24,6 +24,7 @@ class AlertLoading {
               children: [
                 const CircularProgressIndicator(
                   strokeWidth: 5.0,
+                  color: Colors.white,
                 ),
                 const SizedBox(
                   width: 30,
