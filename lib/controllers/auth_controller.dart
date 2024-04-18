@@ -12,10 +12,12 @@ class AuthController {
   Future<Map> register(Map cred) async {
     print("credentials : $cred");
     try {
+      // Dio.Response response = await axios().get("/", data: cred);
       Dio.Response response = await axios().post("auth/register", data: cred);
-      print(response);
-      return {"status": "success", "data": response.data};
+      // print(response);
+      return response.data;
     } on Dio.DioException catch (e) {
+      print(e);
       return {"status": "error", "message": e.error};
     }
   }
@@ -23,9 +25,20 @@ class AuthController {
   Future<Map> checkOtp(Map cred) async {
     print("credentials : $cred");
     try {
+      Dio.Response response = await axios().post("auth/checkotp", data: cred);
+      print(response);
+      return response.data;
+    } on Dio.DioException catch (e) {
+      return {"status": "error", "message": e.error};
+    }
+  }
+
+  Future<Map> sendOtp(Map cred) async {
+    print("credentials : $cred");
+    try {
       Dio.Response response = await axios().post("auth/sendotp", data: cred);
       print(response);
-      return {"status": "success", "data": response.data};
+      return response.data;
     } on Dio.DioException catch (e) {
       return {"status": "error", "message": e.error};
     }

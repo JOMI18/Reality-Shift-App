@@ -34,6 +34,7 @@ class _VerificationState extends State<Verification> {
   bool canSendAgain = true;
   int remainingSeconds = 0;
   int seconds = 60;
+  AlertInfo alert = AlertInfo();
 
   var email;
   @override
@@ -92,6 +93,11 @@ class _VerificationState extends State<Verification> {
         await AuthController().checkOtp({"otp": otp, "email": email});
     alertLoading.closeDialog(context);
 
+    if (response['status'] == "error") {
+      alert.message = response['message'];
+      alert.showAlertDialog(context);
+      return;
+    }
     print(response);
     Navigator.pushNamed(context, "dashboard");
   }
@@ -114,6 +120,9 @@ class _VerificationState extends State<Verification> {
         });
       }
     });
+
+    final response = await AuthController().sendOtp({"email": email});
+    print(response);
   }
 
   void dispose() {

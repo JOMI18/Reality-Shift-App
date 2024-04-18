@@ -60,8 +60,6 @@ class _SignUpState extends State<SignUp> {
   }
 
   void submit(ref) async {
-    // Navigator.pushNamed(context, "verification");
-    // return;
     // FORT-- RETURNS AT FIRST TRUTH
     if (surnameCt.text == "" ||
         firstnameCt.text == "" ||
@@ -78,7 +76,7 @@ class _SignUpState extends State<SignUp> {
       return;
     }
     if (cfpasswordCt.text != passwordCt.text) {
-      alert.message = "Passwords not match";
+      alert.message = "Passwords do not match";
       alert.showAlertDialog(context);
       return;
     }
@@ -95,6 +93,8 @@ class _SignUpState extends State<SignUp> {
     formData["number"] = numCt.text;
     formData["country"] = countryCt.text;
     formData["password"] = passwordCt.text;
+    formData['password_confirmation'] = cfpasswordCt
+        .text; // password_confirmation :: important for the validation rule | confirmed| on password
     formData['device_id'] = deviceinfo['id'];
     formData['device_model'] = deviceinfo['model'];
 
@@ -125,6 +125,14 @@ class _SignUpState extends State<SignUp> {
     Navigator.pushNamed(context, "verification");
     // then straight to dashboard
   }
+
+  List password_requirements = [
+    "Must contain at least a Capital letter",
+    "Must contain at least a Small letter ",
+    "Must have special characters",
+    "Must have numbers",
+    "Must be Minimum of 8 in Length "
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -304,7 +312,58 @@ class _SignUpState extends State<SignUp> {
                             }),
                           ),
                           SizedBox(
-                            height: 4.h,
+                            height: 2.h,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Password Requirements :",
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  color:
+                                      Utilities().appColors(context).secondary,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 1.2.h,
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                                child: ListView.builder(
+                                  itemCount: password_requirements.length,
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.receipt_long,
+                                              size: 30,
+                                              color: Utilities()
+                                                  .appColors(context)
+                                                  .secondary,
+                                            ),
+                                            SizedBox(
+                                              width: 12,
+                                            ),
+                                            Text(password_requirements[index]),
+                                          ],
+                                        ),
+                                        if (index !=
+                                            password_requirements.length - 1)
+                                          SizedBox(
+                                            height: 0.5.h,
+                                          )
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 2.h,
                           ),
                         ],
                       ),

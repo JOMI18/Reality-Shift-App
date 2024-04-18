@@ -25,10 +25,10 @@ class CustomAppBar {
               height: 5.h,
             ),
             SizedBox(
-              width: 10.w,
+              width: 5.w,
             ),
             Text("$title",
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 20.sp)),
+                textAlign: TextAlign.end, style: TextStyle(fontSize: 20.sp)),
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reality_shift/imports.dart';
 import 'package:reality_shift/screens/dashboard.dart';
+import 'package:reality_shift/screens/sign_out.dart';
 
 void main() {
   runApp(ProviderScope(child: const MyApp()));
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
           "verification": (context) => Verification(),
           "login": (context) => Login(),
           "dashboard": (context) => Dashboard(),
+          "signout": (context) => SignOut(),
         },
       );
     });
@@ -64,3 +66,5 @@ class MyApp extends StatelessWidget {
 // log in
 // handle setting tokens to prevent reviewing screens when set
 // fix being able to click send again consistently
+// add user provider to get access to first name on login page
+// allow me to be able to control erasing on verify screen
