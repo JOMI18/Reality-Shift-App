@@ -6,6 +6,16 @@ export 'package:reality_shift/screens/cta.dart';
 export 'package:reality_shift/screens/verification.dart';
 export 'package:reality_shift/screens/choose_sign_up.dart';
 export 'package:reality_shift/screens/login.dart';
+export 'package:reality_shift/screens/home.dart';
+export 'package:reality_shift/screens/locations.dart';
+export 'package:reality_shift/screens/pins.dart';
+export 'package:reality_shift/screens/profile.dart';
+export 'package:reality_shift/screens/notes.dart';
+export 'package:reality_shift/screens/continents.dart';
+export 'package:reality_shift/screens/dashboard.dart';
+export 'package:reality_shift/screens/sign_out.dart';
+
+
 
 // dependencies
 export 'package:responsive_sizer/responsive_sizer.dart';

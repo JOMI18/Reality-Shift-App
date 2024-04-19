@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reality_shift/imports.dart';
-import 'package:reality_shift/screens/dashboard.dart';
-import 'package:reality_shift/screens/sign_out.dart';
 
 void main() {
   runApp(ProviderScope(child: const MyApp()));
@@ -39,7 +36,7 @@ class MyApp extends StatelessWidget {
               ),
           useMaterial3: true,
         ),
-        initialRoute: "index",
+        initialRoute: "dashboard",
         routes: {
           "index": (context) => Index(),
           "onboarding": (context) => Onboarding(),
@@ -50,6 +47,7 @@ class MyApp extends StatelessWidget {
           "login": (context) => Login(),
           "dashboard": (context) => Dashboard(),
           "signout": (context) => SignOut(),
+          "locations": (context) => Locations(),
         },
       );
     });
@@ -68,3 +66,5 @@ class MyApp extends StatelessWidget {
 // fix being able to click send again consistently
 // add user provider to get access to first name on login page
 // allow me to be able to control erasing on verify screen
+// handle semantic labels for accessibility
+// handle errors for img
