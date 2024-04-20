@@ -7,15 +7,15 @@ export 'package:reality_shift/screens/verification.dart';
 export 'package:reality_shift/screens/choose_sign_up.dart';
 export 'package:reality_shift/screens/login.dart';
 export 'package:reality_shift/screens/home.dart';
-export 'package:reality_shift/screens/locations.dart';
 export 'package:reality_shift/screens/pins.dart';
 export 'package:reality_shift/screens/profile.dart';
 export 'package:reality_shift/screens/notes.dart';
 export 'package:reality_shift/screens/continents.dart';
 export 'package:reality_shift/screens/dashboard.dart';
 export 'package:reality_shift/screens/sign_out.dart';
-
-
+export 'package:reality_shift/screens/locations.dart';
+export 'package:reality_shift/screens/admin/panel.dart';
+export 'package:reality_shift/screens/admin/create_continent.dart';
 
 // dependencies
 export 'package:responsive_sizer/responsive_sizer.dart';
@@ -27,6 +27,8 @@ export 'package:dio/dio.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:device_info_plus/device_info_plus.dart';
+export 'package:fl_chart/fl_chart.dart';
+
 
 // services
 export 'package:reality_shift/services/utilities.dart';

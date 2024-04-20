@@ -36,7 +36,8 @@ class MyApp extends StatelessWidget {
               ),
           useMaterial3: true,
         ),
-        initialRoute: "dashboard",
+        // initialRoute: "dashboard",
+        initialRoute: "admin_panel",
         routes: {
           "index": (context) => Index(),
           "onboarding": (context) => Onboarding(),
@@ -48,6 +49,8 @@ class MyApp extends StatelessWidget {
           "dashboard": (context) => Dashboard(),
           "signout": (context) => SignOut(),
           "locations": (context) => Locations(),
+          "admin_panel": (context) => Panel(),
+          "create_continent": (context) => CreateContinent(),
         },
       );
     });
@@ -68,3 +71,4 @@ class MyApp extends StatelessWidget {
 // allow me to be able to control erasing on verify screen
 // handle semantic labels for accessibility
 // handle errors for img
+// add confetti on successful signup
