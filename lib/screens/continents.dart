@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reality_shift/controllers/location_controller.dart';
 import 'package:reality_shift/imports.dart';
 
 class Continents extends StatefulWidget {
@@ -9,70 +10,38 @@ class Continents extends StatefulWidget {
 }
 
 class _ContinentsState extends State<Continents> {
-  List continents = [
-    {
-      "title": "Africa",
-      "base-img": "africa.jpeg",
-      "slideshows": {
-        "img1": "africa1.jpg",
-        "img2": "africa2.jpg",
-        "img3": "africa3.jpg",
-        "img4": "africa4.jpg",
-      },
-      "tags": [
-        {
-          "facts": {
-            "Continent Size": "Second largest in the world",
-            "Area": "11,700,000 square miles",
-            "Estimated population": "877 million people",
-            "Largest City": "Cairo, Egypt, 9.2 million people",
-            "Largest Country":
-                "Algeria - 919,595 square miles (was Sudan, 968,000 square miles)",
-            "Longest River": "Nile, 4,160 miles",
-            "Largest Lake": "Victoria, 26,828 square miles",
-            "Tallest Mountain": "Kilimanjaro, Tanzania, 19,340 feet"
-          },
-        },
-        {
-          "lines": [
-            "Discover the Heartbeat of the Wild.",
-            "Where Adventure Awaits in Every Corner.",
-            "Experience the Richness of Culture and Diversity"
-          ]
-        }
-      ]
-    },
-    {
-      "title": "South America",
-      "base-img": "south-america.jpeg",
-      "slideshows": {},
-    },
-    {
-      "title": "Asia",
-      "base-img": "asia.jpeg",
-      "slideshows": {},
-    },
-    {
-      "title": "North America",
-      "base-img": "north-america.jpeg",
-      "slideshows": {},
-    },
-    {
-      "title": "Australia",
-      "base-img": "australia.jpeg",
-      "slideshows": {},
-    },
-    {
-      "title": "Europe",
-      "base-img": "europe.jpeg",
-      "slideshows": {},
-    },
-    {
-      "title": "Antarctica",
-      "base-img": "antarctica.jpeg",
-      "slideshows": {},
-    },
-  ];
+  List continentsData = [];
+
+  void loadData() async {
+    final response = await LocationController().allContinents();
+    // print(response);
+
+    setState(() {
+      continentsData = response["continents"];
+      // print("--------------> $continentsData");
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    loadData();
+  }
+
+  // Function to load details for a specific continent
+  void loadContinentDetails(int index) async {
+    final continent = continentsData[index];
+    print(continent);
+    final continentDetails =
+        await LocationController().continentDetails(continent["id"]);
+
+    // Navigate to the details screen and pass the continent details
+    Navigator.pushNamed(context, "locations",
+        arguments: {"details": continentDetails});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,15 +55,15 @@ class _ContinentsState extends State<Continents> {
               mainAxisSpacing: 12,
               crossAxisSpacing: 0,
             ),
-            itemCount: continents.length,
+            itemCount: continentsData.length,
             itemBuilder: (context, index) {
+              // print(continentsData[index]["title"]);
+              // print(continentsData[index]["slideshows"]);
+              // print(continentsData[index]["tags"]);
+              // print(continentsData[index]["countries"]);
               return GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "locations", arguments: {
-                    "place": continents[index]["title"],
-                    "images": continents[index]["slideshows"],
-                    "tags": continents[index]["tags"]
-                  });
+                  loadContinentDetails(index);
                 },
                 child: Card(
                   surfaceTintColor: Colors.transparent,
@@ -108,15 +77,16 @@ class _ContinentsState extends State<Continents> {
                         child: CircleAvatar(
                           radius: 35,
                           backgroundImage: AssetImage(
-                            "lib/assets/images/continents/${continents[index]["base-img"]}",
-                          ),
+                              "lib/assets/images/continents/africa.jpeg"
+                              // "lib/assets/images/continents/${continentsData[index]["base-img"]}",
+                              ),
                         ),
                       ),
                       const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        continents[index]["title"],
+                        continentsData[index]["title"],
                         style: const TextStyle(
                           color: Colors.black,
                         ),

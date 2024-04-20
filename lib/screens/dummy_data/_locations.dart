@@ -1,23 +1,50 @@
-import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:reality_shift/imports.dart';
 
-class Locations extends StatefulWidget {
-  const Locations({super.key});
+class _Locations extends StatefulWidget {
+  const _Locations({super.key});
 
   @override
-  State<Locations> createState() => _LocationsState();
+  State<_Locations> createState() => __LocationsState();
 }
 
-class _LocationsState extends State<Locations> {
+class __LocationsState extends State<_Locations> {
   final PageController _controller = PageController();
 
-  late Map details;
-  late Map slideshows;
-  late Map facts;
-  late List lines;
-  late List countries;
-  late String title;
+  List countries = [
+    {"title": "Egypt", "img": "africa/egypt.png"},
+    {"title": "Nigeria", "img": "africa/nigeria.png"},
+    {"title": "U.S.A", "img": "usa.png"},
+    {"title": "U.K", "img": "uk.png"},
+    {"title": "Egypt", "img": "africa/egypt.png"},
+    {"title": "Nigeria", "img": "africa/nigeria.png"},
+    {"title": "U.S.A", "img": "usa.png"},
+    {"title": "U.K", "img": "uk.png"},
+    {"title": "Egypt", "img": "africa/egypt.png"},
+    {"title": "Nigeria", "img": "africa/nigeria.png"},
+    {"title": "U.S.A", "img": "usa.png"},
+    {"title": "U.K", "img": "uk.png"},
+    {"title": "Egypt", "img": "africa/egypt.png"},
+    {"title": "Nigeria", "img": "africa/nigeria.png"},
+    {"title": "U.S.A", "img": "usa.png"},
+    {"title": "U.K", "img": "uk.png"},
+    {"title": "Egypt", "img": "africa/egypt.png"},
+    {"title": "Nigeria", "img": "africa/nigeria.png"},
+    {"title": "U.S.A", "img": "usa.png"},
+    {"title": "U.K", "img": "uk.png"},
+    {"title": "Egypt", "img": "africa/egypt.png"},
+    {"title": "Nigeria", "img": "africa/nigeria.png"},
+    {"title": "U.S.A", "img": "usa.png"},
+    {"title": "U.K", "img": "uk.png"},
+    {"title": "Egypt", "img": "africa/egypt.png"},
+  ];
+
+  late Map continent;
+  late Map<String, dynamic> facts;
+  late List<String> lines;
+  late Map images;
 
   @override
   void didChangeDependencies() {
@@ -25,38 +52,28 @@ class _LocationsState extends State<Locations> {
 
     super.didChangeDependencies();
 
-    Map continent = ModalRoute.of(context)!.settings.arguments as Map;
-    // print(continent);
+    continent = ModalRoute.of(context)!.settings.arguments as Map;
+    print(continent);
 
-    details = continent["details"];
-    // print(details);
-
-    slideshows = jsonDecode(details["slideshows"]);
-    // i need to decode it because i encoded it like a string
-    // print(slideshows.runtimeType); // to determine type
-    // print(slideshows);
-
-    List tags = jsonDecode(details['tags']);
-    // print(tags);
-
-    title = details['title'].toLowerCase();
-    print(title);
+    List tags = continent['tags'];
+    // print("tags: ------ $tags");
 
     facts = tags[0]['facts'];
-    // print(facts);
+    // print("facts: ------ $facts");
 
     lines = tags[1]['lines'];
-    // print(lines);
+    // print("lines: ------ $lines");
 
-    countries = jsonDecode(details["countries"]);
-    // print(countries);
+    images = continent['images'];
+
+    // print("images: ------ $images");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar()
-          .welcomebar(context, "Countries in ${details["title"]}:"),
+          .welcomebar(context, "Countries in ${continent["place"]}:"),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -117,10 +134,10 @@ class _LocationsState extends State<Locations> {
                         height: 28.h,
                         child: PageView.builder(
                             controller: _controller,
-                            itemCount: slideshows.length,
+                            itemCount: images.length,
                             itemBuilder: (context, index) {
-                              final key = slideshows.keys.elementAt(index);
-                              final factValue = slideshows[key];
+                              final key = images.keys.elementAt(index);
+                              final factValue = images[key];
                               return Container(
                                 width: 100.w,
                                 decoration: BoxDecoration(
@@ -130,8 +147,7 @@ class _LocationsState extends State<Locations> {
                                     ),
                                     image: DecorationImage(
                                         image: AssetImage(
-                                          // $africa WILL CHANGE BASED ON SELeCTED
-                                          "lib/assets/images/countries/$title/slides/${factValue}",
+                                          "lib/assets/images/countries/africa/slides/${factValue}",
                                         ),
                                         fit: BoxFit.cover)),
                               );
@@ -164,7 +180,7 @@ class _LocationsState extends State<Locations> {
                             Container(
                               child: SmoothPageIndicator(
                                 controller: _controller,
-                                count: slideshows.length,
+                                count: images.length,
                                 effect: WormEffect(
                                   dotHeight: 10,
                                   dotWidth: 10,
@@ -239,7 +255,7 @@ class _LocationsState extends State<Locations> {
                             child: CircleAvatar(
                               radius: 32,
                               backgroundImage: AssetImage(
-                                "lib/assets/images/countries/$title/${countries[index]["flag"]}",
+                                "lib/assets/images/countries/${countries[index]["img"]}",
                               ),
                             ),
                           ),
@@ -247,7 +263,7 @@ class _LocationsState extends State<Locations> {
                             height: 5,
                           ),
                           Text(
-                            countries[index]["country"],
+                            countries[index]["title"],
                             style: const TextStyle(
                               color: Colors.black,
                             ),
