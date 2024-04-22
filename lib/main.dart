@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         // initialRoute: "dashboard",
-        initialRoute: "admin_panel",
+        initialRoute: "dashboard",
         routes: {
           "index": (context) => Index(),
           "onboarding": (context) => Onboarding(),
@@ -49,8 +49,11 @@ class MyApp extends StatelessWidget {
           "dashboard": (context) => Dashboard(),
           "signout": (context) => SignOut(),
           "locations": (context) => Locations(),
+
+          // admin
           "admin_panel": (context) => Panel(),
           "create_continent": (context) => CreateContinent(),
+          "manage_users": (context) => ManageUsers()
         },
       );
     });

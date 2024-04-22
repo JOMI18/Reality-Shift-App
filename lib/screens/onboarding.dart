@@ -50,7 +50,7 @@ class _OnboardingState extends State<Onboarding> {
             itemCount: pages.length,
             itemBuilder: (context, index) {
               return Column(
-                  children: pages[index].map<Widget>(
+                  children: pages[index].map(
                 (page) {
                   return Column(
                     children: [
@@ -100,7 +100,7 @@ class _OnboardingState extends State<Onboarding> {
                     ],
                   );
                 },
-              ));
+              ).toList());
             },
           ),
         ),
