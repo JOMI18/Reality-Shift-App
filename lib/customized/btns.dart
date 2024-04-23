@@ -25,6 +25,21 @@ class Btns {
             )));
   }
 
+  Widget continentBtn(context, title, func) {
+
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 5,
+          fixedSize: const Size(150, 50),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+        ),
+        onPressed: func,
+        child: Text(
+          "$title",
+        ));
+  }
+
   Widget buildButton(
     BuildContext context, {
     required String text,

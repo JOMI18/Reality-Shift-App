@@ -4,7 +4,7 @@ import 'package:reality_shift/imports.dart';
 class CustomTextField {
   CustomTextField();
 
- static Widget input(
+  static Widget input(
     context, {
     hint,
     fieldname,
@@ -16,6 +16,7 @@ class CustomTextField {
     VoidCallback? onSuffixIconTap,
     VoidCallback? onPrefixIconTap,
     VoidCallback? onTap,
+    Function(String)? onChanged,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,6 +33,7 @@ class CustomTextField {
           controller: controller,
           readOnly: readOnly,
           onTap: onTap,
+          onChanged: onChanged,
           style: TextStyle(
               fontSize: 16.sp, letterSpacing: 1.2, color: Colors.white),
           decoration: InputDecoration(

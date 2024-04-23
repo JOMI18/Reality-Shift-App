@@ -110,7 +110,7 @@ class _PanelState extends State<Panel> {
     quoteStream = quoteController.stream;
 
     // Generate a new random quote every 2 minutes
-    timer = Timer.periodic(const Duration(minutes: 5), (timer) {
+    timer = Timer.periodic(const Duration(minutes: 1), (timer) {
       final newQuote = _getRandomQuote();
 
       quoteController.add(newQuote);
@@ -119,7 +119,7 @@ class _PanelState extends State<Panel> {
       });
     });
 
-    timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+    Timer.periodic(const Duration(minutes: 1), (timer) {
       setState(() {
         time = DateFormat('h:mm a').format(DateTime.now());
       });

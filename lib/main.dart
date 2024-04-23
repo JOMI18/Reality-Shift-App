@@ -75,3 +75,5 @@ class MyApp extends StatelessWidget {
 // handle semantic labels for accessibility
 // handle errors for img
 // add confetti on successful signup
+// make admin responsive
+//check if main users table haas img 
