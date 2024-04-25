@@ -14,15 +14,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late PageController _pageController;
+  late PageController page_controller;
   int currentIndex = 0;
   final Random random = Random();
   late StreamController quoteController;
   late Stream quoteStream;
   late String currentQuote;
-
-  // final googleMapsUrl = 'https://maps.google.com';
-  // launch(googleMapsUrl);
 
   List img = [
     "sky.jpg",
@@ -74,10 +71,43 @@ class _HomeState extends State<Home> {
   ];
 
   List navs = [
-    {"bg": Colors.pink, "title": "Culture", "img": "taiwan.jpg", "route": ""},
-    {"bg": Colors.teal, "title": "Fashion", "img": "ice.jpg", "route": ""},
-    {"bg": Colors.teal, "title": "Fashion", "img": "ice.jpg", "route": ""},
-    {"bg": Colors.pink, "title": "Culture", "img": "taiwan.jpg", "route": ""},
+    {"bg": Colors.pink, "title": "Culture", "img": "culture.webp", "route": ""},
+    {"bg": Colors.teal, "title": "Fashion", "img": "fashion.jpg", "route": ""},
+    {"bg": Colors.purple, "title": "Food", "img": "food.jpg", "route": ""},
+    {"bg": Colors.blue, "title": "Favs", "img": "favs.jpg", "route": ""},
+    {"bg": Colors.teal, "title": "Profile", "img": "profile.jpg", "route": ""},
+    {
+      "bg": Colors.deepOrange,
+      "title": "Settings",
+      "img": "settings.jpg",
+      "route": ""
+    },
+    {"bg": Colors.amber, "title": "Tips", "img": "tips.jpg", "route": ""},
+    {"bg": Colors.pink, "title": "Nature", "img": "nature.jpg", "route": ""},
+  ];
+
+  List service = [
+    {
+      "bg": Colors.green,
+      "icon": Icons.currency_exchange_rounded,
+      "title": "Currency Converter",
+      "subtext": "Travel smart with accurate exchange rates",
+      "url": "https://www.xe.com/"
+    },
+    {
+      "bg": Colors.blue,
+      "icon": Icons.map_rounded,
+      "title": "Google Maps",
+      "subtext": "Navigate the world effortlessly",
+      "url": "https://www.google.com/maps/"
+    },
+    {
+      "bg": Colors.amber,
+      "icon": Icons.airplane_ticket_rounded,
+      "title": "Airways",
+      "subtext": "Book flights hassle-free",
+      "url": "https://www.wakanow.com/"
+    },
   ];
 
   String _getRandomQuote() {
@@ -86,32 +116,38 @@ class _HomeState extends State<Home> {
   }
 
   void _startAutoScroll() {
-    Timer.periodic(const Duration(seconds: 5), (timer) {
-      if (currentIndex < img.length - 1) {
-        currentIndex++;
-      } else {
-        currentIndex = 0;
-      }
-      _pageController.animateToPage(
-        currentIndex,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // This change ensures that the _startAutoScroll method is called only after the first frame has been rendered, and it also checks if the PageController has clients (i.e., is attached to any scroll views) before trying to animate to a page.
+      Timer.periodic(const Duration(seconds: 10), (timer) {
+        if (page_controller.hasClients) {
+          if (currentIndex < img.length - 1) {
+            currentIndex++;
+          } else {
+            currentIndex = 0;
+          }
+          page_controller.animateToPage(
+            currentIndex,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.ease,
+          );
+        }
+      });
     });
   }
 
   void startTimer() {
     Timer.periodic(const Duration(minutes: 1), (timer) {
-      final newQuote = _getRandomQuote();
-
-      quoteController.add(newQuote);
-      setState(() {
-        currentQuote = newQuote;
-      });
+      if (!quoteController.isClosed) {
+        // Check if the controller is not closed
+        final newQuote = _getRandomQuote();
+        quoteController.add(newQuote); // Add new quote to the stream
+        setState(() {
+          currentQuote = newQuote;
+        });
+      }
     });
   }
 
-  // final Uri uri = Uri.parse('https://www.xe.com/');
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -124,20 +160,24 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: 0);
-    _startAutoScroll();
+    page_controller = PageController(initialPage: 0);
 
     currentQuote = _getRandomQuote();
     quoteController = StreamController.broadcast();
     quoteStream = quoteController.stream;
 
+    // Wait for the first frame to be rendered before calling _startAutoScroll
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _startAutoScroll();
+    });
     startTimer();
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
     super.dispose();
+    page_controller.dispose();
+    quoteController.close();
   }
 
   @override
@@ -197,7 +237,7 @@ class _HomeState extends State<Home> {
                     SizedBox(
                       height: 35.h,
                       child: PageView.builder(
-                        controller: _pageController,
+                        controller: page_controller,
                         onPageChanged: (index) {
                           setState(() {
                             currentIndex = index;
@@ -276,96 +316,142 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 2.h,
               ),
-
-              // navigation to diff parts
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.travel_explore_rounded,
-                          color: rootcolor,
-                          size: 22,
-                        ),
-                        SizedBox(
-                          width: 2.w,
-                        ),
-                        Text("Explore Boundless Horizons: Begin Your Adventure",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: rootcolor, fontSize: 16.sp))
-                      ],
+              ComponentSlideIns(
+                beginOffset: const Offset(2, 0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.travel_explore_rounded,
+                            color: rootcolor,
+                            size: 22,
+                          ),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Text(
+                              "Explore Boundless Horizons: Begin Your Adventure",
+                              textAlign: TextAlign.center,
+                              style:
+                                  TextStyle(color: rootcolor, fontSize: 16.sp))
+                        ],
+                      ),
                     ),
-                  ),
-                  GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: navs.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 15,
-                              crossAxisSpacing: 15,
-                              childAspectRatio: 1.5),
-                      itemBuilder: (context, index) {
-                        final img = navs[index]["img"];
-                        return ClipRect(
-                          clipBehavior: Clip.antiAlias, // Set the clip behavior
+                    GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: navs.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 15,
+                                crossAxisSpacing: 15,
+                                childAspectRatio: 1.5),
+                        itemBuilder: (context, index) {
+                          final img = navs[index]["img"];
+                          return ClipRect(
+                            clipBehavior:
+                                Clip.antiAlias, // Set the clip behavior
 
-                          child: Container(
-                            height: 4.h,
-                            width: 30.w,
-                            decoration: BoxDecoration(
-                                color: navs[index]["bg"],
-                                border: Border.all(width: 2, color: rootcolor),
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    bottomLeft: Radius.circular(12))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  navs[index]["title"],
-                                  textAlign: TextAlign.center,
-                                ),
-                                Transform.rotate(
-                                  angle: 0.8,
-                                  origin: const Offset(34, 80),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 2, color: Colors.white),
-                                        borderRadius:
-                                            BorderRadius.circular(60)),
-                                    child: CircleAvatar(
-                                      radius: 60,
-                                      backgroundImage: AssetImage(
-                                        "lib/assets/images/cards/$img",
+                            child: Container(
+                              height: 4.h,
+                              width: 30.w,
+                              decoration: BoxDecoration(
+                                  color: navs[index]["bg"],
+                                  border:
+                                      Border.all(width: 2, color: rootcolor),
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    navs[index]["title"],
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Transform.rotate(
+                                    angle: 0.8,
+                                    origin: const Offset(34, 80),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 2, color: Colors.white),
+                                          borderRadius:
+                                              BorderRadius.circular(60)),
+                                      child: CircleAvatar(
+                                        radius: 60,
+                                        backgroundImage: AssetImage(
+                                          "lib/assets/images/navs/$img",
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      })
-                ],
+                          );
+                        })
+                  ],
+                ),
               ),
-
-              // services, to book flights, calculate currency, map
               SizedBox(
                 height: 2.h,
               ),
-              Column(
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        _launchURL(
-                            'https://www.xe.com/'); // Launch URL when tapped
+              ComponentSlideIns(
+                beginOffset: const Offset(-2, 0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.travel_explore_rounded,
+                            color: rootcolor,
+                            size: 22,
+                          ),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Text("Endless Services: Your Passport to Convenience",
+                              textAlign: TextAlign.center,
+                              style:
+                                  TextStyle(color: rootcolor, fontSize: 16.sp))
+                        ],
+                      ),
+                    ),
+                    ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: service.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            _launchURL(service[index]
+                                ["url"]); // Launch URL when tapped
+                          },
+                          child: Card(
+                            child: ListTile(
+                              leading: Icon(
+                                service[index]["icon"],
+                                color: service[index]["bg"],
+                              ),
+                              title: Text(service[index]["title"]),
+                              subtitle: Text(service[index]["subtext"]),
+                              trailing: const Icon(
+                                Icons.open_in_browser_rounded,
+                                color: Colors.indigo,
+                              ),
+                            ),
+                          ),
+                        );
                       },
-                      child: const Text("Currency Converter"))
-                ],
+                    )
+                  ],
+                ),
               )
             ],
           ),
