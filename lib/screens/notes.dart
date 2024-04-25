@@ -143,7 +143,7 @@ class _NotesState extends State<Notes> {
                                   width: 12.w,
                                   child: Row(
                                     children: [
-                                      Text(notes[index]["number"]),
+                                      Text(notes[index]["number"] ?? '0'),
                                       SizedBox(
                                         width: 5,
                                       ),

@@ -107,24 +107,30 @@ class _PanelState extends State<Panel> {
 
     // Generate a new random quote every 2 minutes
     timer = Timer.periodic(const Duration(minutes: 1), (timer) {
-      final newQuote = _getRandomQuote();
-
-      quoteController.add(newQuote);
-      setState(() {
-        currentQuote = newQuote;
-      });
+      if (!quoteController.isClosed && mounted) {
+        // Check if the controller is not closed
+        final newQuote = _getRandomQuote();
+        quoteController.add(newQuote); // Add new quote to the stream
+        setState(() {
+          currentQuote = newQuote;
+        });
+      }
     });
 
     Timer.periodic(const Duration(minutes: 1), (timer) {
-      setState(() {
-        time = DateFormat('h:mm a').format(DateTime.now());
-      });
+      if (mounted) {
+        // Check if the widget is still mounted
+        setState(() {
+          time = DateFormat('h:mm a').format(DateTime.now());
+        });
+      }
     });
   }
 
   @override
   void dispose() {
     timer.cancel();
+
     quoteController.close();
     super.dispose();
   }

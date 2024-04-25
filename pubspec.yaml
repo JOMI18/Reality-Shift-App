@@ -79,6 +79,7 @@ flutter:
     - lib/assets/images/continents/
     - lib/assets/images/countries/africa/slides/
     - lib/assets/images/cards/
+    - lib/assets/images/navs/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

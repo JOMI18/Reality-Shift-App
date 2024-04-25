@@ -80,4 +80,4 @@ class MyApp extends StatelessWidget {
 // add confetti on successful signup
 // make admin responsive
 //check if main users table haas img 
-// add url launcher for xe currency
+// optimize all images
