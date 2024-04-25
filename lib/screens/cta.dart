@@ -6,6 +6,8 @@ class CTA extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0, 70, 0, 10),
@@ -27,15 +29,12 @@ class CTA extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 21.sp,
                         fontWeight: FontWeight.w700,
-                        color: Utilities().appColors(context).secondary),
+                        color: rootcolor),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 8),
-                  child: Divider(
-                      height: 25,
-                      thickness: 6,
-                      color: Utilities().appColors(context).secondary),
+                  child: Divider(height: 25, thickness: 6, color: rootcolor),
                 ),
                 ComponentSlideIns(
                   beginOffset: Offset(2, 0),

@@ -23,8 +23,10 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
+    Color newcolor = Utilities().appColors(context).primary;
+
     return Scaffold(
-      backgroundColor: Utilities().appColors(context).primary,
+      backgroundColor: newcolor,
       body: Center(child: Image.asset("lib/assets/images/loading-logo.png")),
     );
   }

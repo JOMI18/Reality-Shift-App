@@ -49,6 +49,9 @@ class MyApp extends StatelessWidget {
           "dashboard": (context) => Dashboard(),
           "signout": (context) => SignOut(),
           "locations": (context) => Locations(),
+          "user": (context) => Profile(),
+          "favs": (context) => Pins(),
+          "notify": (context) => Notify(),
 
           // admin
           "admin_panel": (context) => Panel(),
@@ -77,3 +80,4 @@ class MyApp extends StatelessWidget {
 // add confetti on successful signup
 // make admin responsive
 //check if main users table haas img 
+// add url launcher for xe currency

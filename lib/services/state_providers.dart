@@ -1,5 +1,4 @@
 import 'package:reality_shift/imports.dart';
-import 'package:reality_shift/models/user_model.dart';
 
 StateProvider<Map> signUpProvider = StateProvider<Map>((ref) => {});
 

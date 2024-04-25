@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
-import 'package:reality_shift/transitions/item_slide_ins.dart';
 
 class ChooseSignUp extends StatefulWidget {
   @override
@@ -48,6 +46,9 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
 
   @override
   Widget build(BuildContext context) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+    Color newcolor = Utilities().appColors(context).primary;
+
     return Scaffold(
       appBar: CustomAppBar().welcomebar(context, "Chooose How to Sign Up:"),
       body: Padding(
@@ -122,8 +123,8 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
                         "lib/assets/images/logo-icon.png",
                         height: 30,
                       ),
-                      foregroundColor: Utilities().appColors(context).secondary,
-                      backgroundColor: Utilities().appColors(context).primary,
+                      foregroundColor: rootcolor,
+                      backgroundColor: newcolor,
                       onPressed: () {
                     Navigator.pushNamed(context, "signup");
                   }),
@@ -149,7 +150,7 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
                       " Login",
                       style: TextStyle(
                         fontSize: 16.sp,
-                        color: Utilities().appColors(context).secondary,
+                        color: rootcolor,
                       ),
                     ),
                   ),

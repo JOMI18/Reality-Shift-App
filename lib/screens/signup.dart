@@ -136,6 +136,8 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+
     return GestureDetector(
       onTap: () {
         // dismisses the keyboard on tap outside the input
@@ -321,8 +323,7 @@ class _SignUpState extends State<SignUp> {
                                 "Password Requirements :",
                                 style: TextStyle(
                                   fontSize: 18.sp,
-                                  color:
-                                      Utilities().appColors(context).secondary,
+                                  color: rootcolor,
                                 ),
                               ),
                               SizedBox(
