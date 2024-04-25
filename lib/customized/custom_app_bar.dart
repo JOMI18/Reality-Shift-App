@@ -5,6 +5,8 @@ class CustomAppBar {
   CustomAppBar();
 
   PreferredSizeWidget welcomebar(context, title) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+
     return AppBar(
       bottom: const PreferredSize(
         preferredSize: Size.fromHeight(20),
@@ -15,7 +17,7 @@ class CustomAppBar {
         ),
       ),
       automaticallyImplyLeading: false,
-      foregroundColor: Utilities().appColors(context).secondary,
+      foregroundColor: rootcolor,
       title: ComponentSlideIns(
         beginOffset: Offset(0, -2),
         child: Row(
@@ -29,6 +31,121 @@ class CustomAppBar {
             ),
             Text("$title",
                 textAlign: TextAlign.end, style: TextStyle(fontSize: 20.sp)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  PreferredSizeWidget dashboardbar(context, title, img) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+    return AppBar(
+      bottom: const PreferredSize(
+        preferredSize: Size.fromHeight(20),
+        child: Divider(
+          height: 12,
+          thickness: 12,
+          color: Colors.white,
+        ),
+      ),
+      centerTitle: true,
+      foregroundColor: rootcolor,
+      title: ComponentSlideIns(
+        beginOffset: Offset(0, -2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, "user");
+              },
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage(
+                      "lib/assets/images/countries/$img",
+                    ),
+                  ),
+                  SizedBox(
+                    width: 3.w,
+                  ),
+                  Text("$title",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(fontSize: 19.sp)),
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "favs");
+                  },
+                  child: Icon(
+                    Icons.favorite_rounded,
+                    color: rootcolor,
+                  ),
+                ),
+                SizedBox(
+                  width: 5.w,
+                ),
+             GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "notify");
+                  },
+                  child: Icon(
+                    Icons.notifications_active_rounded,
+                    color: rootcolor,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  PreferredSizeWidget generalbar(context, title) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+    return AppBar(
+      bottom: const PreferredSize(
+        preferredSize: Size.fromHeight(20),
+        child: Divider(
+          height: 12,
+          thickness: 12,
+          color: Colors.white,
+        ),
+      ),
+      centerTitle: true,
+      leading: Navigator.of(context).canPop()
+          ? TextButton(
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                size: 22,
+                color: rootcolor,
+              ),
+            )
+          : null,
+      foregroundColor: rootcolor,
+      title: ComponentSlideIns(
+        beginOffset: Offset(0, -2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("$title",
+                textAlign: TextAlign.end, style: TextStyle(fontSize: 20.sp)),
+            Image.asset(
+              "lib/assets/images/logo-icon.png",
+              height: 5.h,
+            ),
           ],
         ),
       ),

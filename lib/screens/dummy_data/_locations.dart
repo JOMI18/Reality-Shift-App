@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:reality_shift/imports.dart';
 
 class _Locations extends StatefulWidget {
@@ -71,6 +69,9 @@ class __LocationsState extends State<_Locations> {
 
   @override
   Widget build(BuildContext context) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+    Color newcolor = Utilities().appColors(context).primary;
+
     return Scaffold(
       appBar: CustomAppBar()
           .welcomebar(context, "Countries in ${continent["place"]}:"),
@@ -124,7 +125,7 @@ class __LocationsState extends State<_Locations> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      color: Utilities().appColors(context).secondary,
+                      color: rootcolor,
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(width: 5, color: Colors.white)),
                   child: Column(
@@ -167,10 +168,8 @@ class __LocationsState extends State<_Locations> {
                               },
                               child: CircleAvatar(
                                 radius: 12,
-                                backgroundColor:
-                                    Utilities().appColors(context).primary,
-                                foregroundColor:
-                                    Utilities().appColors(context).secondary,
+                                backgroundColor: newcolor,
+                                foregroundColor: rootcolor,
                                 child: const Icon(
                                   Icons.arrow_back_ios_new_outlined,
                                   size: 14,
@@ -184,8 +183,7 @@ class __LocationsState extends State<_Locations> {
                                 effect: WormEffect(
                                   dotHeight: 10,
                                   dotWidth: 10,
-                                  activeDotColor:
-                                      Utilities().appColors(context).primary,
+                                  activeDotColor: newcolor,
                                 ),
                               ),
                             ),
@@ -198,10 +196,8 @@ class __LocationsState extends State<_Locations> {
                               },
                               child: CircleAvatar(
                                 radius: 12,
-                                backgroundColor:
-                                    Utilities().appColors(context).primary,
-                                foregroundColor:
-                                    Utilities().appColors(context).secondary,
+                                backgroundColor: newcolor,
+                                foregroundColor: rootcolor,
                                 child: const Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   size: 14,

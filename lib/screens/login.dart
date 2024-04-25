@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
 
@@ -76,6 +75,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    Color newcolor = Utilities().appColors(context).primary;
+
     return Scaffold(
       appBar:
           CustomAppBar().welcomebar(context, "Welcome back, Jonathan Smith!"),
@@ -152,7 +153,7 @@ class _LoginState extends State<Login> {
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Utilities().appColors(context).primary),
+                                color: newcolor),
                           ),
                         ),
                         const SizedBox(

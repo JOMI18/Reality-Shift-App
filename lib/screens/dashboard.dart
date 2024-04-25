@@ -25,6 +25,8 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+
     // Create a list of default navigation bar items
     List<BottomNavigationBarItem> items = [
       BottomNavigationBarItem(
@@ -83,9 +85,8 @@ class _DashboardState extends State<Dashboard> {
           // }
         },
         currentIndex: selectedIndex,
-        selectedItemColor: Utilities().appColors(context).secondary,
-        unselectedItemColor:
-            Utilities().appColors(context).secondary.withOpacity(0.5),
+        selectedItemColor: rootcolor,
+        unselectedItemColor: rootcolor.withOpacity(0.5),
         items: items, // Use the dynamically generated list of items
       ),
     );

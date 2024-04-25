@@ -40,6 +40,8 @@ class _OnboardingState extends State<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+
     return Scaffold(
         body: Column(
       children: [
@@ -71,8 +73,7 @@ class _OnboardingState extends State<Onboarding> {
                               style: TextStyle(
                                   fontSize: 21.sp,
                                   fontWeight: FontWeight.w700,
-                                  color:
-                                      Utilities().appColors(context).secondary),
+                                  color: rootcolor),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(
@@ -80,7 +81,7 @@ class _OnboardingState extends State<Onboarding> {
                               child: Divider(
                                 height: 25,
                                 thickness: 6,
-                                color: Utilities().appColors(context).secondary,
+                                color: rootcolor,
                               ),
                             ),
                             Padding(
@@ -120,7 +121,7 @@ class _OnboardingState extends State<Onboarding> {
                     style: TextStyle(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w700,
-                        color: Utilities().appColors(context).secondary),
+                        color: rootcolor),
                   ),
                 ),
                 Container(
@@ -130,7 +131,7 @@ class _OnboardingState extends State<Onboarding> {
                     effect: WormEffect(
                       dotHeight: 10,
                       dotWidth: 10,
-                      activeDotColor: Utilities().appColors(context).secondary,
+                      activeDotColor: rootcolor,
                     ),
                   ),
                 ),
@@ -149,7 +150,7 @@ class _OnboardingState extends State<Onboarding> {
                     }
                   },
                   child: CircleAvatar(
-                    backgroundColor: Utilities().appColors(context).secondary,
+                    backgroundColor: rootcolor,
                     foregroundColor: Colors.black,
                     child: Icon(Icons.arrow_forward_rounded),
                   ),

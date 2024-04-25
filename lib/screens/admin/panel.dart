@@ -1,12 +1,8 @@
 import 'dart:async';
 import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:reality_shift/imports.dart';
-import 'package:reality_shift/services/utilities.dart';
 
 class Panel extends StatefulWidget {
   const Panel({super.key});
@@ -135,6 +131,8 @@ class _PanelState extends State<Panel> {
 
   @override
   Widget build(BuildContext context) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+
     // print(day);
 
     return Scaffold(
@@ -279,13 +277,10 @@ class _PanelState extends State<Panel> {
                         children: [
                           Text(
                             "See User Stats",
-                            style: TextStyle(
-                                fontSize: 18.sp,
-                                color:
-                                    Utilities().appColors(context).secondary),
+                            style: TextStyle(fontSize: 18.sp, color: rootcolor),
                           ),
                           Divider(
-                            color: Utilities().appColors(context).secondary,
+                            color: rootcolor,
                           ),
                           Row(
                             children: [

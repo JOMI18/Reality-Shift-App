@@ -14,6 +14,8 @@ class CustomBottomSheet {
     Widget? content,
     void Function(String)? onSelect,
   }) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -21,7 +23,7 @@ class CustomBottomSheet {
           width: 98.w,
           height: 25.h,
           decoration: BoxDecoration(
-            color: Utilities().appColors(context).secondary,
+            color: rootcolor,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
           ),
           padding: const EdgeInsets.all(5.0),
@@ -75,6 +77,8 @@ class CustomBottomSheet {
 
   static void showDatePicker(BuildContext context,
       {required Function(String) onDateSelected}) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -82,7 +86,7 @@ class CustomBottomSheet {
           width: 98.w,
           height: 28.h,
           decoration: BoxDecoration(
-            color: Utilities().appColors(context).secondary,
+            color: rootcolor,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
           ),
           padding: EdgeInsets.all(5.0),

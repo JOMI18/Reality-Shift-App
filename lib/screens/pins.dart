@@ -11,7 +11,8 @@ class Pins extends StatefulWidget {
 class _PinsState extends State<Pins> {
   @override
   Widget build(BuildContext context) {
- return  Scaffold(
-      appBar: CustomAppBar().welcomebar(context, "Pins"),
-    );  }
+    return Scaffold(
+      appBar: CustomAppBar().generalbar(context, "Customize My Favorite Pins:"),
+    );
+  }
 }

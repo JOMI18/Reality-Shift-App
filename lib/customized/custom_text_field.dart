@@ -7,12 +7,13 @@ class CustomTextField {
   static Widget input(
     context, {
     hint,
-    fieldname,
+    String? fieldname,
     controller,
     bool readOnly = false,
     Icon? prefixIcon,
     bool obscureText = false,
     Icon? suffixIcon,
+    Color? color,
     VoidCallback? onSuffixIconTap,
     VoidCallback? onPrefixIconTap,
     VoidCallback? onTap,
@@ -22,7 +23,7 @@ class CustomTextField {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          fieldname,
+          fieldname ?? "",
           style: const TextStyle(fontWeight: FontWeight.w800),
         ),
         const SizedBox(
@@ -38,8 +39,9 @@ class CustomTextField {
               fontSize: 16.sp, letterSpacing: 1.2, color: Colors.white),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(
+            hintStyle: TextStyle(
               letterSpacing: 1.2,
+              color: color,
             ),
             filled: true,
             prefixIcon: prefixIcon,

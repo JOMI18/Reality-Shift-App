@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:reality_shift/imports.dart';
-import 'package:reality_shift/transitions/item_slide_ins.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -39,7 +36,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar().welcomebar(context, "Manage My UserProfile"),
+      appBar: CustomAppBar().generalbar(context, "Manage My UserProfile:"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12.0),

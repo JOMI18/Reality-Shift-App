@@ -145,6 +145,8 @@ class _VerificationState extends State<Verification> {
 
   @override
   Widget build(BuildContext context) {
+    Color rootcolor = Utilities().appColors(context).secondary;
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -159,9 +161,7 @@ class _VerificationState extends State<Verification> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.phone_android_rounded,
-                      size: 60,
-                      color: Utilities().appColors(context).secondary),
+                  Icon(Icons.phone_android_rounded, size: 60, color: rootcolor),
                   SizedBox(
                     height: 6.h,
                   ),
@@ -251,8 +251,7 @@ class _VerificationState extends State<Verification> {
                             style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
-                                color:
-                                    Utilities().appColors(context).secondary),
+                                color: rootcolor),
                           ),
                         ),
                       ],
