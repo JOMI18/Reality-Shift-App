@@ -13,9 +13,9 @@ class _ProfileState extends State<Profile> {
     {
       "key": "Account",
       "child": [
-        {"route": "", "tab": "User Information"},
+        {"route": "full_user_profile", "tab": "User Information"},
         {"route": "", "tab": "Download your Data"},
-        {"route": "", "tab": "View your Boards"},
+        {"route": "favs", "tab": "View your Boards"},
         {"route": "", "tab": "Deactivate or Delete your Account"},
         {"route": "", "tab": "Log Out"}
       ]
@@ -27,6 +27,7 @@ class _ProfileState extends State<Profile> {
         {"route": "", "tab": "About"},
         {"route": "", "tab": "Language"},
         {"route": "", "tab": "Notifications"},
+        {"route": "app_theme", "tab": "App Theme Mode"},
         {"route": "", "tab": "Report a Problem"},
         {"route": "", "tab": "Terms and Policies"},
       ]

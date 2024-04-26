@@ -124,6 +124,7 @@ class _HomeState extends State<Home> {
             currentIndex++;
           } else {
             currentIndex = 0;
+            page_controller.jumpToPage(0); // Jump to the first page
           }
           page_controller.animateToPage(
             currentIndex,
@@ -182,8 +183,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    Color rootcolor = Utilities().appColors(context).secondary;
-    // Color newcolor = Utilities().appColors(context).primary;
+    Color secondary = Utilities().appColors(context).secondary;
+    Color primary = Utilities().appColors(context).primary;
 
     return Scaffold(
       appBar: CustomAppBar()
@@ -191,270 +192,285 @@ class _HomeState extends State<Home> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12),
-          child: Column(
-            children: [
-              ComponentSlideIns(
-                beginOffset: const Offset(-2, 0),
-                child: Column(
-                  children: [
-                    CustomTextField.input(
-                      context,
-                      hint: "What would you like to explore",
-                      fieldname: "Search Bar",
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: rootcolor,
-                      ),
-                      // color: rootcolor,
-                    )
-                  ],
+          child: Consumer(builder: (context, ref, _) {
+            final selectedTheme = ref.watch(AppThemeProvider)["theme"];
+            Color colorbgWhite =
+                selectedTheme == darkTheme ? primary : secondary;
+            return Column(
+              children: [
+                ComponentSlideIns(
+                  beginOffset: const Offset(-2, 0),
+                  child: Column(
+                    children: [
+                      CustomTextField.input(
+                        context,
+                        hint: "What would you like to explore",
+                        fieldname: "Search Bar",
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: secondary,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              ComponentSlideIns(
-                beginOffset: const Offset(2, 0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(children: [
-                        Icon(
-                          Icons.pin_drop_rounded,
-                          color: rootcolor,
-                        ),
-                        SizedBox(
-                          width: 3.w,
-                        ),
-                        Text(
-                          "Scenic Serenity: Discover the World",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: rootcolor, fontSize: 17.sp),
-                        ),
-                      ]),
-                    ),
-                    SizedBox(
-                      height: 35.h,
-                      child: PageView.builder(
-                        controller: page_controller,
-                        onPageChanged: (index) {
-                          setState(() {
-                            currentIndex = index;
-                          });
-                        },
-                        scrollDirection: Axis.horizontal,
-                        itemCount: img.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            height: 30.h,
-                            width: 94.w,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(width: 2, color: rootcolor),
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        "lib/assets/images/cards/${img[index]}"),
-                                    fit: BoxFit.cover)),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                SizedBox(
+                  height: 2.h,
                 ),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              ComponentSlideIns(
-                beginOffset: const Offset(-2, 0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
+                ComponentSlideIns(
+                  beginOffset: const Offset(2, 0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(children: [
                           Icon(
-                            Icons.sunny,
-                            color: rootcolor,
-                            size: 22,
+                            Icons.pin_drop_rounded,
+                            color: secondary,
                           ),
                           SizedBox(
-                            width: 2.w,
+                            width: 3.w,
                           ),
                           Text(
-                              "Inspiration for Every Step: Words to Lift Your Spirit",
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(color: rootcolor, fontSize: 16.sp))
-                        ],
+                            "Scenic Serenity: Discover the World",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: secondary, fontSize: 17.sp),
+                          ),
+                        ]),
                       ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: rootcolor),
-                          borderRadius: BorderRadius.circular(17)),
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Center(
-                            child: Text(
-                              currentQuote,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w500),
+                      SizedBox(
+                        height: 35.h,
+                        child: PageView.builder(
+                          controller: page_controller,
+                          onPageChanged: (index) {
+                            setState(() {
+                              currentIndex = index;
+                            });
+                          },
+                          scrollDirection: Axis.horizontal,
+                          itemCount: img.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: 30.h,
+                              width: 94.w,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  border:
+                                      Border.all(width: 2, color: secondary),
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          "lib/assets/images/cards/${img[index]}"),
+                                      fit: BoxFit.cover)),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                ComponentSlideIns(
+                  beginOffset: const Offset(-2, 0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.sunny,
+                              color: secondary,
+                              size: 22,
+                            ),
+                            SizedBox(
+                              width: 2.w,
+                            ),
+                            Text(
+                                "Inspiration for Every Step: Words to Lift Your Spirit",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: secondary, fontSize: 16.sp))
+                          ],
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: secondary),
+                            borderRadius: BorderRadius.circular(19)),
+                        child: Card(
+                          //    shape: RoundedRectangleBorder(
+                          //   borderRadius: BorderRadius.circular(
+                          //       10.0),
+                          //   side: BorderSide(
+                          //       width: 2,
+                          //       color:
+                          //           secondary),
+                          // ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Center(
+                              child: Text(
+                                currentQuote,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: colorbgWhite,
+                                    // color: Colors.black,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              ComponentSlideIns(
-                beginOffset: const Offset(2, 0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.travel_explore_rounded,
-                            color: rootcolor,
-                            size: 22,
-                          ),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text(
-                              "Explore Boundless Horizons: Begin Your Adventure",
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(color: rootcolor, fontSize: 16.sp))
-                        ],
+                SizedBox(
+                  height: 2.h,
+                ),
+                ComponentSlideIns(
+                  beginOffset: const Offset(2, 0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.travel_explore_rounded,
+                              color: secondary,
+                              size: 22,
+                            ),
+                            SizedBox(
+                              width: 2.w,
+                            ),
+                            Text(
+                                "Explore Boundless Horizons: Begin Your Adventure",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: secondary, fontSize: 16.sp))
+                          ],
+                        ),
                       ),
-                    ),
-                    GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: navs.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 15,
-                                crossAxisSpacing: 15,
-                                childAspectRatio: 1.5),
-                        itemBuilder: (context, index) {
-                          final img = navs[index]["img"];
-                          return ClipRect(
-                            clipBehavior:
-                                Clip.antiAlias, // Set the clip behavior
+                      GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: navs.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 15,
+                                  crossAxisSpacing: 15,
+                                  childAspectRatio: 1.5),
+                          itemBuilder: (context, index) {
+                            final img = navs[index]["img"];
+                            return ClipRect(
+                              clipBehavior:
+                                  Clip.antiAlias, // Set the clip behavior
 
-                            child: Container(
-                              height: 4.h,
-                              width: 30.w,
-                              decoration: BoxDecoration(
-                                  color: navs[index]["bg"],
-                                  border:
-                                      Border.all(width: 2, color: rootcolor),
-                                  borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(12),
-                                      bottomLeft: Radius.circular(12))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    navs[index]["title"],
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Transform.rotate(
-                                    angle: 0.8,
-                                    origin: const Offset(34, 80),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 2, color: Colors.white),
-                                          borderRadius:
-                                              BorderRadius.circular(60)),
-                                      child: CircleAvatar(
-                                        radius: 60,
-                                        backgroundImage: AssetImage(
-                                          "lib/assets/images/navs/$img",
+                              child: Container(
+                                height: 4.h,
+                                width: 30.w,
+                                decoration: BoxDecoration(
+                                    color: navs[index]["bg"],
+                                    border:
+                                        Border.all(width: 2, color: secondary),
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        bottomLeft: Radius.circular(12))),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      navs[index]["title"],
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Transform.rotate(
+                                      angle: 0.8,
+                                      origin: const Offset(34, 80),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                width: 2, color: secondary),
+                                            borderRadius:
+                                                BorderRadius.circular(60)),
+                                        child: CircleAvatar(
+                                          radius: 60,
+                                          backgroundImage: AssetImage(
+                                            "lib/assets/images/navs/$img",
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          })
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                ComponentSlideIns(
+                  beginOffset: const Offset(-2, 0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.travel_explore_rounded,
+                              color: secondary,
+                              size: 22,
+                            ),
+                            SizedBox(
+                              width: 2.w,
+                            ),
+                            Text(
+                                "Endless Services: Your Passport to Convenience",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: secondary, fontSize: 16.sp))
+                          ],
+                        ),
+                      ),
+                      ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: service.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              _launchURL(service[index]
+                                  ["url"]); // Launch URL when tapped
+                            },
+                            child: Card(
+                              child: ListTile(
+                                leading: Icon(
+                                  service[index]["icon"],
+                                  color: service[index]["bg"],
+                                ),
+                                title: Text(service[index]["title"]),
+                                subtitle: Text(service[index]["subtext"]),
+                                trailing: const Icon(
+                                  Icons.open_in_browser_rounded,
+                                  color: Color.fromARGB(255, 0, 88, 3),
+                                ),
                               ),
                             ),
                           );
-                        })
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              ComponentSlideIns(
-                beginOffset: const Offset(-2, 0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.travel_explore_rounded,
-                            color: rootcolor,
-                            size: 22,
-                          ),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          Text("Endless Services: Your Passport to Convenience",
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(color: rootcolor, fontSize: 16.sp))
-                        ],
-                      ),
-                    ),
-                    ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: service.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            _launchURL(service[index]
-                                ["url"]); // Launch URL when tapped
-                          },
-                          child: Card(
-                            child: ListTile(
-                              leading: Icon(
-                                service[index]["icon"],
-                                color: service[index]["bg"],
-                              ),
-                              title: Text(service[index]["title"]),
-                              subtitle: Text(service[index]["subtext"]),
-                              trailing: const Icon(
-                                Icons.open_in_browser_rounded,
-                                color: Colors.indigo,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+                        },
+                      )
+                    ],
+                  ),
+                )
+              ],
+            );
+          }),
         ),
       ),
     );

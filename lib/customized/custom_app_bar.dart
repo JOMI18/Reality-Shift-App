@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
+import 'package:reality_shift/main.dart';
 
 class CustomAppBar {
   CustomAppBar();
 
   PreferredSizeWidget welcomebar(context, title) {
-    Color rootcolor = Utilities().appColors(context).secondary;
+    // Color secondary = Utilities().appColors(context).secondary;
 
     return AppBar(
       bottom: const PreferredSize(
@@ -17,13 +18,13 @@ class CustomAppBar {
         ),
       ),
       automaticallyImplyLeading: false,
-      foregroundColor: rootcolor,
+      // foregroundColor: secondary,
       title: ComponentSlideIns(
         beginOffset: Offset(0, -2),
         child: Row(
           children: [
             Image.asset(
-              "lib/assets/images/logo-icon.png",
+              "lib/assets/images/logos/logo-icon-dark.png",
               height: 5.h,
             ),
             SizedBox(
@@ -38,85 +39,93 @@ class CustomAppBar {
   }
 
   PreferredSizeWidget dashboardbar(context, title, img) {
-    Color rootcolor = Utilities().appColors(context).secondary;
+    Color secondary = Utilities().appColors(context).secondary;
     return AppBar(
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(20),
-        child: Divider(
-          height: 12,
-          thickness: 12,
-          color: Colors.white,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(20),
+          child: Consumer(builder: (context, ref, child) {
+            final selectedTheme = ref.watch(AppThemeProvider)["theme"];
+            Color dividerColor =
+                selectedTheme == darkTheme ? Colors.white : secondary;
+
+            return Divider(
+              height: 12,
+              thickness: 12,
+              color: dividerColor,
+            );
+          }),
         ),
-      ),
-      centerTitle: true,
-      foregroundColor: rootcolor,
-      title: ComponentSlideIns(
-        beginOffset: Offset(0, -2),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, "user");
-              },
-              child: Row(
+        centerTitle: true,
+        title: ComponentSlideIns(
+          beginOffset: Offset(0, -2),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "user");
+                },
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 18,
+                      backgroundImage: AssetImage(
+                        "lib/assets/images/countries/$img",
+                      ),
+                    ),
+                    SizedBox(
+                      width: 3.w,
+                    ),
+                    Text("$title",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(fontSize: 19.sp)),
+                  ],
+                ),
+              ),
+              Row(
                 children: [
-                  CircleAvatar(
-                    radius: 18,
-                    backgroundImage: AssetImage(
-                      "lib/assets/images/countries/$img",
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, "favs");
+                    },
+                    child: Icon(
+                      Icons.favorite_rounded,
                     ),
                   ),
                   SizedBox(
-                    width: 3.w,
+                    width: 5.w,
                   ),
-                  Text("$title",
-                      textAlign: TextAlign.end,
-                      style: TextStyle(fontSize: 19.sp)),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, "notify");
+                    },
+                    child: Icon(
+                      Icons.notifications_active_rounded,
+                    ),
+                  )
                 ],
-              ),
-            ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, "favs");
-                  },
-                  child: Icon(
-                    Icons.favorite_rounded,
-                    color: rootcolor,
-                  ),
-                ),
-                SizedBox(
-                  width: 5.w,
-                ),
-             GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, "notify");
-                  },
-                  child: Icon(
-                    Icons.notifications_active_rounded,
-                    color: rootcolor,
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+              )
+            ],
+          ),
+        ));
   }
 
   PreferredSizeWidget generalbar(context, title) {
-    Color rootcolor = Utilities().appColors(context).secondary;
+    Color secondary = Utilities().appColors(context).secondary;
     return AppBar(
-      bottom: const PreferredSize(
+      bottom: PreferredSize(
         preferredSize: Size.fromHeight(20),
-        child: Divider(
-          height: 12,
-          thickness: 12,
-          color: Colors.white,
-        ),
+        child: Consumer(builder: (context, ref, child) {
+          final selectedTheme = ref.watch(AppThemeProvider)["theme"];
+          Color dividerColor =
+              selectedTheme == darkTheme ? Colors.white : secondary;
+
+          return Divider(
+            height: 12,
+            thickness: 12,
+            color: dividerColor,
+          );
+        }),
       ),
       centerTitle: true,
       leading: Navigator.of(context).canPop()
@@ -130,25 +139,32 @@ class CustomAppBar {
               child: Icon(
                 Icons.arrow_back_ios_new_rounded,
                 size: 22,
-                color: rootcolor,
+                color: secondary,
               ),
             )
           : null,
-      foregroundColor: rootcolor,
-      title: ComponentSlideIns(
-        beginOffset: Offset(0, -2),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("$title",
-                textAlign: TextAlign.end, style: TextStyle(fontSize: 20.sp)),
-            Image.asset(
-              "lib/assets/images/logo-icon.png",
-              height: 5.h,
-            ),
-          ],
-        ),
-      ),
+      // foregroundColor: secondary,
+      title: Consumer(builder: (context, ref, child) {
+        final selectedTheme = ref.watch(AppThemeProvider)["theme"];
+        String img = selectedTheme == darkTheme
+            ? "logo-icon-dark.png"
+            : "logo-icon-light.png";
+
+        return ComponentSlideIns(
+          beginOffset: Offset(0, -2),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("$title",
+                  textAlign: TextAlign.end, style: TextStyle(fontSize: 20.sp)),
+              Image.asset(
+                "lib/assets/images/logos/$img",
+                height: 5.h,
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

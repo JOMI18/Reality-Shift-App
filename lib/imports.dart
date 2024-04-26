@@ -15,6 +15,8 @@ export 'package:reality_shift/screens/dashboard.dart';
 export 'package:reality_shift/screens/sign_out.dart';
 export 'package:reality_shift/screens/locations.dart';
 export 'package:reality_shift/screens/notify.dart';
+export 'package:reality_shift/screens/full_user_profile.dart';
+export 'package:reality_shift/screens/app_theme_mode.dart';
 
 // admin
 export 'package:reality_shift/screens/admin/panel.dart';
@@ -58,6 +60,10 @@ export 'package:reality_shift/customized/custom_otp_box.dart';
 export 'package:reality_shift/customized/custom_bottom_sheet.dart';
 export 'package:reality_shift/customized/alerts/create_new.dart';
 export 'package:reality_shift/customized/custom_error_screen.dart';
+export 'package:reality_shift/customized/custom_switch.dart';
 
 // transition
 export 'package:reality_shift/transitions/item_slide_ins.dart';
+
+// main
+export 'package:reality_shift/main.dart';

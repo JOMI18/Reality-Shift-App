@@ -5,7 +5,7 @@ class CreateNew {
   CreateNew();
 
   static Future<String?> showFolderDialog(BuildContext context,
-      {name, hint, inputCt, onpressed}) async {
+      {name, hint, inputCt, onpressed, action}) async {
     Color rootcolor = Utilities().appColors(context).secondary;
 
     return showDialog<String>(
@@ -36,7 +36,7 @@ class CreateNew {
             ),
             ElevatedButton(
               onPressed: onpressed,
-              child: Text('Create'),
+              child: Text(action),
             ),
           ],
         );
