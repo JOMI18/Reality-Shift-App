@@ -12,7 +12,7 @@ class _PinsState extends State<Pins> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar().generalbar(context, "Customize My Favorite Pins:"),
+      appBar: CustomAppBar().generalbar(context, "Customize My Pins:"),
     );
   }
 }
