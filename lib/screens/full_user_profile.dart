@@ -54,18 +54,21 @@ class _FullUserProfileState extends State<FullUserProfile> {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
-              CircleAvatar(
-                radius: 60,
-                backgroundImage:
-                    AssetImage("lib/assets/images/cards/bread.jpg"),
-                child: Container(
-                    height: 30.h,
-                    width: 30.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(60),
-                      color: rootcolor.withOpacity(0.3),
-                    ),
-                    child: Icon(Icons.edit, color: Colors.black)),
+              ComponentSlideIns(
+                beginOffset: Offset(0, -2),
+                child: CircleAvatar(
+                  radius: 60,
+                  backgroundImage:
+                      AssetImage("lib/assets/images/cards/bread.jpg"),
+                  child: Container(
+                      height: 30.h,
+                      width: 30.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        color: rootcolor.withOpacity(0.3),
+                      ),
+                      child: Icon(Icons.edit, color: Colors.black)),
+                ),
               ),
               SizedBox(
                 height: 1.h,
@@ -84,68 +87,65 @@ class _FullUserProfileState extends State<FullUserProfile> {
                   shrinkWrap: true,
                   itemCount: items.length,
                   itemBuilder: (context, index) {
-                    return ComponentSlideIns(
-                      beginOffset: Offset(0, 2),
-                      child: Column(
-                        children: [
-                          ComponentSlideIns(
-                            beginOffset: Offset(2, 0),
-                            child: ListTile(
-                              leading: Icon(
-                                items[index]["icon"],
+                    return Column(
+                      children: [
+                        ComponentSlideIns(
+                          beginOffset: Offset(2, 0),
+                          child: ListTile(
+                            leading: Icon(
+                              items[index]["icon"],
+                              color: rootcolor,
+                            ),
+                            title: Text(
+                              "${items[index]["key"]}:",
+                              style: TextStyle(
                                 color: rootcolor,
                               ),
-                              title: Text(
-                                "${items[index]["key"]}:",
-                                style: TextStyle(
-                                  color: rootcolor,
-                                ),
+                            ),
+                            subtitle: Text(
+                              items[index]["value"],
+                              style: TextStyle(
+                                color: rootcolor.withOpacity(0.6),
                               ),
-                              subtitle: Text(
-                                items[index]["value"],
-                                style: TextStyle(
-                                  color: rootcolor.withOpacity(0.6),
-                                ),
-                              ),
-                              trailing: GestureDetector(
-                                onTap: () {
-                                  CreateNew.showFolderDialog(
-                                    context,
-                                    name: "Edit ${items[index]["key"]}",
-                                    hint: "Enter ${items[index]["key"]}",
-                                    action: "Edit",
-                                    inputCt: keyValueCt,
-                                    onpressed: () {
-                                      String value = keyValueCt.text;
-                                      if (value != "") {
-                                        setState(() {
-                                          items[index]["value"] =
-                                              value; // Update the value
-                                        });
-                                        keyValueCt
-                                            .clear(); // Clear the text field
-                                      } else {
-                                        return;
-                                      }
+                            ),
+                            trailing: GestureDetector(
+                              onTap: () {
+                                CreateNew.showFolderDialog(
+                                  context,
+                                  name: "Edit ${items[index]["key"]}",
+                                  hint: "Enter ${items[index]["key"]}",
+                                  action: "Edit",
+                                  inputCt: keyValueCt,
+                                  onpressed: () {
+                                    String value = keyValueCt.text;
+                                    if (value != "") {
+                                      setState(() {
+                                        items[index]["value"] =
+                                            value; // Update the value
+                                      });
+                                      keyValueCt
+                                          .clear(); // Clear the text field
+                                    } else {
+                                      return;
+                                    }
 
-                                      Navigator.of(context).pop();
-                                    },
-                                  );
-                                },
-                                child: Icon(
-                                  Icons.edit,
-                                  size: 20,
-                                  color: rootcolor.withOpacity(0.6),
-                                ),
+                                    Navigator.of(context).pop();
+                                  },
+                                );
+                              },
+                              child: Icon(
+                                Icons.edit,
+                                size: 20,
+                                color: rootcolor.withOpacity(0.6),
                               ),
                             ),
                           ),
-                          if ((index + 1) % 3 == 0 && index != items.length - 1)
-                            Divider(
-                              color: Colors.white.withOpacity(0.4),
-                            )
-                        ],
-                      ),
+                        ),
+                        if ((index + 1) % 3 == 0 && index != items.length - 1)
+                          Divider(
+                            color: Colors.white.withOpacity(0.4),
+                          )
+                      ],
                     );
                   })
             ],

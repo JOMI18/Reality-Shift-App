@@ -12,7 +12,7 @@ class _NotesState extends State<Notes> {
   TextEditingController folderNameController = TextEditingController();
 
   List notes = [
-    {"folder": "All Continents", "number": "120"},
+    {"folder": "All Continents", "number": "120", "routes":"all_notes"},
     {"folder": "Notes", "number": "60"},
     {"folder": "Cultures", "number": "40"},
     {"folder": "Food", "number": "20"},
@@ -20,8 +20,9 @@ class _NotesState extends State<Notes> {
   // add folder functionality will push into
   @override
   Widget build(BuildContext context) {
-    Color rootcolor = Utilities().appColors(context).secondary;
-    Color newcolor = Utilities().appColors(context).primary;
+    Color secondary = Utilities().appColors(context).secondary;
+    // Color primary = Utilities().appColors(context).primary;
+    Color unchanged = const Color.fromARGB(255, 15, 34, 45);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -34,7 +35,7 @@ class _NotesState extends State<Notes> {
             child: Column(
               children: [
                 ComponentSlideIns(
-                  beginOffset: Offset(2, 0),
+                  beginOffset: const Offset(2, 0),
                   child: Column(
                     children: [
                       Row(
@@ -65,13 +66,13 @@ class _NotesState extends State<Notes> {
                             },
                             child: Icon(
                               Icons.create_new_folder_rounded,
-                              color: rootcolor,
+                              color: secondary,
                               size: 26,
                             ),
                           ),
                           Icon(
                             Icons.edit_square,
-                            color: rootcolor,
+                            color: secondary,
                           )
                         ],
                       ),
@@ -90,7 +91,7 @@ class _NotesState extends State<Notes> {
                           ),
                           Icon(
                             Icons.arrow_drop_down_rounded,
-                            color: rootcolor,
+                            color: secondary,
                             size: 25,
                           )
                         ],
@@ -100,25 +101,25 @@ class _NotesState extends State<Notes> {
                         child: Divider(
                           height: 2,
                           thickness: 4,
-                          color: rootcolor,
+                          color: secondary,
                         ),
                       )
                     ],
                   ),
                 ),
                 ComponentSlideIns(
-                  beginOffset: Offset(-2, 0),
+                  beginOffset: const Offset(-2, 0),
                   child: Column(
                     children: [
                       CustomTextField.input(context,
                           hint: "Search",
                           prefixIcon: Icon(
                             Icons.search,
-                            color: rootcolor,
+                            color: secondary,
                           ),
                           suffixIcon: Icon(
                             Icons.mic,
-                            color: rootcolor,
+                            color: secondary,
                           ))
                     ],
                   ),
@@ -127,7 +128,7 @@ class _NotesState extends State<Notes> {
                   height: 6.h,
                 ),
                 ComponentSlideIns(
-                  beginOffset: Offset(2, 0),
+                  beginOffset: const Offset(2, 0),
                   child: Column(
                     children: [
                       ListView.builder(
@@ -139,19 +140,19 @@ class _NotesState extends State<Notes> {
                                 title: Text(notes[index]["folder"]),
                                 leading: Icon(
                                   Icons.folder,
-                                  color: newcolor,
+                                  color: unchanged,
                                 ),
                                 trailing: SizedBox(
                                   width: 12.w,
                                   child: Row(
                                     children: [
                                       Text(notes[index]["number"] ?? '0'),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 5,
                                       ),
                                       Icon(
                                         Icons.keyboard_arrow_right_outlined,
-                                        color: newcolor,
+                                        color: unchanged,
                                       ),
                                     ],
                                   ),
@@ -166,7 +167,7 @@ class _NotesState extends State<Notes> {
                   height: 12.h,
                 ),
                 ComponentSlideIns(
-                    beginOffset: Offset(0, 2),
+                    beginOffset: const Offset(0, 2),
                     child: Btns().continentBtn(context, "Edit Folders", () {}))
               ],
             ),

@@ -18,6 +18,9 @@ export 'package:reality_shift/screens/notify.dart';
 export 'package:reality_shift/screens/full_user_profile.dart';
 export 'package:reality_shift/screens/app_theme_mode.dart';
 
+//
+export 'package:reality_shift/screens/notes/all_notes.dart';
+
 // admin
 export 'package:reality_shift/screens/admin/panel.dart';
 export 'package:reality_shift/screens/admin/create_continent.dart';

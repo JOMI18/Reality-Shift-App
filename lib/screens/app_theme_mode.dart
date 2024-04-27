@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
-import 'package:reality_shift/main.dart';
 
 class AppThemeMode extends StatefulWidget {
   const AppThemeMode({super.key});
@@ -9,7 +8,8 @@ class AppThemeMode extends StatefulWidget {
   State<AppThemeMode> createState() => _AppThemeModeState();
 }
 
-class _AppThemeModeState extends State<AppThemeMode> {
+class _AppThemeModeState extends State<AppThemeMode>
+    with AutomaticKeepAliveClientMixin {
   List modes = [
     {"mode": "dark", "img": "darkmode.png"},
     {"mode": "light", "img": "lightmode.png"},
@@ -17,7 +17,6 @@ class _AppThemeModeState extends State<AppThemeMode> {
   late bool isSwitchOnNow = false;
 
   String selectedMode = "dark"; // Default selected mode is "dark"
-
   void _toggleTheme(WidgetRef ref) {
     final themeMap = ref.read(AppThemeProvider.notifier).state;
     // print("Current Theme: $themeMap");
@@ -27,16 +26,58 @@ class _AppThemeModeState extends State<AppThemeMode> {
     ref.read(AppThemeProvider.notifier).state = {"theme": newTheme};
   }
 
+  void _setAutomatic(WidgetRef ref) {
+    if (isSwitchOnNow) {
+      final currentTime = DateTime.now();
+      final isDayTime = currentTime.hour >= 6 && currentTime.hour < 18;
+      final newTheme = isDayTime ? lightTheme : darkTheme;
+      setState(() {
+        selectedMode = isDayTime ? "light" : "dark";
+      });
+      ref.read(AppThemeProvider.notifier).state = {"theme": newTheme};
+    }
+
+    if (!isSwitchOnNow) {
+      final newTheme = darkTheme;
+      setState(() {
+        selectedMode = "dark";
+      });
+      ref.read(AppThemeProvider.notifier).state = {"theme": newTheme};
+    }
+  }
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   _loadSelectedMode(); // Load selected mode when the widget is initialized
+  // }
+
+  // // Load selected mode from SharedPreferences
+  // void _loadSelectedMode() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     selectedMode = prefs.getString('selectedMode') ?? "dark";
+  //   });
+  // }
+
+  // // Save selected mode to SharedPreferences
+  // void _saveSelectedMode(String mode) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('selectedMode', mode);
+  // }
+
   @override
   Widget build(BuildContext context) {
+    super.build(
+        context); // Call super build method to ensure state is kept alive
+
     return Scaffold(
       appBar: CustomAppBar().generalbar(context, "Display & Theme"),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Consumer(
           builder: (context, ref, child) {
-            // final selectedTheme = ref.watch(AppThemeProvider)["theme"];
-            // print(selectedTheme);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -72,17 +113,16 @@ class _AppThemeModeState extends State<AppThemeMode> {
                                       if (!isSelected) {
                                         setState(() {
                                           _toggleTheme(ref);
+
                                           selectedMode = mode;
                                         });
                                       }
-                                      // setState(() {
-                                      //   _toggleTheme(ref);
-                                      //   selectedMode =
-                                      //       mode; // Update selected mode
-                                      // });
                                     },
                                   ),
-                                  Text(mode.toUpperCase())
+                                  Text(
+                                    mode.toUpperCase(),
+                                    style: TextStyle(color: Colors.white),
+                                  )
                                 ],
                               );
                             }).toList()),
@@ -94,13 +134,18 @@ class _AppThemeModeState extends State<AppThemeMode> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Automatic"),
+                              Text(
+                                "Automatic",
+                                style: TextStyle(color: Colors.white),
+                              ),
                               CustomSwitch.buildSwitch(
                                 context,
                                 isSwitchOn: isSwitchOnNow,
                                 onChanged: (value) {
                                   setState(() {
                                     isSwitchOnNow = value;
+                                    _setAutomatic(ref);
+                                    selectedMode;
                                   });
                                 },
                               ),
@@ -118,15 +163,7 @@ class _AppThemeModeState extends State<AppThemeMode> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true; // Override wantKeepAlive to return true
 }
-
-
-// Container(
-//   color: selectedTheme == darkTheme ? Colors.black : Colors.white,
-//   child: Text(
-//     "This text has different color based on the selected theme",
-//     style: TextStyle(
-//       color: selectedTheme == darkTheme ? Colors.white : Colors.black,
-//     ),
-//   ),
-// )

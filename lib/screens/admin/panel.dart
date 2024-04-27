@@ -63,7 +63,7 @@ class _PanelState extends State<Panel> {
       "icon": Icons.run_circle_rounded,
       "title": 'Active Users',
       "number": 300,
-      "bg": Color.fromARGB(255, 242, 255, 0),
+      "bg": const Color.fromARGB(255, 242, 255, 0),
       "route": "manage_users"
     },
     {
@@ -77,7 +77,7 @@ class _PanelState extends State<Panel> {
       "icon": Icons.restart_alt_rounded,
       "title": 'Returning Users',
       "number": 200,
-      "bg": Color.fromARGB(255, 0, 255, 213),
+      "bg": const Color.fromARGB(255, 0, 255, 213),
       "route": "manage_users"
     },
     {
@@ -91,7 +91,7 @@ class _PanelState extends State<Panel> {
       "icon": Icons.align_vertical_bottom_sharp,
       "title": "Most common with Age Group 18-24",
       "number": 180,
-      "bg": Color.fromARGB(255, 69, 69, 255),
+      "bg": const Color.fromARGB(255, 69, 69, 255),
       "route": ""
     },
   ];
@@ -137,7 +137,7 @@ class _PanelState extends State<Panel> {
 
   @override
   Widget build(BuildContext context) {
-    Color rootcolor = Utilities().appColors(context).secondary;
+    Color secondary = Utilities().appColors(context).secondary;
 
     // print(day);
 
@@ -146,325 +146,326 @@ class _PanelState extends State<Panel> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  ComponentSlideIns(
-                    beginOffset: Offset(-2, 0),
-                    child: Card(
-                      surfaceTintColor: Colors.transparent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 28.0, vertical: 4),
-                            child: Text("Welcome, Oluwajomiloju!",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 21.sp, color: Colors.black)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 1.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ComponentSlideIns(
-                        beginOffset: Offset(2, 0),
-                        child: Container(
-                          width: 46.w,
-                          height: 20.h,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.teal),
-                          child: Card(
-                            color: Colors.black,
-                            surfaceTintColor: Colors.transparent,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Text(
-                                  currentQuote,
+          child: Consumer(builder: (context, ref, child) {
+            final selectedTheme = ref.watch(AppThemeProvider)["theme"];
+            Color color = selectedTheme == darkTheme ? secondary : Colors.white;
+            return Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    ComponentSlideIns(
+                      beginOffset: const Offset(-2, 0),
+                      child: Card(
+                        surfaceTintColor: Colors.transparent,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 28.0, vertical: 4),
+                              child: Text("Welcome, Oluwajomiloju!",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: Utilities()
-                                          .appColors(context)
-                                          .secondary,
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
+                                      fontSize: 21.sp, color: Colors.black)),
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                      ComponentSlideIns(
-                        beginOffset: Offset(-2, 0),
-                        child: Container(
-                          width: 46.w,
-                          height: 20.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.teal,
-                          ),
-                          child: Card(
-                            color: Colors.black,
-                            surfaceTintColor: Colors.transparent,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 32,
-                                    backgroundColor: Colors.white,
-                                    child: Text(
-                                      day,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 22.sp,
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                  ),
-                                  Text(
-                                    "$month, $year ",
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ComponentSlideIns(
+                          beginOffset: const Offset(2, 0),
+                          child: Container(
+                            width: 46.w,
+                            height: 20.h,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.teal),
+                            child: Card(
+                              color: Colors.black,
+                              surfaceTintColor: Colors.transparent,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: Text(
+                                    currentQuote,
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: Utilities()
-                                            .appColors(context)
-                                            .secondary,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    // "Current Time: $time ${int.parse(time.split(':')[0]) < 12 ? "A.M" : "P.M"}",
-                                    "Current Time: $time ",
-                                    style: TextStyle(
-                                        color: Utilities()
-                                            .appColors(context)
-                                            .secondary,
+                                        color: color,
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.w500),
-                                  )
-                                ],
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              ComponentSlideIns(
-                beginOffset: Offset(-2, 0),
-                child: Container(
-                  width: 96.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.white,
-                  ),
-                  height: 32.h,
-                  child: Card(
-                    color: Colors.black,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            "See User Stats",
-                            style: TextStyle(fontSize: 18.sp, color: rootcolor),
-                          ),
-                          Divider(
-                            color: rootcolor,
-                          ),
-                          Row(
-                            children: [
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    width: 45.w,
-                                    height: 24.h,
-                                    child: ListView.builder(
-                                        itemCount: engagementData.length,
-                                        itemBuilder: (context, index) {
-                                          // final entry = engagementData[index];
-                                          // engagementData[index]: This retrieves the map at the specified index in the engagementData list.
-                                          // final key = entry.keys.first;
-                                          // entry.keys.first: This retrieves the first key of the map stored in the variable entry.
-                                          // final value = entry[key];
-                                          // entry[key]: This retrieves the value corresponding to the key key in the map stored in the variable entry.
-                                          return Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  if (engagementData[index]
-                                                              ["route"] ==
-                                                          "" ||
-                                                      engagementData[index]
-                                                              ["route"] ==
-                                                          null) {
-                                                    return;
-                                                  } else {
-                                                    Navigator.pushNamed(
-                                                        context,
-                                                        engagementData[index]
-                                                            ["route"]);
-                                                  }
-                                                },
-                                                child: ListTile(
-                                                  leading: Icon(
-                                                    engagementData[index]
-                                                        ["icon"],
-                                                    // size: 12,
-                                                    color: engagementData[index]
-                                                        ["bg"],
-                                                  ),
-                                                  title: Text(
-                                                    engagementData[index]
-                                                        ["title"],
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                  subtitle: Text(
-                                                      engagementData[index]
-                                                              ["number"]
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          color: Color.fromARGB(
-                                                              172,
-                                                              255,
-                                                              255,
-                                                              255))),
-                                                ),
-                                              ),
-                                              if (index !=
-                                                  engagementData.length - 1)
-                                                Divider(
-                                                  height: 6,
-                                                )
-                                            ],
-                                          );
-                                        }),
-                                  ),
-                                ],
-                              ),
-                              Expanded(
-                                child: AspectRatio(
-                                  aspectRatio: 1,
-                                  child: PieChart(
-                                    PieChartData(
-                                      sections: engagementData.map((entry) {
-                                        return PieChartSectionData(
-                                          color: entry["bg"],
-                                          // value: entry["number"].toDouble(),
-                                          badgeWidget: Icon(
-                                            entry["icon"],
-                                            size: 26,
+                        ComponentSlideIns(
+                          beginOffset: const Offset(-2, 0),
+                          child: Container(
+                            width: 46.w,
+                            height: 20.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.teal,
+                            ),
+                            child: Card(
+                              color: Colors.black,
+                              surfaceTintColor: Colors.transparent,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 32,
+                                      backgroundColor: Colors.white,
+                                      child: Text(
+                                        day,
+                                        style: TextStyle(
                                             color: Colors.black,
-                                          ),
-                                          radius: 80,
-                                        );
-                                      }).toList(),
-                                      sectionsSpace: 0,
+                                            fontSize: 22.sp,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                    ),
+                                    Text(
+                                      "$month, $year ",
+                                      style: TextStyle(
+                                          color: color,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Text(
+                                      // "Current Time: $time ${int.parse(time.split(':')[0]) < 12 ? "A.M" : "P.M"}",
+                                      "Current Time: $time ",
+                                      style: TextStyle(
+                                          color: color,
+                                          fontSize: 15.sp,
+                                          fontWeight: FontWeight.w500),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                ComponentSlideIns(
+                  beginOffset: const Offset(-2, 0),
+                  child: Container(
+                    width: 96.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    height: 32.h,
+                    child: Card(
+                      color: Colors.black,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              "See User Stats",
+                              style: TextStyle(fontSize: 18.sp, color: color),
+                            ),
+                            Divider(
+                              color: color,
+                            ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    SizedBox(
+                                      width: 45.w,
+                                      height: 24.h,
+                                      child: ListView.builder(
+                                          itemCount: engagementData.length,
+                                          itemBuilder: (context, index) {
+                                            // final entry = engagementData[index];
+                                            // engagementData[index]: This retrieves the map at the specified index in the engagementData list.
+                                            // final key = entry.keys.first;
+                                            // entry.keys.first: This retrieves the first key of the map stored in the variable entry.
+                                            // final value = entry[key];
+                                            // entry[key]: This retrieves the value corresponding to the key key in the map stored in the variable entry.
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    if (engagementData[index]
+                                                                ["route"] ==
+                                                            "" ||
+                                                        engagementData[index]
+                                                                ["route"] ==
+                                                            null) {
+                                                      return;
+                                                    } else {
+                                                      Navigator.pushNamed(
+                                                          context,
+                                                          engagementData[index]
+                                                              ["route"]);
+                                                    }
+                                                  },
+                                                  child: ListTile(
+                                                    leading: Icon(
+                                                      engagementData[index]
+                                                          ["icon"],
+                                                      // size: 12,
+                                                      color:
+                                                          engagementData[index]
+                                                              ["bg"],
+                                                    ),
+                                                    title: Text(
+                                                      engagementData[index]
+                                                          ["title"],
+                                                      style: const TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                    subtitle: Text(
+                                                        engagementData[index]
+                                                                ["number"]
+                                                            .toString(),
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    172,
+                                                                    255,
+                                                                    255,
+                                                                    255))),
+                                                  ),
+                                                ),
+                                                if (index !=
+                                                    engagementData.length - 1)
+                                                  const Divider(
+                                                    height: 6,
+                                                  )
+                                              ],
+                                            );
+                                          }),
+                                    ),
+                                  ],
+                                ),
+                                Expanded(
+                                  child: AspectRatio(
+                                    aspectRatio: 1,
+                                    child: PieChart(
+                                      PieChartData(
+                                        sections: engagementData.map((entry) {
+                                          return PieChartSectionData(
+                                            color: entry["bg"],
+                                            // value: entry["number"].toDouble(),
+                                            badgeWidget: Icon(
+                                              entry["icon"],
+                                              size: 26,
+                                              color: Colors.black,
+                                            ),
+                                            radius: 80,
+                                          );
+                                        }).toList(),
+                                        sectionsSpace: 0,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              ComponentSlideIns(
-                beginOffset: Offset(0, 2),
-                child: Container(
-                  width: 96.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.teal,
-                  ),
-                  height: 22.h,
-                  child: Card(
-                    color: Colors.black,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Manage Continent DB Table",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 18.sp),
-                          ),
-                          const Divider(
-                            color: Colors.teal,
-                          ),
-                          Expanded(
-                              child: GridView.builder(
-                                  itemCount: operations.length,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          mainAxisSpacing: 0,
-                                          crossAxisSpacing: 50,
-                                          childAspectRatio: 5 / 2),
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        if (operations[index]["route"] == "" ||
-                                            operations[index]["route"] ==
-                                                null) {
-                                          return;
-                                        } else {
-                                          Navigator.pushNamed(context,
-                                              operations[index]["route"]);
-                                        }
-                                      },
-                                      child: ListTile(
-                                        selectedColor: Colors.amberAccent,
-                                        leading: const Icon(
-                                          Icons.circle,
-                                          size: 12,
-                                          color: Colors.white,
-                                        ),
-                                        title: Text(
-                                          "${operations[index]["op"]} Continent",
-                                          style: TextStyle(
+                SizedBox(
+                  height: 2.h,
+                ),
+                ComponentSlideIns(
+                  beginOffset: const Offset(0, 2),
+                  child: Container(
+                    width: 96.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.teal,
+                    ),
+                    height: 22.h,
+                    child: Card(
+                      color: Colors.black,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Manage Continent DB Table",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18.sp),
+                            ),
+                            const Divider(
+                              color: Colors.teal,
+                            ),
+                            Expanded(
+                                child: GridView.builder(
+                                    itemCount: operations.length,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            mainAxisSpacing: 0,
+                                            crossAxisSpacing: 50,
+                                            childAspectRatio: 5 / 2),
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          if (operations[index]["route"] ==
+                                                  "" ||
+                                              operations[index]["route"] ==
+                                                  null) {
+                                            return;
+                                          } else {
+                                            Navigator.pushNamed(context,
+                                                operations[index]["route"]);
+                                          }
+                                        },
+                                        child: ListTile(
+                                          selectedColor: Colors.amberAccent,
+                                          leading: const Icon(
+                                            Icons.circle,
+                                            size: 12,
                                             color: Colors.white,
                                           ),
+                                          title: Text(
+                                            "${operations[index]["op"]} Continent",
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }))
-                        ],
+                                      );
+                                    }))
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-            ],
-          ),
+                SizedBox(
+                  height: 2.h,
+                ),
+              ],
+            );
+          }),
         ),
       ),
     );

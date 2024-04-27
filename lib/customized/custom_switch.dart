@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reality_shift/imports.dart';
 
 class CustomSwitch {
   CustomSwitch();
@@ -8,12 +7,12 @@ class CustomSwitch {
       {required bool isSwitchOn, required ValueChanged<bool> onChanged}) {
     // bool isSwitchOn = false;
     Color newcolor = Colors.white;
-    Color rootcolor = Utilities().appColors(context).primary;
+    Color unchanged = const Color.fromARGB(255, 15, 34, 45);
     return Switch(
-      activeColor: rootcolor,
+      activeColor: unchanged,
       inactiveThumbColor: newcolor,
       activeTrackColor: newcolor,
-      inactiveTrackColor: rootcolor,
+      inactiveTrackColor: unchanged,
       value: isSwitchOn,
       onChanged: onChanged,
     );

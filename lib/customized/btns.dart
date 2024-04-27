@@ -26,6 +26,7 @@ class Btns {
   }
 
   Widget continentBtn(context, title, func) {
+    Color unchanged = const Color.fromARGB(255, 15, 34, 45);
 
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -37,6 +38,7 @@ class Btns {
         onPressed: func,
         child: Text(
           "$title",
+          style: TextStyle(color: unchanged),
         ));
   }
 
