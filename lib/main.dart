@@ -40,6 +40,9 @@ class MyApp extends StatelessWidget {
               "full_user_profile": (context) => const FullUserProfile(),
               "app_theme": (context) => const AppThemeMode(),
 
+              // notes
+              "all_notes": (context) => const AllNotes(),
+
               // admin
               "admin_panel": (context) => const Panel(),
               "create_continent": (context) => const CreateContinent(),
@@ -127,3 +130,4 @@ final darkTheme = ThemeData(
 // optimize all images
 // validate editing user profile
 // verify in back end first
+// add all notes to continents
