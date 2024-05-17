@@ -38,6 +38,7 @@ export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:device_info_plus/device_info_plus.dart';
 export 'package:fl_chart/fl_chart.dart';
 export 'package:url_launcher/url_launcher.dart';
+export 'package:cached_network_image/cached_network_image.dart';
 
 // services
 export 'package:reality_shift/services/utilities.dart';
