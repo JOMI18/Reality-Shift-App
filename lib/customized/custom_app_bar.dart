@@ -19,22 +19,28 @@ class CustomAppBar {
       ),
       automaticallyImplyLeading: false,
       // foregroundColor: secondary,
-      title: ComponentSlideIns(
-        beginOffset: Offset(0, -2),
-        child: Row(
-          children: [
-            Image.asset(
-              "lib/assets/images/logos/logo-icon-dark.png",
-              height: 5.h,
-            ),
-            SizedBox(
-              width: 5.w,
-            ),
-            Text("$title",
-                textAlign: TextAlign.end, style: TextStyle(fontSize: 20.sp)),
-          ],
-        ),
-      ),
+      title: Consumer(builder: (context, ref, child) {
+        final selectedTheme = ref.watch(AppThemeProvider)["theme"];
+        String img = selectedTheme == darkTheme
+            ? "logo-icon-dark.png"
+            : "logo-icon-light.png";
+        return ComponentSlideIns(
+          beginOffset: Offset(0, -2),
+          child: Row(
+            children: [
+              Image.asset(
+                "lib/assets/images/logos/$img",
+                height: 5.h,
+              ),
+              SizedBox(
+                width: 5.w,
+              ),
+              Text("$title",
+                  textAlign: TextAlign.end, style: TextStyle(fontSize: 20.sp)),
+            ],
+          ),
+        );
+      }),
     );
   }
 
