@@ -75,6 +75,7 @@ class CustomAppBar {
                   children: [
                     CircleAvatar(
                       radius: 18,
+                      backgroundColor: Colors.grey.shade200,
                       backgroundImage: AssetImage(
                         "lib/assets/images/countries/$img",
                       ),

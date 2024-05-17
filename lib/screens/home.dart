@@ -20,6 +20,23 @@ class _HomeState extends State<Home> {
   late StreamController quoteController;
   late Stream quoteStream;
   late String currentQuote;
+  Timer? quoteTimer;
+  Timer? imageTimer;
+
+  List<String> data = [
+    'Apple',
+    'Banana',
+    'Cherry',
+    'Date',
+    'Elderberry',
+    'Fig',
+    'Grapes',
+    'Honeydew',
+    'Kiwi',
+    'Lemon',
+  ];
+
+  List<String> searchResults = [];
 
   List img = [
     "sky.jpg",
@@ -74,13 +91,18 @@ class _HomeState extends State<Home> {
     {"bg": Colors.pink, "title": "Culture", "img": "culture.webp", "route": ""},
     {"bg": Colors.teal, "title": "Fashion", "img": "fashion.jpg", "route": ""},
     {"bg": Colors.purple, "title": "Food", "img": "food.jpg", "route": ""},
-    {"bg": Colors.blue, "title": "Favs", "img": "favs.jpg", "route": ""},
-    {"bg": Colors.teal, "title": "Profile", "img": "profile.jpg", "route": ""},
+    {"bg": Colors.blue, "title": "Favs", "img": "favs.jpg", "route": "favs"},
+    {
+      "bg": Colors.teal,
+      "title": "Profile",
+      "img": "profile.jpg",
+      "route": "full_user_profile"
+    },
     {
       "bg": Colors.deepOrange,
       "title": "Settings",
       "img": "settings.jpg",
-      "route": ""
+      "route": "user"
     },
     {"bg": Colors.amber, "title": "Tips", "img": "tips.jpg", "route": ""},
     {"bg": Colors.pink, "title": "Nature", "img": "nature.jpg", "route": ""},
@@ -118,7 +140,7 @@ class _HomeState extends State<Home> {
   void _startAutoScroll() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // This change ensures that the _startAutoScroll method is called only after the first frame has been rendered, and it also checks if the PageController has clients (i.e., is attached to any scroll views) before trying to animate to a page.
-      Timer.periodic(const Duration(seconds: 10), (timer) {
+      imageTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
         if (page_controller.hasClients) {
           if (currentIndex < img.length - 1) {
             currentIndex++;
@@ -137,7 +159,7 @@ class _HomeState extends State<Home> {
   }
 
   void startTimer() {
-    Timer.periodic(const Duration(minutes: 1), (timer) {
+    quoteTimer = Timer.periodic(const Duration(minutes: 1), (timer) {
       if (!quoteController.isClosed) {
         // Check if the controller is not closed
         final newQuote = _getRandomQuote();
@@ -146,6 +168,14 @@ class _HomeState extends State<Home> {
           currentQuote = newQuote;
         });
       }
+    });
+  }
+
+  void onQueryChanged(String query) {
+    setState(() {
+      searchResults = data
+          .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+          .toList();
     });
   }
 
@@ -179,6 +209,8 @@ class _HomeState extends State<Home> {
     super.dispose();
     page_controller.dispose();
     quoteController.close();
+    quoteTimer?.cancel();
+    imageTimer?.cancel();
   }
 
   @override
@@ -198,280 +230,324 @@ class _HomeState extends State<Home> {
                 selectedTheme == darkTheme ? primary : secondary;
             return Column(
               children: [
-                ComponentSlideIns(
-                  beginOffset: const Offset(-2, 0),
-                  child: Column(
-                    children: [
-                      CustomTextField.input(
-                        context,
-                        hint: "What would you like to explore",
-                        fieldname: "Search Bar",
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: secondary,
-                        ),
-                      )
-                    ],
+                _buildSearchBar(context, secondary),
+                SizedBox(
+                  height: 2.h,
+                ),
+                SizedBox(
+                  height: 20.h,
+                  child: ListView.builder(
+                    itemCount: searchResults.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(searchResults[index]),
+                      );
+                    },
                   ),
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
-                ComponentSlideIns(
-                  beginOffset: const Offset(2, 0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(children: [
-                          Icon(
-                            Icons.pin_drop_rounded,
-                            color: secondary,
-                          ),
-                          SizedBox(
-                            width: 3.w,
-                          ),
-                          Text(
-                            "Scenic Serenity: Discover the World",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: secondary, fontSize: 17.sp),
-                          ),
-                        ]),
-                      ),
-                      SizedBox(
-                        height: 35.h,
-                        child: PageView.builder(
-                          controller: page_controller,
-                          onPageChanged: (index) {
-                            setState(() {
-                              currentIndex = index;
-                            });
-                          },
-                          scrollDirection: Axis.horizontal,
-                          itemCount: img.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              height: 30.h,
-                              width: 94.w,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border:
-                                      Border.all(width: 2, color: secondary),
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          "lib/assets/images/cards/${img[index]}"),
-                                      fit: BoxFit.cover)),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                _buildImageCarousel(secondary),
+                SizedBox(
+                  height: 2.h,
+                ),
+                _buildQuoteCard(secondary, colorbgWhite),
+                SizedBox(
+                  height: 2.h,
+                ),
+                _buildNavigationGrid(
+                  secondary,
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
-                ComponentSlideIns(
-                  beginOffset: const Offset(-2, 0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.sunny,
-                              color: secondary,
-                              size: 22,
-                            ),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text(
-                                "Inspiration for Every Step: Words to Lift Your Spirit",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: secondary, fontSize: 16.sp))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: secondary),
-                            borderRadius: BorderRadius.circular(19)),
-                        child: Card(
-                          //    shape: RoundedRectangleBorder(
-                          //   borderRadius: BorderRadius.circular(
-                          //       10.0),
-                          //   side: BorderSide(
-                          //       width: 2,
-                          //       color:
-                          //           secondary),
-                          // ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Center(
-                              child: Text(
-                                currentQuote,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: colorbgWhite,
-                                    // color: Colors.black,
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                ComponentSlideIns(
-                  beginOffset: const Offset(2, 0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.travel_explore_rounded,
-                              color: secondary,
-                              size: 22,
-                            ),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text(
-                                "Explore Boundless Horizons: Begin Your Adventure",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: secondary, fontSize: 16.sp))
-                          ],
-                        ),
-                      ),
-                      GridView.builder(
-                          shrinkWrap: true,
-                          itemCount: navs.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 15,
-                                  crossAxisSpacing: 15,
-                                  childAspectRatio: 1.5),
-                          itemBuilder: (context, index) {
-                            final img = navs[index]["img"];
-                            return ClipRect(
-                              clipBehavior:
-                                  Clip.antiAlias, // Set the clip behavior
-
-                              child: Container(
-                                height: 4.h,
-                                width: 30.w,
-                                decoration: BoxDecoration(
-                                    color: navs[index]["bg"],
-                                    border:
-                                        Border.all(width: 2, color: secondary),
-                                    borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(12),
-                                        bottomLeft: Radius.circular(12))),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      navs[index]["title"],
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    Transform.rotate(
-                                      angle: 0.8,
-                                      origin: const Offset(34, 80),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                width: 2, color: secondary),
-                                            borderRadius:
-                                                BorderRadius.circular(60)),
-                                        child: CircleAvatar(
-                                          radius: 60,
-                                          backgroundImage: AssetImage(
-                                            "lib/assets/images/navs/$img",
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          })
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                ComponentSlideIns(
-                  beginOffset: const Offset(-2, 0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.travel_explore_rounded,
-                              color: secondary,
-                              size: 22,
-                            ),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            Text(
-                                "Endless Services: Your Passport to Convenience",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: secondary, fontSize: 16.sp))
-                          ],
-                        ),
-                      ),
-                      ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: service.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              _launchURL(service[index]
-                                  ["url"]); // Launch URL when tapped
-                            },
-                            child: Card(
-                              child: ListTile(
-                                leading: Icon(
-                                  service[index]["icon"],
-                                  color: service[index]["bg"],
-                                ),
-                                title: Text(service[index]["title"]),
-                                subtitle: Text(service[index]["subtext"]),
-                                trailing: const Icon(
-                                  Icons.open_in_browser_rounded,
-                                  color: Color.fromARGB(255, 0, 88, 3),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                )
+                _buildServiceList(secondary)
               ],
             );
           }),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSearchBar(context, secondary) {
+    String query = '';
+
+    void onQueryChanged(String newQuery) {
+      setState(() {
+        query = newQuery;
+      });
+    }
+
+    return ComponentSlideIns(
+      beginOffset: const Offset(-2, 0),
+      child: Column(
+        children: [
+          CustomTextField.input(
+            onChanged: onQueryChanged,
+            context,
+            hint: "What would you like to explore",
+            fieldname: "Search Bar",
+            prefixIcon: Icon(
+              Icons.search,
+              color: secondary,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImageCarousel(secondary) {
+    return ComponentSlideIns(
+      beginOffset: const Offset(2, 0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(children: [
+              Icon(
+                Icons.pin_drop_rounded,
+                color: secondary,
+              ),
+              SizedBox(
+                width: 3.w,
+              ),
+              Text(
+                "Scenic Serenity: Discover the World",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: secondary, fontSize: 17.sp),
+              ),
+            ]),
+          ),
+          SizedBox(
+            height: 35.h,
+            child: PageView.builder(
+              controller: page_controller,
+              onPageChanged: (index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              scrollDirection: Axis.horizontal,
+              itemCount: img.length,
+              itemBuilder: (context, index) {
+                final image = "lib/assets/images/cards/${img[index]}";
+                return Container(
+                  height: 30.h,
+                  width: 94.w,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(width: 2, color: secondary),
+                      image: DecorationImage(
+                          image: AssetImage(image), fit: BoxFit.cover)),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuoteCard(secondary, colorbgWhite) {
+    return ComponentSlideIns(
+      beginOffset: const Offset(-2, 0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.sunny,
+                  color: secondary,
+                  size: 22,
+                ),
+                SizedBox(
+                  width: 2.w,
+                ),
+                Text("Inspiration for Every Step: Words to Lift Your Spirit",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: secondary, fontSize: 16.sp))
+              ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: secondary),
+                borderRadius: BorderRadius.circular(19)),
+            child: Card(
+              // shape: RoundedRectangleBorder(
+              //   borderRadius: BorderRadius.circular(10.0),
+              //   side: BorderSide(width: 2, color: secondary),
+              // ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Center(
+                  child: Text(
+                    currentQuote,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: colorbgWhite,
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavigationGrid(secondary) {
+    return ComponentSlideIns(
+      beginOffset: const Offset(2, 0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.travel_explore_rounded,
+                  color: secondary,
+                  size: 22,
+                ),
+                SizedBox(
+                  width: 2.w,
+                ),
+                Text("Explore Boundless Horizons: Begin Your Adventure",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: secondary, fontSize: 16.sp))
+              ],
+            ),
+          ),
+          GridView.builder(
+              shrinkWrap: true,
+              itemCount: navs.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 15,
+                  childAspectRatio: 1.5),
+              itemBuilder: (context, index) {
+                final img = "lib/assets/images/navs/${navs[index]["img"]}";
+                final route = navs[index]["route"];
+                final bg = navs[index]["bg"];
+                final title = navs[index]["title"];
+
+                return ClipRect(
+                  clipBehavior: Clip.antiAlias, // Set the clip behavior
+
+                  child: GestureDetector(
+                    onTap: () {
+                      if (route == "") {
+                        return;
+                      }
+                      Navigator.pushNamed(context, route);
+                    },
+                    child: Container(
+                      height: 4.h,
+                      width: 30.w,
+                      decoration: BoxDecoration(
+                          color: bg,
+                          border: Border.all(width: 2, color: secondary),
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              bottomLeft: Radius.circular(12))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            title,
+                            textAlign: TextAlign.center,
+                          ),
+                          Transform.rotate(
+                            angle: 0.8,
+                            origin: const Offset(34, 80),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(width: 2, color: secondary),
+                                  borderRadius: BorderRadius.circular(60)),
+                              child: CircleAvatar(
+                                radius: 60,
+                                backgroundImage: AssetImage(
+                                  img,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              })
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServiceList(secondary) {
+    return ComponentSlideIns(
+      beginOffset: const Offset(-2, 0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.travel_explore_rounded,
+                  color: secondary,
+                  size: 22,
+                ),
+                SizedBox(
+                  width: 2.w,
+                ),
+                Text("Endless Services: Your Passport to Convenience",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: secondary, fontSize: 16.sp))
+              ],
+            ),
+          ),
+          ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: service.length,
+            itemBuilder: (context, index) {
+              final link = service[index]["url"];
+              final icon = service[index]["icon"];
+              final bg = service[index]["bg"];
+              final title = service[index]["title"];
+              final subtext = service[index]["subtext"];
+              return GestureDetector(
+                onTap: () {
+                  _launchURL(link); // Launch URL when tapped
+                },
+                child: Card(
+                  child: ListTile(
+                    leading: Icon(
+                      icon,
+                      color: bg,
+                    ),
+                    title: Text(title),
+                    subtitle: Text(subtext),
+                    trailing: const Icon(
+                      Icons.open_in_browser_rounded,
+                      color: Color.fromARGB(255, 0, 88, 3),
+                    ),
+                  ),
+                ),
+              );
+            },
+          )
+        ],
       ),
     );
   }
