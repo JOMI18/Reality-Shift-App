@@ -22,21 +22,22 @@ class _HomeState extends State<Home> {
   late String currentQuote;
   Timer? quoteTimer;
   Timer? imageTimer;
+  TextEditingController searchController = TextEditingController();
+
+  bool isSearchActivated = false;
 
   List<String> data = [
-    'Apple',
-    'Banana',
-    'Cherry',
-    'Date',
-    'Elderberry',
-    'Fig',
-    'Grapes',
-    'Honeydew',
-    'Kiwi',
-    'Lemon',
+    'Food',
+    "Africa",
+    'Culture',
+    "Fashion",
+    "Asia",
+    "Tech",
+    "America",
   ];
 
   List<String> searchResults = [];
+  List<String> recentSearch = [];
 
   List img = [
     "sky.jpg",
@@ -171,6 +172,23 @@ class _HomeState extends State<Home> {
     });
   }
 
+  // void onQueryChanged(String query) {
+  //   if (query.isEmpty) {
+  //     setState(() {
+  //       searchResults = recentSearch;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       searchResults = data
+  //           .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+  //           .toList();
+  //       if (!recentSearch.contains(query)) {
+  //         recentSearch.add(query);
+  //       }
+  //     });
+  //   }
+  // }
+
   void onQueryChanged(String query) {
     setState(() {
       searchResults = data
@@ -178,6 +196,28 @@ class _HomeState extends State<Home> {
           .toList();
     });
   }
+
+  void onQuerySubmitted(String query) {
+    setState(() {
+      if (query.isNotEmpty && !recentSearch.contains(query)) {
+        recentSearch.add(query);
+      }
+      searchResults = data
+          .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      
+      searchController.clear();
+    });
+  }
+// void onQueryChanged(String query) {
+//   setState(() {
+//     searchResults = data.where((item) {
+//       final distance = levenshtein(item.toLowerCase(), query.toLowerCase());
+//       // Consider items with a small edit distance (e.g., 2) as matches
+//       return distance <= 2 || item.toLowerCase().contains(query.toLowerCase());
+//     }).toList();
+//   });
+// }
 
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
@@ -218,74 +258,70 @@ class _HomeState extends State<Home> {
     Color secondary = Utilities().appColors(context).secondary;
     Color primary = Utilities().appColors(context).primary;
 
-    return Scaffold(
-      appBar: CustomAppBar()
-          .dashboardbar(context, "Hi, Oluwajomiloju", "germany.png"),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Consumer(builder: (context, ref, _) {
-            final selectedTheme = ref.watch(AppThemeProvider)["theme"];
-            Color colorbgWhite =
-                selectedTheme == darkTheme ? primary : secondary;
-            return Column(
-              children: [
-                _buildSearchBar(context, secondary),
-                SizedBox(
-                  height: 2.h,
-                ),
-                SizedBox(
-                  height: 20.h,
-                  child: ListView.builder(
-                    itemCount: searchResults.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(searchResults[index]),
-                      );
-                    },
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: CustomAppBar()
+            .dashboardbar(context, "Hi, Oluwajomiloju", "germany.png"),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Consumer(builder: (context, ref, _) {
+              final selectedTheme = ref.watch(AppThemeProvider)["theme"];
+              Color colorbgWhite =
+                  selectedTheme == darkTheme ? primary : secondary;
+              return Column(
+                children: [
+                  _buildSearchBar(context, secondary),
+                  SizedBox(
+                    height: 2.h,
                   ),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                _buildImageCarousel(secondary),
-                SizedBox(
-                  height: 2.h,
-                ),
-                _buildQuoteCard(secondary, colorbgWhite),
-                SizedBox(
-                  height: 2.h,
-                ),
-                _buildNavigationGrid(
-                  secondary,
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                _buildServiceList(secondary)
-              ],
-            );
-          }),
+                  isSearchActivated
+                      ? _buildSearchScreen(secondary)
+                      : Column(
+                          children: [
+                            _buildImageCarousel(secondary),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            _buildQuoteCard(secondary, colorbgWhite),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            _buildNavigationGrid(
+                              secondary,
+                            ),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            _buildServiceList(secondary)
+                          ],
+                        )
+                ],
+              );
+            }),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildSearchBar(context, secondary) {
-    String query = '';
-
-    void onQueryChanged(String newQuery) {
-      setState(() {
-        query = newQuery;
-      });
-    }
-
     return ComponentSlideIns(
       beginOffset: const Offset(-2, 0),
       child: Column(
         children: [
           CustomTextField.input(
+            onTap: () {
+              setState(() {
+                isSearchActivated = true;
+              });
+            },
             onChanged: onQueryChanged,
+            onFieldSubmitted: onQuerySubmitted,
+            controller: searchController,
             context,
             hint: "What would you like to explore",
             fieldname: "Search Bar",
@@ -295,6 +331,62 @@ class _HomeState extends State<Home> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buildSearchScreen(
+    secondary,
+  ) {
+    return SizedBox(
+      height: 80.h,
+      child: Card(
+        color: Colors.white,
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isSearchActivated = false;
+                  FocusScope.of(context).unfocus();
+                  // print(isSearchActivated);
+                });
+              },
+              child: ListTile(
+                trailing: const Icon(
+                  Icons.cancel,
+                  color: Colors.red,
+                ),
+                title: Text(
+                  "Cancel Search".toUpperCase(),
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 12.0,
+              ),
+              child: Divider(
+                color: Colors.red,
+                thickness: 6,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: searchResults.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      searchResults[index],
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
