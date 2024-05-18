@@ -34,11 +34,12 @@ export 'package:google_sign_in/google_sign_in.dart';
 export 'package:sign_in_with_apple/sign_in_with_apple.dart';
 export 'package:dio/dio.dart';
 export 'package:shared_preferences/shared_preferences.dart';
-export 'package:flutter_riverpod/flutter_riverpod.dart';
+export 'package:flutter_riverpod/flutter_riverpod.dart'; //state manager
 export 'package:device_info_plus/device_info_plus.dart';
 export 'package:fl_chart/fl_chart.dart';
-export 'package:url_launcher/url_launcher.dart';
-export 'package:cached_network_image/cached_network_image.dart';
+export 'package:url_launcher/url_launcher.dart'; // external links
+export 'package:cached_network_image/cached_network_image.dart'; // optimize loading time from networks
+// import 'package:levenshtein/levenshtein.dart'; //fuzzy search
 
 // services
 export 'package:reality_shift/services/utilities.dart';

@@ -12,12 +12,14 @@ class CustomTextField {
     bool readOnly = false,
     Icon? prefixIcon,
     bool obscureText = false,
+    bool onTapAlwaysCalled = false,
     Icon? suffixIcon,
     Color? color,
     VoidCallback? onSuffixIconTap,
     VoidCallback? onPrefixIconTap,
     VoidCallback? onTap,
     Function(String)? onChanged,
+    Function(String)? onFieldSubmitted,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,6 +34,8 @@ class CustomTextField {
         TextFormField(
           obscureText: obscureText,
           controller: controller,
+          onFieldSubmitted: onFieldSubmitted,
+          onTapAlwaysCalled: onTapAlwaysCalled,
           readOnly: readOnly,
           onTap: onTap,
           onChanged: onChanged,
@@ -53,7 +57,7 @@ class CustomTextField {
                 : null,
             contentPadding: const EdgeInsets.all(15),
             fillColor: Colors.white.withOpacity(0.5),
-            border: const OutlineInputBorder(),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           ),
         ),
       ],
