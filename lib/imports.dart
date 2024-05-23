@@ -40,6 +40,7 @@ export 'package:fl_chart/fl_chart.dart';
 export 'package:url_launcher/url_launcher.dart'; // external links
 export 'package:cached_network_image/cached_network_image.dart'; // optimize loading time from networks
 // import 'package:levenshtein/levenshtein.dart'; //fuzzy search
+export 'package:image_picker/image_picker.dart';
 
 // services
 export 'package:reality_shift/services/utilities.dart';
@@ -56,7 +57,7 @@ export 'package:reality_shift/controllers/auth_controller.dart';
 export 'package:reality_shift/controllers/location_controller.dart';
 
 // custom
-export 'package:reality_shift/customized/btns.dart';
+export 'package:reality_shift/customized/custom_btns.dart';
 export 'package:reality_shift/customized/custom_app_bar.dart';
 export 'package:reality_shift/customized/custom_text_field.dart';
 export 'package:reality_shift/customized/alerts/alert_info.dart';

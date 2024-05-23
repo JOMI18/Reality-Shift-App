@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
 
@@ -12,7 +14,7 @@ class _CreateContinentState extends State<CreateContinent> {
   List<Map<String, String>> facts = [];
   List<Map<String, Image>> countries = [];
   List lines = [];
-
+  File? _baseImage;
   late TextEditingController continent;
   late TextEditingController base_img;
   @override
@@ -31,6 +33,17 @@ class _CreateContinentState extends State<CreateContinent> {
     base_img.dispose();
   }
 
+  Future<void> pickImage() async {
+    print("object");
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _baseImage = File(pickedFile.path);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,10 +60,22 @@ class _CreateContinentState extends State<CreateContinent> {
               SizedBox(
                 height: 2.h,
               ),
-              CustomTextField.input(context,
-                  fieldname: "Continent Image",
-                  hint: "africa.png",
-                  controller: base_img),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Continent Image:",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  if (_baseImage != null) Image.file(_baseImage!),
+                  SizedBox(height: 5),
+                  Btns().continentImgBtn(context, pickImage)
+                ],
+              ),
+              // CustomTextField.input(context,
+              //     fieldname: "", hint: "africa.png", controller: base_img),
               SizedBox(
                 height: 2.h,
               ),
