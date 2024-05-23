@@ -132,3 +132,4 @@ final darkTheme = ThemeData(
 // validate editing user profile
 // verify in back end first
 // add all notes to continents
+// fix search navigation

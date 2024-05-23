@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:reality_shift/imports.dart';
 
 class Home extends StatefulWidget {
@@ -14,51 +11,108 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+//////////////////// SEARCH FUNCTIONALITY ////////////////////////
+  TextEditingController searchController = TextEditingController();
+  bool isSearchActivated = false;
+  Timer? debounceTimer;
+  List<String> searchSuggestions = [
+    // prettier-ignore
+    'Food', "Pizza", "Africa", 'Culture', "Fashion", "Asia", "Tech", "America",
+  ];
+  List<String> searchResults = [];
+
+  // Define a map for query-to-route mapping
+  final Map<String, String> queryRouteMap = {
+    'Paris': 'user',
+    'Food': 'favs',
+    // Add more query-to-route mappings as needed
+  };
+
+  void onQueryChanged(String query) {
+    // Added a Timer for debouncing the input to reduce the number of state updates. This is particularly useful for better performance in scenarios where the user types quickly.
+    debounceTimer?.cancel();
+    debounceTimer = Timer(Duration(milliseconds: 300), () {
+      setState(() {
+        searchResults = searchSuggestions
+            .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+        // print(searchResults);
+      });
+
+      if (query.isEmpty) {
+        searchResults = [];
+      }
+    });
+  }
+
+  void onQuerySubmitted(String query) {
+    setState(() {
+      if (query.isNotEmpty && !searchSuggestions.contains(query)) {
+        searchSuggestions.add(query);
+        print(searchSuggestions);
+      }
+
+      searchResults = searchSuggestions
+          .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+
+      searchController.clear();
+    });
+
+    // Print the query and the keys of the map for debugging
+    // print('Submitted query: $query');
+    // print('Query in lowercase: ${query.toLowerCase()}');
+    // print('Available routes: ${queryRouteMap.keys.toList()}');
+
+    // final routeName = queryRouteMap[query.toLowerCase()];
+    // print(routeName);
+    // if (routeName != null) {
+    //   Navigator.pushNamed(context, routeName);
+    // } else {
+    //   print('No route found for query: $query');
+    // }
+  }
+
+//////////////////// CAROUSEL FUNCTIONALITY ////////////////////////
   late PageController page_controller;
   int currentIndex = 0;
-  final Random random = Random();
-  late StreamController quoteController;
-  late Stream quoteStream;
-  late String currentQuote;
-  Timer? quoteTimer;
   Timer? imageTimer;
-  TextEditingController searchController = TextEditingController();
-
-  bool isSearchActivated = false;
-
-  List<String> data = [
-    'Food',
-    "Africa",
-    'Culture',
-    "Fashion",
-    "Asia",
-    "Tech",
-    "America",
-  ];
-
-  List<String> searchResults = [];
-  List<String> recentSearch = [];
 
   List img = [
-    "sky.jpg",
-    "taiwan.jpg",
-    "fruits.jpg",
-    "house.jpg",
-    "bread.jpg",
-    "koala.jpg",
-    "india.jpg",
-    "kebhab.jpg",
-    "art.jpg",
-    "veggies.jpg",
-    "statue.jpg",
-    "tree.jpg",
-    "temple.jpg",
-    "road.jpg",
-    "penguin.jpg",
-    "street.jpg",
-    "ice.jpg",
-    "waterfall.jpg"
+    // prettier-ignore
+    "sky.jpg", "taiwan.jpg", "fruits.jpg", "house.jpg", "bread.jpg",
+    "koala.jpg", "tree.jpg", "waterfall.jpg",
+    "india.jpg", "kebhab.jpg", "art.jpg", "veggies.jpg", "statue.jpg",
+    "temple.jpg", "road.jpg", "penguin.jpg", "street.jpg", "ice.jpg",
   ];
+
+  void _startAutoScroll() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // This change ensures that the _startAutoScroll method is called only after the first frame has been rendered, and it also checks if the PageController has clients (i.e., is attached to any scroll views) before trying to animate to a page.
+      imageTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+        if (page_controller.hasClients) {
+          if (currentIndex < img.length - 1) {
+            currentIndex++;
+          } else {
+            currentIndex = 0;
+            page_controller.jumpToPage(0); // Jump to the first page
+          }
+          page_controller.animateToPage(
+            currentIndex,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.ease,
+          );
+        }
+      });
+    });
+  }
+
+//////////////////// QUOTE FUNCTIONALITY ////////////////////////
+  late StreamController quoteController;
+  late Stream quoteStream;
+  final Random random = Random();
+  late String currentQuote;
+  Timer? quoteTimer;
 
   List quote = [
     "Believe you can, and you're halfway there. - Theodore Roosevelt",
@@ -88,6 +142,25 @@ class _HomeState extends State<Home> {
     "Peace I leave with you; my peace I give to you. Not as the world gives do I give to you. Let not your hearts be troubled, neither let them be afraid. - John 14:27"
   ];
 
+  String _getRandomQuote() {
+    // var intValue = Random().nextInt(10); // Value is >= 0 and < 10.
+    return quote[random.nextInt(quote.length)];
+  }
+
+  void startTimer() {
+    quoteTimer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      if (!quoteController.isClosed) {
+        // Check if the controller is not closed
+        final newQuote = _getRandomQuote();
+        quoteController.add(newQuote); // Add new quote to the stream
+        setState(() {
+          currentQuote = newQuote;
+        });
+      }
+    });
+  }
+
+//////////////////// NAVIGATION FUNCTIONALITY ////////////////////////
   List navs = [
     {"bg": Colors.pink, "title": "Culture", "img": "culture.webp", "route": ""},
     {"bg": Colors.teal, "title": "Fashion", "img": "fashion.jpg", "route": ""},
@@ -109,6 +182,7 @@ class _HomeState extends State<Home> {
     {"bg": Colors.pink, "title": "Nature", "img": "nature.jpg", "route": ""},
   ];
 
+//////////////////// SERVICE FUNCTIONALITY ////////////////////////
   List service = [
     {
       "bg": Colors.green,
@@ -133,92 +207,6 @@ class _HomeState extends State<Home> {
     },
   ];
 
-  String _getRandomQuote() {
-    // var intValue = Random().nextInt(10); // Value is >= 0 and < 10.
-    return quote[random.nextInt(quote.length)];
-  }
-
-  void _startAutoScroll() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // This change ensures that the _startAutoScroll method is called only after the first frame has been rendered, and it also checks if the PageController has clients (i.e., is attached to any scroll views) before trying to animate to a page.
-      imageTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
-        if (page_controller.hasClients) {
-          if (currentIndex < img.length - 1) {
-            currentIndex++;
-          } else {
-            currentIndex = 0;
-            page_controller.jumpToPage(0); // Jump to the first page
-          }
-          page_controller.animateToPage(
-            currentIndex,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.ease,
-          );
-        }
-      });
-    });
-  }
-
-  void startTimer() {
-    quoteTimer = Timer.periodic(const Duration(minutes: 1), (timer) {
-      if (!quoteController.isClosed) {
-        // Check if the controller is not closed
-        final newQuote = _getRandomQuote();
-        quoteController.add(newQuote); // Add new quote to the stream
-        setState(() {
-          currentQuote = newQuote;
-        });
-      }
-    });
-  }
-
-  // void onQueryChanged(String query) {
-  //   if (query.isEmpty) {
-  //     setState(() {
-  //       searchResults = recentSearch;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       searchResults = data
-  //           .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-  //           .toList();
-  //       if (!recentSearch.contains(query)) {
-  //         recentSearch.add(query);
-  //       }
-  //     });
-  //   }
-  // }
-
-  void onQueryChanged(String query) {
-    setState(() {
-      searchResults = data
-          .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
-  }
-
-  void onQuerySubmitted(String query) {
-    setState(() {
-      if (query.isNotEmpty && !recentSearch.contains(query)) {
-        recentSearch.add(query);
-      }
-      searchResults = data
-          .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-      
-      searchController.clear();
-    });
-  }
-// void onQueryChanged(String query) {
-//   setState(() {
-//     searchResults = data.where((item) {
-//       final distance = levenshtein(item.toLowerCase(), query.toLowerCase());
-//       // Consider items with a small edit distance (e.g., 2) as matches
-//       return distance <= 2 || item.toLowerCase().contains(query.toLowerCase());
-//     }).toList();
-//   });
-// }
-
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -228,6 +216,7 @@ class _HomeState extends State<Home> {
     }
   }
 
+////////////////////////////////////////////////////////////////////////
   @override
   void initState() {
     super.initState();
@@ -251,6 +240,7 @@ class _HomeState extends State<Home> {
     quoteController.close();
     quoteTimer?.cancel();
     imageTimer?.cancel();
+    debounceTimer?.cancel();
   }
 
   @override
@@ -348,6 +338,7 @@ class _HomeState extends State<Home> {
               onTap: () {
                 setState(() {
                   isSearchActivated = false;
+                  searchResults = [];
                   FocusScope.of(context).unfocus();
                   // print(isSearchActivated);
                 });
@@ -377,9 +368,24 @@ class _HomeState extends State<Home> {
                 itemCount: searchResults.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(
-                      searchResults[index],
-                      style: TextStyle(color: Colors.black),
+                    title: GestureDetector(
+                      onTap: () {
+                        final selectedQuery = searchResults[index];
+
+                        final routeName =
+                            queryRouteMap[selectedQuery.toLowerCase()];
+
+                        if (routeName != null) {
+                          Navigator.pushNamed(context, routeName);
+                        } else {
+                          // Handle the case where the query does not match any route
+                          print('No route found for query:');
+                        }
+                      },
+                      child: Text(
+                        searchResults[index],
+                        style: const TextStyle(color: Colors.black),
+                      ),
                     ),
                   );
                 },

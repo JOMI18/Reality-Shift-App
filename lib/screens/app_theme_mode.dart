@@ -121,12 +121,12 @@ class _AppThemeModeState extends State<AppThemeMode>
                                   ),
                                   Text(
                                     mode.toUpperCase(),
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                   )
                                 ],
                               );
                             }).toList()),
-                        Divider(
+                        const Divider(
                           color: Colors.white,
                         ),
                         Padding(
@@ -134,7 +134,7 @@ class _AppThemeModeState extends State<AppThemeMode>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 "Automatic",
                                 style: TextStyle(color: Colors.white),
                               ),

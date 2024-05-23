@@ -42,6 +42,24 @@ class Btns {
         ));
   }
 
+  Widget continentImgBtn(context, func) {
+    Color unchanged = const Color.fromARGB(255, 15, 34, 45);
+
+    return ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          elevation: 5,
+          foregroundColor: unchanged,
+          fixedSize: const Size(400, 50),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+        ),
+        onPressed: func,
+        icon: Icon(Icons.image),
+        label: Text(
+          "...Click to Upload Image",
+        ));
+  }
+
   Widget buildButton(
     BuildContext context, {
     required String text,
