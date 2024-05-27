@@ -42,6 +42,7 @@ class _AllNotesState extends State<AllNotes> {
         },
         child: Icon(Icons.add),
       ),
+    
       appBar: CustomAppBar().generalbar(context, "Recent Notifications:"),
       body: SingleChildScrollView(
         child: Padding(

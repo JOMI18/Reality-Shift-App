@@ -40,7 +40,8 @@ export 'package:fl_chart/fl_chart.dart';
 export 'package:url_launcher/url_launcher.dart'; // external links
 export 'package:cached_network_image/cached_network_image.dart'; // optimize loading time from networks
 // import 'package:levenshtein/levenshtein.dart'; //fuzzy search
-export 'package:image_picker/image_picker.dart';
+export 'package:image_picker/image_picker.dart'; // to select an image
+// export 'package:path/path.dart'; // to get the path e.g image
 
 // services
 export 'package:reality_shift/services/utilities.dart';

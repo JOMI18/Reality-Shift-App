@@ -269,7 +269,9 @@ class _HomeState extends State<Home> {
                     height: 2.h,
                   ),
                   isSearchActivated
-                      ? _buildSearchScreen(secondary)
+                      ? _buildSearchScreen(
+                          secondary,
+                        )
                       : Column(
                           children: [
                             _buildImageCarousel(secondary),
