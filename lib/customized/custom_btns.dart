@@ -31,7 +31,7 @@ class Btns {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 5,
-          fixedSize: const Size(150, 50),
+          fixedSize: const Size(190, 50),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10))),
         ),
@@ -49,7 +49,7 @@ class Btns {
         style: ElevatedButton.styleFrom(
           elevation: 5,
           foregroundColor: unchanged,
-          fixedSize: const Size(400, 50),
+          fixedSize: const Size(380, 50),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10))),
         ),
