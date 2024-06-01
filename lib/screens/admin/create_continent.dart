@@ -46,7 +46,7 @@ class _CreateContinentState extends State<CreateContinent> {
         switch (type) {
           case UploadType.BaseImage:
             _baseImage = imageFile;
-            _showBaseImage = true;
+            _showBaseImage = false;
             break;
           case UploadType.SlideshowImage:
             if (_slideImages.length < 4) {
@@ -136,106 +136,147 @@ class _CreateContinentState extends State<CreateContinent> {
     continent.dispose();
   }
 
-//   void sendDataToBackend() async {
-//     Map formData = {};
-
-// //  Continents::create([
-// //             'title' => 'Africa',
-// //             'base_img' => 'africa.jpeg',
-// //             'slideshows' => json_encode([
-// //                 'img1' => 'africa1.jpg',
-// //                 'img2' => 'africa2.jpg',
-// //                 'img3' => 'africa3.jpg',
-// //                 'img4' => 'africa4.jpg'
-// //             ]),
-// //             'tags' => json_encode([
-// //                 ['facts' => [
-// //                     'Continent Size' => 'Second largest in the world',
-// //                     'Area' => '11,700,000 square miles',
-// //                     'Estimated population' => '877 million people',
-// //                     'Largest City' => 'Cairo, Egypt, 9.2 million people',
-// //                     'Largest Country' => 'Algeria - 919,595 square miles (was Sudan, 968,000 square miles)',
-// //                     'Longest River' => 'Nile, 4,160 miles', 'Largest Lake' => 'Victoria, 26,828 square miles',
-// //                     'Tallest Mountain' => 'Kilimanjaro, Tanzania, 19,340 feet'
-// //                 ]],
-// //                 ['lines' => [
-// //                     'Discover the Heartbeat of the Wild.',
-// //                     'Where Adventure Awaits in Every Corner.',
-// //                     'Experience the Richness of Culture and Diversity'
-// //                 ]]
-// //             ]),
-// //             "countries" => json_encode([
-// //                 [
-// //                     "country" => "Nigeria",
-// //                     "flag" => "nigeria.png"
-// //                 ],
-// //                 [
-// //                     "country" => "Egypt",
-// //                     "flag" => "egypt.png"
-// //                 ]
-// //             ])
-// //         ]);
-//     // final formData = FormData();
-
-//     formData["title"] = continent.text;
-//     formData["base_img"] = _baseImage;
-//     formData["slideshows"] = jsonEncode({_slideImages});
-//     formData["tags"] = jsonEncode([
-//       {'facts': facts},
-//       {'lines': lines}
-//     ]);
-//     formData["countries"] = jsonEncode({countries});
-
-//     print(formData);
-//   }
-
   void sendDataToBackend() async {
-    Map<String, dynamic> formData = {};
+    FormData formData = FormData();
 
-    // Extract continent title
-    formData["title"] = continent.text;
+    // You can use a Map<String, dynamic> to build your form data, but when dealing with file uploads and multipart form data, FormData from the dio package is more appropriate. This is because FormData is specifically designed to handle file uploads and mixed data types in a way that traditional Map<String, dynamic> cannot.
 
-    // Extract base image path if available
+    // Extract continent name
+    formData.fields.add(MapEntry('title', continent.text));
+
+    // Extract base image file
     if (_baseImage != null) {
-      formData["base_img"] = _baseImage!.path
-          .split('/')
-          .last; // Assuming you want just the file name
+      formData.files.add(MapEntry(
+        'base_img',
+        await MultipartFile.fromFile(
+          _baseImage!.path,
+          filename: path.basename(_baseImage!.path),
+        ),
+      ));
     }
 
-    // Extract slideshow images paths if available
-    List<String> slideshowImages = [];
-    for (File image in _slideImages) {
-      slideshowImages.add(image.path.split('/').last);
+    // Extract slideshow images
+    for (int i = 0; i < _slideImages.length; i++) {
+      formData.files.add(MapEntry(
+        'slideshows[]',
+        await MultipartFile.fromFile(
+          _slideImages[i].path,
+          filename: path.basename(_slideImages[i].path),
+        ),
+      ));
     }
-    formData["slideshows"] = jsonEncode({
-      'img1': slideshowImages.length > 0 ? slideshowImages[0] : '',
-      'img2': slideshowImages.length > 1 ? slideshowImages[1] : '',
-      'img3': slideshowImages.length > 2 ? slideshowImages[2] : '',
-      'img4': slideshowImages.length > 3 ? slideshowImages[3] : ''
-    });
 
     // Extract tags data
     List<Map<String, dynamic>> tags = [
-      {'facts': facts},
-      {'lines': lines}
+      {"fact": []},
+      {"tagline": []}
     ];
-    formData["tags"] = jsonEncode(tags);
+    // print(tags);
+
+    for (var fact in facts) {
+      tags[0]["fact"].add(fact);
+    }
+    for (var line in lines) {
+      tags[1]["tagline"].add(line);
+    }
+    // print(tags);
+
+    formData.fields.add(MapEntry('tags', jsonEncode(tags)));
 
     // Extract countries data
-    List<Map<String, dynamic>> countryData = [];
     for (var country in countries) {
-      Map<String, dynamic> countryInfo = {
-        'country': country['country'],
-        'flag': country['flagImages'].isNotEmpty
-            ? country['flagImages'][0].path.split('/').last
-            : ''
-      };
-      countryData.add(countryInfo);
-    }
-    formData["countries"] = jsonEncode(countryData);
+      formData.fields.add(MapEntry(
+          'countries[${countries.indexOf(country)}][country]',
+          country['country']));
 
-    print(formData);
+      if (country['flagImages'].isNotEmpty) {
+        formData.files.add(MapEntry(
+          'countries[${countries.indexOf(country)}][flag]',
+          await MultipartFile.fromFile(
+            country['flagImages'][0].path,
+            filename: path.basename(country['flagImages'][0].path),
+          ),
+        ));
+      }
+    }
+
+    // print('FormData: ${formData.fields}');
+    // formData.files.forEach((file) {
+    //   print('${file.key}: ${file.value}');
+    // });
+
+    AlertLoading().showAlertDialog(context);
+    final response = await LocationController().createContinent(formData);
+    AlertLoading().closeDialog(context);
+
+    print(response);
+
+    if (response['status'] == "error") {
+      alert.message = response['message'];
+      alert.showAlertDialog(context);
+      return;
+    } else {
+      print(response['message']);
+      alert.message = response['message'];
+      alert.showAlertDialog(context);
+    }
   }
+
+  // void sendDataToBackend() async {
+  //   Map<String, dynamic> formData = {};
+  //   // Extract continent name
+  //   formData["title"] = continent.text;
+  //   // Extract base image path
+  //   if (_baseImage != null) {
+  //     formData["base_img"] = path.basename(_baseImage!.path);
+  //     // sending as a file
+  //     // formData["base_img"] = await MultipartFile.fromFile(
+  //     //   _baseImage!.path,
+  //     //   filename: path.basename(_baseImage!.path),
+  //     // );
+  //     // another scenarios
+  //     // formData["base_img"] = _baseImage!.path.split('/').last; // Assuming you want just the file name
+  //   }
+  //   // Extract slideshow images paths
+  //   List<String> slideshowImages = [];
+  //   for (File image in _slideImages) {
+  //     slideshowImages.add(image.path.split('\\').last);
+  //   }
+  //   formData["slideshows"] = jsonEncode({
+  //     'img1': slideshowImages.length > 0 ? slideshowImages[0] : '',
+  //     'img2': slideshowImages.length > 1 ? slideshowImages[1] : '',
+  //     'img3': slideshowImages.length > 2 ? slideshowImages[2] : '',
+  //     'img4': slideshowImages.length > 3 ? slideshowImages[3] : ''
+  //   });
+  //   // Extract tags data
+  //   List<Map<String, dynamic>> tags = [
+  //     {'facts': facts},
+  //     {'lines': lines}
+  //   ];
+  //   formData["tags"] = jsonEncode(tags);
+  //   // Extract countries data
+  //   List<Map<String, dynamic>> countryData = [];
+  //   for (var country in countries) {
+  //     Map<String, dynamic> countryInfo = {
+  //       'country': country['country'],
+  //       'flag': country['flagImages'].isNotEmpty
+  //           ? country['flagImages'][0].path.split('\\').last
+  //           : ''
+  //     };
+  //     countryData.add(countryInfo);
+  //   }
+  //   formData["countries"] = jsonEncode(countryData);
+  //   print(formData);
+  //   AlertLoading().showAlertDialog(context);
+  //   final response = await LocationController().createContinent(formData);
+  //   AlertLoading().closeDialog(context);
+  //   print(response);
+  //   if (response['status'] == "error") {
+  //     alert.message = response['message'];
+  //     alert.showAlertDialog(context);
+  //     return;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -564,6 +605,7 @@ class _CreateContinentState extends State<CreateContinent> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 1.h),
                   if (countries[index]['flagImages'].isNotEmpty) ...[
                     ...countries[index]['flagImages']
                         .asMap()
@@ -617,7 +659,6 @@ class _CreateContinentState extends State<CreateContinent> {
                       );
                     }).toList(),
                   ] else ...[
-                    SizedBox(height: 2.h),
                     const Text("No image uploaded."),
                   ],
                 ],
@@ -629,10 +670,10 @@ class _CreateContinentState extends State<CreateContinent> {
         Btns().continentBtn(context, "Add Country", () {
           setState(() {
             countries.add({'country': '', 'flagImages': [], 'showFlags': []});
-
-            print(countries);
+            // print(countries);
           });
-        })
+        }),
+        SizedBox(height: 15.h),
       ],
     );
   }

@@ -77,7 +77,7 @@ class CustomAppBar {
                       radius: 18,
                       backgroundColor: Colors.grey.shade200,
                       backgroundImage: AssetImage(
-                        "lib/assets/images/countries/$img",
+                        "lib/assets/images/navs/$img",
                       ),
                     ),
                     SizedBox(

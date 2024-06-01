@@ -10,28 +10,42 @@ class Continents extends StatefulWidget {
 
 class _ContinentsState extends State<Continents> {
   List continentsData = [];
-
+  String api = "http://10.0.2.2:8000";
+  // String api = "http://realityshift.com";
   void loadData() async {
-    try {
-      final response = await LocationController().allContinents();
+    final response = await LocationController().fetchAllContinents();
+    // print(response);
 
-      if (response["continents"] != null) {
-        setState(() {
-          continentsData = response["continents"];
-        });
-      } else {
-        return;
-      }
-    } catch (e) {
-      return;
+    if (response["continents"] != null) {
+      setState(() {
+        continentsData = response["continents"];
+        // print(continentsData);
+      });
     }
+    // print(continentsData[1]["base_img"]);
   }
+
+  // void loadData() async {
+  //   final response = await LocationController().fetchAllContinents();
+  //   print(response);
+  //   if (response["continents"] != null) {
+  //     List continents = response["continents"];
+  //     // Parse the JSON strings for each continent
+  //     for (var continent in continents) {
+  //       continent['slideshows'] = jsonDecode(continent['slideshows']);
+  //       continent['tags'] = jsonDecode(continent['tags']);
+  //       continent['countries'] = jsonDecode(continent['countries']);
+  //     }
+  //     setState(() {
+  //       continentsData = continents;
+  //     });
+  //   }
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
     loadData();
   }
 
@@ -41,7 +55,7 @@ class _ContinentsState extends State<Continents> {
     print(continent);
     final continentDetails =
         await LocationController().continentDetails(continent["id"]);
-
+    print(continentDetails);
     // Navigate to the details screen and pass the continent details
     Navigator.pushNamed(context, "locations",
         arguments: {"details": continentDetails});
@@ -51,7 +65,7 @@ class _ContinentsState extends State<Continents> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:
-          CustomAppBar().generalbar(context, "Select a Continent to Explore:"),
+          CustomAppBar().welcomebar(context, "Select a Continent to Explore:"),
       body: continentsData.isEmpty
           ? CustomErrorScreen.buildErrorWidget()
           : _buildContentWidget(),
@@ -69,6 +83,8 @@ class _ContinentsState extends State<Continents> {
           ),
           itemCount: continentsData.length,
           itemBuilder: (context, index) {
+            final title = continentsData[index]["title"];
+            final base = continentsData[index]["base_img"];
             // print(continentsData[index]["title"]);
             // print(continentsData[index]["slideshows"]);
             // print(continentsData[index]["tags"]);
@@ -86,12 +102,11 @@ class _ContinentsState extends State<Continents> {
                       decoration: BoxDecoration(
                           border: Border.all(width: 2),
                           borderRadius: BorderRadius.circular(34)),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(
-                            "lib/assets/images/continents/africa.jpeg"
-                            // "lib/assets/images/continents/${continentsData[index]["base-img"]}",
-                            ),
+                        backgroundImage: NetworkImage(
+                          "$api/Continents/$title/Image/$base",
+                        ),
                       ),
                     ),
                     const SizedBox(

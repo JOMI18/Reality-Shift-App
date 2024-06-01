@@ -254,7 +254,7 @@ class _HomeState extends State<Home> {
       },
       child: Scaffold(
         appBar: CustomAppBar()
-            .dashboardbar(context, "Hi, Oluwajomiloju", "germany.png"),
+            .dashboardbar(context, "Hi, Oluwajomiloju", "fashion.jpg"),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(12),

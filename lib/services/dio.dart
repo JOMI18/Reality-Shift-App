@@ -8,6 +8,7 @@ Dio axios() {
   // dio.options.baseUrl = "http://172.20.10.3:8000/api/";
 
   dio.options.baseUrl = "http://10.0.2.2:8000/api/"; // localhost for flutter
+  // dio.options.baseUrl = "http://realityshift.com/api/";
   dio.options.connectTimeout = const Duration(seconds: 7);
   dio.options.receiveTimeout = const Duration(seconds: 3);
   dio.options.headers['accept'] = 'Application/Json';

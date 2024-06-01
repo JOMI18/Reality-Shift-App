@@ -12,7 +12,7 @@ class _NotesState extends State<Notes> {
   TextEditingController folderNameController = TextEditingController();
 
   List notes = [
-    {"folder": "All Continents", "number": "120", "routes":"all_notes"},
+    {"folder": "All Continents", "number": "120", "routes": "all_notes"},
     {"folder": "Notes", "number": "60"},
     {"folder": "Cultures", "number": "40"},
     {"folder": "Food", "number": "20"},
