@@ -37,7 +37,7 @@ class __ContinentsState extends State<_Continents> {
           "lines": [
             "Discover the Heartbeat of the Wild.",
             "Where Adventure Awaits in Every Corner.",
-            "Experience the Richness of Culture and Diversity"
+            "Experience the Richness of Culture and Diversity."
           ]
         }
       ],
