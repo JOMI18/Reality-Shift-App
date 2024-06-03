@@ -11,7 +11,8 @@ class Verification extends StatefulWidget {
 }
 
 class _VerificationState extends State<Verification> {
-  Timer? _timer; // Declare timer variable
+  Timer? _OgTimer; // Declare timer variable
+  Timer? _ResendTimer; // Declare timer variable
 
   late TextEditingController _controller1;
   late TextEditingController _controller2;
@@ -65,7 +66,7 @@ class _VerificationState extends State<Verification> {
     // Start countdown timer for OTP expiration
     codeExpired = false;
     setState(() {
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _OgTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
         setState(() {
           seconds--;
         });
@@ -99,7 +100,7 @@ class _VerificationState extends State<Verification> {
       return;
     }
     print(response);
-    Navigator.pushNamed(context, "dashboard");
+    Navigator.pushNamedAndRemoveUntil(context, "dashboard", (route) => false);
   }
 
   void sendAgain() async {
@@ -109,7 +110,7 @@ class _VerificationState extends State<Verification> {
       remainingSeconds = 60;
     });
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _ResendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         remainingSeconds--;
       });
@@ -140,12 +141,14 @@ class _VerificationState extends State<Verification> {
     _focusnode4.dispose();
     _focusnode5.dispose();
     _focusnode6.dispose();
-    _timer?.cancel();
+
+    _OgTimer?.cancel();
+    _ResendTimer?.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    Color rootcolor = Utilities().appColors(context).secondary;
+    Color secondary = Utilities().appColors(context).secondary;
 
     return GestureDetector(
       onTap: () {
@@ -161,7 +164,7 @@ class _VerificationState extends State<Verification> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.phone_android_rounded, size: 60, color: rootcolor),
+                  Icon(Icons.phone_android_rounded, size: 60, color: secondary),
                   SizedBox(
                     height: 6.h,
                   ),
@@ -251,7 +254,7 @@ class _VerificationState extends State<Verification> {
                             style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
-                                color: rootcolor),
+                                color: secondary),
                           ),
                         ),
                       ],

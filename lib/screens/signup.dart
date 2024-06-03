@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:reality_shift/imports.dart';
 
 class SignUp extends StatefulWidget {
@@ -107,8 +108,6 @@ class _SignUpState extends State<SignUp> {
     final response = await AuthController().register(formData);
     AlertLoading().closeDialog(context);
 
-    print(response);
-
     if (response['status'] == "error") {
       alert.message = response['message'];
       alert.showAlertDialog(context);
@@ -136,7 +135,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    Color rootcolor = Utilities().appColors(context).secondary;
+    Color secondary = Utilities().appColors(context).secondary;
 
     return GestureDetector(
       onTap: () {
@@ -153,282 +152,278 @@ class _SignUpState extends State<SignUp> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "SignUp:",
-                        style: TextStyle(fontSize: 22.sp),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "We're glad to embark on this journey with you. Please fill in your details to get started.",
-                        style: TextStyle(fontSize: 15.sp),
-                      ),
-                    ],
-                  ),
+                  _buildEntryCaptions(),
                   SizedBox(
                     height: 2.h,
                   ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ComponentSlideIns(
-                            beginOffset: const Offset(2, 0),
-                            duration: const Duration(milliseconds: 1200),
-                            child: CustomTextField.input(context,
-                                hint: "Reyes",
-                                fieldname: "Surname",
-                                controller: surnameCt),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          ComponentSlideIns(
-                            beginOffset: const Offset(2, 0),
-                            duration: const Duration(milliseconds: 1300),
-                            child: CustomTextField.input(context,
-                                hint: "Jonathan",
-                                fieldname: "Firstname",
-                                controller: firstnameCt),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          ComponentSlideIns(
-                            beginOffset: const Offset(2, 0),
-                            duration: const Duration(milliseconds: 1400),
-                            child: CustomTextField.input(context,
-                                hint: "Smith",
-                                fieldname: "Middlename",
-                                controller: middlenameCt),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          ComponentSlideIns(
-                            beginOffset: const Offset(3, 0),
-                            duration: const Duration(milliseconds: 1500),
-                            child: CustomTextField.input(context,
-                                hint: "mm-dd-yyyy", readOnly: true, onTap: () {
-                              CustomBottomSheet.showDatePicker(context,
-                                  onDateSelected: (date) {
-                                dobCt.text = "$date";
-                              });
-                            },
-                                suffixIcon: const Icon(Icons.calendar_today),
-                                fieldname: "Date of Birth",
-                                controller: dobCt),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          ComponentSlideIns(
-                            beginOffset: const Offset(3, 0),
-                            duration: const Duration(milliseconds: 1600),
-                            child: CustomTextField.input(context,
-                                suffixIcon:
-                                    const Icon(Icons.arrow_drop_down_rounded),
-                                hint: "male",
-                                readOnly: true, onTap: () {
-                              CustomBottomSheet.showGenderSelection(context,
-                                  onSelect: (gender) {
-                                genderCt.text = gender;
-                              });
-                            }, fieldname: "Gender", controller: genderCt),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          ComponentSlideIns(
-                            beginOffset: const Offset(3, 0),
-                            duration: const Duration(milliseconds: 1600),
-                            child: CustomTextField.input(context,
-                                hint: "Nigeria",
-                                fieldname: "Country",
-                                controller: countryCt),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          ComponentSlideIns(
-                            beginOffset: const Offset(3, 0),
-                            duration: const Duration(milliseconds: 1700),
-                            child: CustomTextField.input(context,
-                                hint: "jonathansmith21@gmail.com",
-                                fieldname: "Email",
-                                controller: emailCt),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          ComponentSlideIns(
-                            beginOffset: const Offset(3, 0),
-                            duration: const Duration(milliseconds: 1800),
-                            child: CustomTextField.input(context,
-                                hint: "xxx-xxx-xxx",
-                                fieldname: "Phone Number",
-                                controller: numCt),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          ComponentSlideIns(
-                            beginOffset: const Offset(4, 0),
-                            duration: const Duration(milliseconds: 1900),
-                            child: CustomTextField.input(context,
-                                hint: "xxxxxxxxx",
-                                fieldname: "Password",
-                                controller: passwordCt,
-                                obscureText: isPasswordObscure,
-                                suffixIcon: isPasswordObscure
-                                    ? const Icon(Icons.visibility_off)
-                                    : const Icon(Icons.visibility),
-                                onSuffixIconTap: () {
-                              setState(() {
-                                isPasswordObscure = !isPasswordObscure;
-                              });
-                            }),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          ComponentSlideIns(
-                            beginOffset: const Offset(4, 0),
-                            duration: const Duration(milliseconds: 2000),
-                            child: CustomTextField.input(context,
-                                hint: "xxxxxxxxx",
-                                fieldname: "Confirm Password",
-                                controller: cfpasswordCt,
-                                obscureText: isCfPasswordObscure,
-                                suffixIcon: isCfPasswordObscure
-                                    ? const Icon(Icons.visibility_off)
-                                    : const Icon(Icons.visibility),
-                                onSuffixIconTap: () {
-                              setState(() {
-                                isCfPasswordObscure = !isCfPasswordObscure;
-                              });
-                            }),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Password Requirements :",
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  color: rootcolor,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 1.2.h,
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                                child: ListView.builder(
-                                  itemCount: password_requirements.length,
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.receipt_long,
-                                              size: 30,
-                                              color: Utilities()
-                                                  .appColors(context)
-                                                  .secondary,
-                                            ),
-                                            SizedBox(
-                                              width: 12,
-                                            ),
-                                            Text(password_requirements[index]),
-                                          ],
-                                        ),
-                                        if (index !=
-                                            password_requirements.length - 1)
-                                          SizedBox(
-                                            height: 0.5.h,
-                                          )
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  ComponentSlideIns(
-                    beginOffset: const Offset(0, 2),
-                    duration: const Duration(milliseconds: 1200),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                text: "By continuing, you accept our ",
-                                children: [
-                                  TextSpan(
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: Utilities()
-                                              .appColors(context)
-                                              .secondary),
-                                      text: " Terms of Service "),
-                                  TextSpan(
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {},
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      text: " and "),
-                                  TextSpan(
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {},
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: Utilities()
-                                              .appColors(context)
-                                              .secondary),
-                                      text: " Privacy Policy."),
-                                ]),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Btns().btn(context, "Submit", () {
-                            submit(ref);
-                          })
-                        ],
-                      ),
-                    ),
-                  )
+                  _buildTextFields(secondary),
+                  _buildSubmitButton(ref)
                 ],
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEntryCaptions() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "SignUp:",
+          style: TextStyle(fontSize: 22.sp),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        Text(
+          "We're glad to embark on this journey with you. Please fill in your details to get started.",
+          style: TextStyle(fontSize: 15.sp),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTextFields(secondary) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ComponentSlideIns(
+              beginOffset: const Offset(2, 0),
+              duration: const Duration(milliseconds: 1200),
+              child: CustomTextField.input(context,
+                  hint: "Reyes", fieldname: "Surname", controller: surnameCt),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            ComponentSlideIns(
+              beginOffset: const Offset(2, 0),
+              duration: const Duration(milliseconds: 1300),
+              child: CustomTextField.input(context,
+                  hint: "Jonathan",
+                  fieldname: "Firstname",
+                  controller: firstnameCt),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            ComponentSlideIns(
+              beginOffset: const Offset(2, 0),
+              duration: const Duration(milliseconds: 1400),
+              child: CustomTextField.input(context,
+                  hint: "Smith",
+                  fieldname: "Middlename",
+                  controller: middlenameCt),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            ComponentSlideIns(
+              beginOffset: const Offset(3, 0),
+              duration: const Duration(milliseconds: 1500),
+              child: CustomTextField.input(context,
+                  hint: "mm-dd-yyyy", readOnly: true, onTap: () {
+                CustomBottomSheet.showDatePicker(context,
+                    onDateSelected: (date) {
+                  dobCt.text = "$date";
+                });
+              },
+                  suffixIcon: const Icon(Icons.calendar_today),
+                  fieldname: "Date of Birth",
+                  controller: dobCt),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            ComponentSlideIns(
+              beginOffset: const Offset(3, 0),
+              duration: const Duration(milliseconds: 1600),
+              child: CustomTextField.input(context,
+                  suffixIcon: const Icon(Icons.arrow_drop_down_rounded),
+                  hint: "male",
+                  readOnly: true, onTap: () {
+                CustomBottomSheet.showGenderSelection(context,
+                    onSelect: (gender) {
+                  genderCt.text = gender;
+                });
+              }, fieldname: "Gender", controller: genderCt),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            ComponentSlideIns(
+              beginOffset: const Offset(3, 0),
+              duration: const Duration(milliseconds: 1600),
+              child: CustomTextField.input(context,
+                  hint: "Nigeria", fieldname: "Country", controller: countryCt),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            ComponentSlideIns(
+              beginOffset: const Offset(3, 0),
+              duration: const Duration(milliseconds: 1700),
+              child: CustomTextField.input(context,
+                  hint: "jonathansmith21@gmail.com",
+                  fieldname: "Email",
+                  controller: emailCt),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            ComponentSlideIns(
+              beginOffset: const Offset(3, 0),
+              duration: const Duration(milliseconds: 1800),
+              child: CustomTextField.input(context,
+                  hint: "xxx-xxx-xxx",
+                  fieldname: "Phone Number",
+                  controller: numCt),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            ComponentSlideIns(
+              beginOffset: const Offset(4, 0),
+              duration: const Duration(milliseconds: 1900),
+              child: CustomTextField.input(context,
+                  hint: "xxxxxxxxx",
+                  fieldname: "Password",
+                  controller: passwordCt,
+                  obscureText: isPasswordObscure,
+                  suffixIcon: isPasswordObscure
+                      ? const Icon(Icons.visibility_off)
+                      : const Icon(Icons.visibility), onSuffixIconTap: () {
+                setState(() {
+                  isPasswordObscure = !isPasswordObscure;
+                });
+              }),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            ComponentSlideIns(
+              beginOffset: const Offset(4, 0),
+              duration: const Duration(milliseconds: 2000),
+              child: CustomTextField.input(context,
+                  hint: "xxxxxxxxx",
+                  fieldname: "Confirm Password",
+                  controller: cfpasswordCt,
+                  obscureText: isCfPasswordObscure,
+                  suffixIcon: isCfPasswordObscure
+                      ? const Icon(Icons.visibility_off)
+                      : const Icon(Icons.visibility), onSuffixIconTap: () {
+                setState(() {
+                  isCfPasswordObscure = !isCfPasswordObscure;
+                });
+              }),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Password Requirements :",
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    color: secondary,
+                  ),
+                ),
+                SizedBox(
+                  height: 1.2.h,
+                ),
+                SizedBox(
+                  height: 20.h,
+                  child: ListView.builder(
+                    itemCount: password_requirements.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.receipt_long,
+                                size: 30,
+                                color: Utilities().appColors(context).secondary,
+                              ),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                              Text(password_requirements[index]),
+                            ],
+                          ),
+                          if (index != password_requirements.length - 1)
+                            SizedBox(
+                              height: 0.5.h,
+                            )
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubmitButton(ref) {
+    return ComponentSlideIns(
+      beginOffset: const Offset(0, 2),
+      duration: const Duration(milliseconds: 1200),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  text: "By continuing, you accept our ",
+                  children: [
+                    TextSpan(
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Utilities().appColors(context).secondary),
+                        text: " Terms of Service "),
+                    TextSpan(
+                        recognizer: TapGestureRecognizer()..onTap = () {},
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        text: " and "),
+                    TextSpan(
+                        recognizer: TapGestureRecognizer()..onTap = () {},
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Utilities().appColors(context).secondary),
+                        text: " Privacy Policy."),
+                  ]),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Btns().btn(context, "Submit", () {
+              submit(ref);
+            })
+          ],
         ),
       ),
     );

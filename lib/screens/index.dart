@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reality_shift/services/utilities.dart';
 
+import 'package:reality_shift/imports.dart';
+
 class Index extends StatefulWidget {
   const Index({super.key});
 
@@ -13,21 +15,42 @@ class _IndexState extends State<Index> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(milliseconds: 3000), () => {onboarding()});
+    Future.delayed(
+        const Duration(milliseconds: 3000),
+        () => {
+              checkOnboardingStatus(),
+            });
   }
 
-  // forms will be created later
-  void onboarding() {
-    Navigator.pushNamed(context, "onboarding");
+  Future<void> checkOnboardingStatus() async {
+    String? onboardingStatus =
+        await CustomSharedPreference().getString("onboarding_completed");
+
+    print(onboardingStatus);
+
+    if (onboardingStatus == null) {
+      // If onboarding status is null, it means onboarding hasn't been completed yet
+      Navigator.pushReplacementNamed(context, "onboarding");
+    } else {
+      Navigator.popAndPushNamed(context, "choose_signup");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    Color newcolor = Utilities().appColors(context).primary;
+    Color primary = Utilities().appColors(context).primary;
 
     return Scaffold(
-      backgroundColor: newcolor,
-      body: Center(child: Image.asset("lib/assets/images/loading-logo.png")),
+      backgroundColor: primary,
+      body: Center(
+          child: Column(
+        children: [
+          Image.asset("lib/assets/images/logos/loading-logo.png"),
+          Btns().btn(context, "Clear Onboarding", () {
+            CustomSharedPreference().remove("onboarding_completed");
+          })
+        ],
+      )),
     );
   }
 }
