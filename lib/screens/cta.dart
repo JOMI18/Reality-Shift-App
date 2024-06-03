@@ -6,7 +6,7 @@ class CTA extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color rootcolor = Utilities().appColors(context).secondary;
+    Color secondary = Utilities().appColors(context).secondary;
 
     return Scaffold(
       body: Padding(
@@ -17,10 +17,10 @@ class CTA extends StatelessWidget {
             ComponentSlideIns(
               beginOffset: Offset(2, 0),
               child: Lottie.asset("lib/assets/images/lottie/convinced.json",
-                  height: 40.h, fit: BoxFit.fill),
+                  height: 50.h, fit: BoxFit.fill),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(12, 20, 12, 8),
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 8),
               child: Column(children: [
                 ComponentSlideIns(
                   beginOffset: Offset(-2, 0),
@@ -29,12 +29,12 @@ class CTA extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 21.sp,
                         fontWeight: FontWeight.w700,
-                        color: rootcolor),
+                        color: secondary),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 8),
-                  child: Divider(height: 25, thickness: 6, color: rootcolor),
+                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8),
+                  child: Divider(height: 25, thickness: 6, color: secondary),
                 ),
                 ComponentSlideIns(
                   beginOffset: Offset(2, 0),

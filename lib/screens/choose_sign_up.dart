@@ -46,8 +46,8 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
 
   @override
   Widget build(BuildContext context) {
-    Color rootcolor = Utilities().appColors(context).secondary;
-    Color newcolor = Utilities().appColors(context).primary;
+    Color secondary = Utilities().appColors(context).secondary;
+    Color primary = Utilities().appColors(context).primary;
 
     return Scaffold(
       appBar: CustomAppBar().welcomebar(context, "Chooose How to Sign Up:"),
@@ -98,7 +98,7 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
                   child: Btns().buildButton(context,
                       text: 'Continue with Google',
                       icon: Image.asset(
-                        "lib/assets/images/google-logo.jpeg",
+                        "lib/assets/images/logos/google-logo.jpeg",
                         height: 35,
                       ),
                       foregroundColor: Colors.black,
@@ -120,12 +120,11 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
                   child: Btns().buildButton(context,
                       text: 'Continue with Reality Shift',
                       icon: Image.asset(
-                        "lib/assets/images/logo-icon.png",
+                        "lib/assets/images/logos/logo-icon-dark.png",
                         height: 30,
                       ),
-                      foregroundColor: rootcolor,
-                      backgroundColor: newcolor,
-                      onPressed: () {
+                      foregroundColor: secondary,
+                      backgroundColor: primary, onPressed: () {
                     Navigator.pushNamed(context, "signup");
                   }),
                 ),
@@ -150,7 +149,7 @@ class _ChooseSignUpState extends State<ChooseSignUp> {
                       " Login",
                       style: TextStyle(
                         fontSize: 16.sp,
-                        color: rootcolor,
+                        color: secondary,
                       ),
                     ),
                   ),

@@ -25,7 +25,7 @@ class CustomAppBar {
             ? "logo-icon-dark.png"
             : "logo-icon-light.png";
         return ComponentSlideIns(
-          beginOffset: Offset(0, -2),
+          beginOffset: const Offset(0, -2),
           child: Row(
             children: [
               Image.asset(
@@ -48,7 +48,7 @@ class CustomAppBar {
     Color secondary = Utilities().appColors(context).secondary;
     return AppBar(
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(20),
+          preferredSize: const Size.fromHeight(20),
           child: Consumer(builder: (context, ref, child) {
             final selectedTheme = ref.watch(AppThemeProvider)["theme"];
             Color dividerColor =
@@ -61,9 +61,10 @@ class CustomAppBar {
             );
           }),
         ),
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: ComponentSlideIns(
-          beginOffset: Offset(0, -2),
+          beginOffset: const Offset(0, -2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -95,7 +96,7 @@ class CustomAppBar {
                     onTap: () {
                       Navigator.pushNamed(context, "favs");
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.favorite_rounded,
                     ),
                   ),
@@ -106,7 +107,7 @@ class CustomAppBar {
                     onTap: () {
                       Navigator.pushNamed(context, "notify");
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.notifications_active_rounded,
                     ),
                   )
@@ -121,7 +122,7 @@ class CustomAppBar {
     Color secondary = Utilities().appColors(context).secondary;
     return AppBar(
       bottom: PreferredSize(
-        preferredSize: Size.fromHeight(20),
+        preferredSize: const Size.fromHeight(20),
         child: Consumer(builder: (context, ref, child) {
           final selectedTheme = ref.watch(AppThemeProvider)["theme"];
           Color dividerColor =
@@ -138,7 +139,7 @@ class CustomAppBar {
       leading: Navigator.of(context).canPop()
           ? TextButton(
               style: ButtonStyle(
-                overlayColor: MaterialStateProperty.all(Colors.transparent),
+                overlayColor: WidgetStateProperty.all(Colors.transparent),
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -158,7 +159,7 @@ class CustomAppBar {
             : "logo-icon-light.png";
 
         return ComponentSlideIns(
-          beginOffset: Offset(0, -2),
+          beginOffset: const Offset(0, -2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

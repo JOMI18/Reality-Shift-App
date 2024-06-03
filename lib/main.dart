@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: selectedTheme,
             // initialRoute: "dashboard",
-            initialRoute: "dashboard",
+            initialRoute: "index",
             routes: {
               "index": (context) => const Index(),
               "onboarding": (context) => const Onboarding(),
@@ -68,7 +68,7 @@ final lightTheme = ThemeData(
     bodyLarge: TextStyle(color: Colors.black),
     bodySmall: TextStyle(color: Colors.black),
   ),
-  
+
   bottomNavigationBarTheme:
       const BottomNavigationBarThemeData(backgroundColor: Color(0xFFFFF5D0)),
   bottomAppBarTheme: const BottomAppBarTheme(
@@ -133,3 +133,8 @@ final darkTheme = ThemeData(
 // verify in back end first
 // add all notes to continents
 // fix search navigation
+
+
+// Need to do
+// 1. Implement Login by Apple and Google
+// 2. Auto fill OTP on Paste
