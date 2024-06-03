@@ -15,13 +15,13 @@ Experience Life Beyond Now: Step out of your comfort zone and embrace spontaneou
 ### A few resources to get you started:
 1. Clone the repository to your local machine:
 ```bash
- git clone https://github.com/your-username/duolingo_app.git
+ git clone https://github.com/your-username/reality_shift_app.git
 ```
 2. Install Flutter and Dart if you haven't already. Refer to the Flutter documentation for installation instructions.
 
 3. Navigate to the project directory and install dependencies:
 ```bash
-cd duolingo_app
+cd reality_shift_app
 flutter pub get
 ````
 
