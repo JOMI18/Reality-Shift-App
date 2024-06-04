@@ -60,6 +60,23 @@ class Btns {
         ));
   }
 
+  Widget OtherBtn(context, title, func) {
+    Color unchanged = const Color.fromARGB(255, 15, 34, 45);
+
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 5,
+          foregroundColor: unchanged,
+          fixedSize: const Size(380, 50),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+        ),
+        onPressed: func,
+        child: Text(
+          title,
+        ));
+  }
+
   Widget buildButton(
     BuildContext context, {
     required String text,

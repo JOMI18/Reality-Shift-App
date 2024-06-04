@@ -99,6 +99,12 @@ class _VerificationState extends State<Verification> {
       alert.showAlertDialog(context);
       return;
     }
+
+    if (response['status'] == "user_valid") {
+      alert.message = response['message'];
+      alert.showAlertDialog(context);
+      return;
+    }
     print(response);
     Navigator.pushNamedAndRemoveUntil(context, "dashboard", (route) => false);
   }
@@ -155,7 +161,7 @@ class _VerificationState extends State<Verification> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: CustomAppBar().welcomebar(context, "Two-Factor Authentication"),
+        appBar: CustomAppBar().generalbar(context, "Two-Factor Authentication"),
         body: Consumer(
           builder: (context, ref, _) {
             email = ref.watch(signUpProvider)['email'];
