@@ -20,7 +20,7 @@ Dio axios() {
     InterceptorsWrapper(
       onRequest:
           (RequestOptions options, RequestInterceptorHandler handler) async {
-        final token = pref.getString('token') ?? '';
+        final token = pref.getString('token');
         options.headers['Authorization'] = 'Bearer $token';
 
         return handler.next(options);

@@ -34,7 +34,7 @@ class _OnboardingState extends State<Onboarding> {
 
   Future<void> completeOnboarding() async {
     await CustomSharedPreference().setString("onboarding_completed", "true");
-    print("Onboarding completion flag set successfully.");
+    // print("Onboarding completion flag set successfully.");
 
     // String? flagValue =
     //     await CustomSharedPreference().getString("onboarding_completed");

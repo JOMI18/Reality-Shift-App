@@ -17,6 +17,7 @@ export 'package:reality_shift/screens/locations.dart';
 export 'package:reality_shift/screens/notify.dart';
 export 'package:reality_shift/screens/full_user_profile.dart';
 export 'package:reality_shift/screens/app_theme_mode.dart';
+export 'package:reality_shift/screens/forgot_password.dart';
 
 //
 export 'package:reality_shift/screens/notes/all_notes.dart';

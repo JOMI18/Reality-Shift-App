@@ -40,6 +40,8 @@ class MyApp extends StatelessWidget {
               "full_user_profile": (context) => const FullUserProfile(),
               "app_theme": (context) => const AppThemeMode(),
 
+              // services
+              "forgot_pin": (context) => const ForgotPassword(),
               // notes
               "all_notes": (context) => const AllNotes(),
 

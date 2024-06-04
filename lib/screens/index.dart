@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reality_shift/services/utilities.dart';
 
 import 'package:reality_shift/imports.dart';
 
@@ -18,21 +17,28 @@ class _IndexState extends State<Index> {
     Future.delayed(
         const Duration(milliseconds: 3000),
         () => {
-              checkOnboardingStatus(),
+              determineInitialScreen(),
             });
   }
 
-  Future<void> checkOnboardingStatus() async {
+  Future<void> determineInitialScreen() async {
     String? onboardingStatus =
         await CustomSharedPreference().getString("onboarding_completed");
+    // print(onboardingStatus);
 
-    print(onboardingStatus);
+    String? registeredUserStatus =
+        await CustomSharedPreference().getString("token");
+    // print(registeredUserStatus);
 
     if (onboardingStatus == null) {
       // If onboarding status is null, it means onboarding hasn't been completed yet
       Navigator.pushReplacementNamed(context, "onboarding");
-    } else {
+    }
+    if (onboardingStatus != null && registeredUserStatus == null) {
       Navigator.popAndPushNamed(context, "choose_signup");
+    }
+    if (onboardingStatus == "true" && registeredUserStatus != null) {
+      Navigator.pushReplacementNamed(context, "login");
     }
   }
 
@@ -42,15 +48,16 @@ class _IndexState extends State<Index> {
 
     return Scaffold(
       backgroundColor: primary,
-      body: Center(
-          child: Column(
-        children: [
-          Image.asset("lib/assets/images/logos/loading-logo.png"),
-          Btns().btn(context, "Clear Onboarding", () {
+      floatingActionButton: FloatingActionButton(
+          child: const Text(
+            "Clear ONB",
+            textAlign: TextAlign.center,
+          ),
+          onPressed: () {
             CustomSharedPreference().remove("onboarding_completed");
-          })
-        ],
-      )),
+          }),
+      body: Center(
+          child: Image.asset("lib/assets/images/logos/loading-logo.png")),
     );
   }
 }

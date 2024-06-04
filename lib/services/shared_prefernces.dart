@@ -16,27 +16,26 @@ class CustomSharedPreference {
 
   Future<void> setString(String key, String value) async {
     await initializePrefs();
-
     _prefs!.setString(key, value);
-    print("Get $key: $value");
+    // print("Get $key: $value");
   }
 
   Future<String?> getString(String key) async {
     await initializePrefs();
     final value = _prefs!.getString(key);
-    print("Get $key: $value");
+    // print("Get $key: $value");
     return value;
   }
 
   Future<void> remove(String key) async {
     await initializePrefs();
     _prefs!.remove(key);
-    print("Removed $key");
+    // print("Removed $key");
   }
 
   Future<void> clear() async {
     await initializePrefs();
     _prefs!.clear();
-    print("Cleared all preferences");
+    // print("Cleared all preferences");
   }
 }

@@ -22,6 +22,17 @@ class AuthController {
     }
   }
 
+  Future<Map> login(Map cred) async {
+    print("credentials : $cred");
+    try {
+      Dio.Response response = await axios().post("auth/login", data: cred);
+      return response.data;
+    } on Dio.DioException catch (e) {
+      print(e);
+      return {"status": "error", "message": e.error};
+    }
+  }
+
   Future<Map> checkOtp(Map cred) async {
     print("credentials : $cred");
     try {
@@ -40,6 +51,18 @@ class AuthController {
       print(response);
       return response.data;
     } on Dio.DioException catch (e) {
+      return {"status": "error", "message": e.error};
+    }
+  }
+
+  Future<Map> checkAccount(Map cred) async {
+    print("credentials : $cred");
+    try {
+      Dio.Response response = await axios().post("auth/checkEmail", data: cred);
+      // print(response);
+      return response.data;
+    } on Dio.DioException catch (e) {
+      print(e);
       return {"status": "error", "message": e.error};
     }
   }
