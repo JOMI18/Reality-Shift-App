@@ -10,7 +10,7 @@ class Btns {
 
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            elevation: 5,
+            elevation: 5,    
             fixedSize: const Size(350, 60),
             backgroundColor: colorScheme.secondary,
             foregroundColor: Colors.black,

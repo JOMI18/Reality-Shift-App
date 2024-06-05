@@ -66,4 +66,18 @@ class AuthController {
       return {"status": "error", "message": e.error};
     }
   }
+
+  Future<Map> resetPassword(Map cred) async {
+    print("credentials : $cred");
+    try {
+      Dio.Response response = await axios().post("auth/resetPassword", data: cred);
+      // print(response);
+      return response.data;
+    } on Dio.DioException catch (e) {
+      print(e);
+      return {"status": "error", "message": e.error};
+    }
+  }
+
+
 }

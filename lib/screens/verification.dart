@@ -161,7 +161,7 @@ class _VerificationState extends State<Verification> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: CustomAppBar().generalbar(context, "Two-Factor Authentication"),
+        appBar: CustomAppBar().welcomebar(context, "Two-Factor Authentication"),
         body: Consumer(
           builder: (context, ref, _) {
             email = ref.watch(signUpProvider)['email'];
