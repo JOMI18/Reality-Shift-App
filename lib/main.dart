@@ -139,4 +139,6 @@ final darkTheme = ThemeData(
 
 // Need to do
 // 1. Implement Login by Apple and Google
-// 2. Auto fill OTP on Paste
+// 2. Auto fill OTP on Paste for Verification Screen
+// 3. Figure out Alternative Reset Password Email Verification {using the OG screen}
+// 4. Create Notification for Users when API response is Successful
