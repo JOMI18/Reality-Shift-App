@@ -252,51 +252,51 @@ class _HomeState extends State<Home> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
-        appBar: CustomAppBar()
-            .dashboardbar(context, "Hi, Oluwajomiloju", "fashion.jpg"),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Consumer(builder: (context, ref, _) {
-              final selectedTheme = ref.watch(AppThemeProvider)["theme"];
-              Color colorbgWhite =
-                  selectedTheme == darkTheme ? primary : secondary;
-              return Column(
-                children: [
-                  _buildSearchBar(context, secondary),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  isSearchActivated
-                      ? _buildSearchScreen(
-                          secondary,
-                        )
-                      : Column(
-                          children: [
-                            _buildImageCarousel(secondary),
-                            SizedBox(
-                              height: 2.h,
-                            ),
-                            _buildQuoteCard(secondary, colorbgWhite),
-                            SizedBox(
-                              height: 2.h,
-                            ),
-                            _buildNavigationGrid(
-                              secondary,
-                            ),
-                            SizedBox(
-                              height: 2.h,
-                            ),
-                            _buildServiceList(secondary)
-                          ],
-                        )
-                ],
-              );
-            }),
+      child: Consumer(builder: (context, ref, _) {
+        final username = ref.watch(userProvider.notifier).state.firstname;
+        // final image = ref.watch(userProvider.notifier).state.image;
+        final selectedTheme = ref.watch(AppThemeProvider)["theme"];
+        Color colorbgWhite = selectedTheme == darkTheme ? primary : secondary;
+        return Scaffold(
+          appBar: CustomAppBar()
+              .dashboardbar(context, "Hi, $username", "fashion.jpg"),
+          body: SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  children: [
+                    _buildSearchBar(context, secondary),
+                    SizedBox(
+                      height: 2.h,
+                    ),
+                    isSearchActivated
+                        ? _buildSearchScreen(
+                            secondary,
+                          )
+                        : Column(
+                            children: [
+                              _buildImageCarousel(secondary),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              _buildQuoteCard(secondary, colorbgWhite),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              _buildNavigationGrid(
+                                secondary,
+                              ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              _buildServiceList(secondary)
+                            ],
+                          )
+                  ],
+                )),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 

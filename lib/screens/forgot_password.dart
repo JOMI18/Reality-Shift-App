@@ -16,7 +16,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   late TextEditingController passwordCt;
   late TextEditingController cPasswordCt;
 
-  Timer? _ResendTimer;
+  Timer? _resendTimer;
 
   bool isPasswordObscure = true;
   bool isCPasswordObscure = true;
@@ -49,7 +49,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     codeCt.dispose();
     passwordCt.dispose();
     cPasswordCt.dispose();
-    _ResendTimer?.cancel();
+    _resendTimer?.cancel();
   }
 
   void checkEmail() async {
@@ -86,7 +86,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       remainingSeconds = 60;
     });
 
-    _ResendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         remainingSeconds--;
       });

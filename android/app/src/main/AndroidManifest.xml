@@ -1,4 +1,13 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.reality_shift">
+
+<!-- Ensure that the <uses-permission> tags are inside the <manifest> tag but outside the <application> tag.
+Make sure to include the package attribute in the <manifest> tag with your app's package name.
+ -->
+
+  <!-- Add biometric and fingerprint permissions here -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
     <application
         android:label="reality_shift"
         android:name="${applicationName}"

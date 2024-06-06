@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:reality_shift/imports.dart';
 
 class Login extends StatefulWidget {
@@ -12,6 +13,11 @@ class _LoginState extends State<Login> {
   late TextEditingController emailCt;
   late TextEditingController passwordCt;
 
+  final LocalAuthentication auth = LocalAuthentication();
+  // ignore: unused_field
+  bool _canCheckBiometrics = false;
+  bool _isAuthenticated = false;
+
   bool isPasswordObscure = true;
   AlertInfo alert = AlertInfo();
 
@@ -24,6 +30,7 @@ class _LoginState extends State<Login> {
     emailCt = TextEditingController();
     passwordCt = TextEditingController();
     checkForReturningUser();
+    _checkBiometrics();
   }
 
   Future<void> checkForReturningUser() async {
@@ -87,18 +94,90 @@ class _LoginState extends State<Login> {
 
     ref.read(userProvider.notifier).state =
         UserModel.fromJson(response["user"]);
-
     pref.setString("token", response["token"]);
-    String username = response["user"]["firstname"];
-    await storeUserInfo(username);
 
+    String username = response["user"]["firstname"];
+    String email = response["user"]["email"];
+    // String password = response["user"]["password"];
+
+    // await storeUserInfo(username, email, password);
+    await storeUserInfo(username, email);
     Navigator.pushNamed(context, "dashboard");
   }
 
-  Future<void> storeUserInfo(String username) async {
+  Future<void> storeUserInfo(String username, email) async {
+    // Future<void> storeUserInfo(String username, email, password) async {
     await CustomSharedPreference().setString("username", username);
     await CustomSharedPreference()
         .setString("last_login", DateTime.now().toIso8601String());
+
+    await CustomSharedPreference().setString("email", email);
+    // await CustomSharedPreference().setString("password", password);
+  }
+
+  Future<void> _checkBiometrics() async {
+    bool canCheckBiometrics;
+    try {
+      canCheckBiometrics = await auth.canCheckBiometrics;
+    } catch (e) {
+      canCheckBiometrics = false;
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _canCheckBiometrics = canCheckBiometrics;
+    });
+  }
+
+  Future<void> _authenticate() async {
+    print("object");
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+        localizedReason: 'Please authenticate to access this feature',
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: true,
+        ),
+      );
+    } on PlatformException catch (e) {
+      print(e);
+      if (e.code == 'NotAvailable') {
+        alert.message =
+            "Biometric authentication is not available. Please set up biometrics on your device.";
+        alert.showAlertDialog(context);
+      }
+    } catch (e) {
+      print(e); // For any other exceptions
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _isAuthenticated = authenticated;
+      if (_isAuthenticated) {
+        // Autofill email and password fields
+        emailCt.text = username ?? '';
+        passwordCt.text =
+            'your_saved_password'; // You should retrieve this securely
+      }
+    });
+
+    await _fillCredentials();
+  }
+
+  Future<void> _fillCredentials() async {
+    String? storedEmail = await CustomSharedPreference().getString("email");
+    String? storedPassword =
+        await CustomSharedPreference().getString("password");
+
+    if (storedEmail != null && storedPassword != null) {
+      setState(() {
+        emailCt.text = storedEmail;
+        passwordCt.text = storedPassword;
+      });
+    }
   }
 
   @override
@@ -194,7 +273,9 @@ class _LoginState extends State<Login> {
                             height: 15,
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              _authenticate();
+                            },
                             child: const Icon(
                               Icons.fingerprint_rounded,
                               size: 60,

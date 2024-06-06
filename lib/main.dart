@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       return Consumer(
         builder: (context, ref, child) {
           final selectedTheme = ref.watch(AppThemeProvider)["theme"];
-          print(selectedTheme);
+          // print(selectedTheme);
           return MaterialApp(
             title: 'Reality Shift',
             debugShowCheckedModeBanner: false,
@@ -142,3 +142,4 @@ final darkTheme = ThemeData(
 // 2. Auto fill OTP on Paste for Verification Screen
 // 3. Figure out Alternative Reset Password Email Verification {using the OG screen}
 // 4. Create Notification for Users when API response is Successful
+// 5. Configure iOS biometrics
