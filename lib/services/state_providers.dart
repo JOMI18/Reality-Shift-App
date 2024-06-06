@@ -13,6 +13,7 @@ StateProvider<UserModel> userProvider = StateProvider<UserModel>((ref) {
     surname: '',
     middlename: '',
     email: '',
+    image: '',
     country: "",
     number: '',
     status: 0,

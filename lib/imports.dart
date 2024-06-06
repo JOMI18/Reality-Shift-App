@@ -43,6 +43,8 @@ export 'package:cached_network_image/cached_network_image.dart'; // optimize loa
 // import 'package:levenshtein/levenshtein.dart'; //fuzzy search
 export 'package:image_picker/image_picker.dart'; // to select an image
 // export 'package:path/path.dart'; // to get the path e.g image
+export 'package:local_auth/local_auth.dart'; // for biometrics
+
 
 // services
 export 'package:reality_shift/services/utilities.dart';

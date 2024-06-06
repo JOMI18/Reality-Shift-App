@@ -10,7 +10,7 @@ class AuthController {
 //if you have other classes or functions with the same name in your code.
 
   Future<Map> register(Map cred) async {
-    print("credentials : $cred");
+    // print("credentials : $cred");
     try {
       // Dio.Response response = await axios().get("/", data: cred);
       Dio.Response response = await axios().post("auth/register", data: cred);
@@ -23,7 +23,7 @@ class AuthController {
   }
 
   Future<Map> login(Map cred) async {
-    print("credentials : $cred");
+    // print("credentials : $cred");
     try {
       Dio.Response response = await axios().post("auth/login", data: cred);
       return response.data;
@@ -34,7 +34,7 @@ class AuthController {
   }
 
   Future<Map> checkOtp(Map cred) async {
-    print("credentials : $cred");
+    // print("credentials : $cred");
     try {
       Dio.Response response = await axios().post("auth/checkotp", data: cred);
       print(response);
@@ -45,7 +45,7 @@ class AuthController {
   }
 
   Future<Map> sendOtp(Map cred) async {
-    print("credentials : $cred");
+    // print("credentials : $cred");
     try {
       Dio.Response response = await axios().post("auth/sendotp", data: cred);
       print(response);
@@ -56,7 +56,7 @@ class AuthController {
   }
 
   Future<Map> checkAccount(Map cred) async {
-    print("credentials : $cred");
+    // print("credentials : $cred");
     try {
       Dio.Response response = await axios().post("auth/checkEmail", data: cred);
       // print(response);
@@ -68,9 +68,10 @@ class AuthController {
   }
 
   Future<Map> resetPassword(Map cred) async {
-    print("credentials : $cred");
+    // print("credentials : $cred");
     try {
-      Dio.Response response = await axios().post("auth/resetPassword", data: cred);
+      Dio.Response response =
+          await axios().post("auth/resetPassword", data: cred);
       // print(response);
       return response.data;
     } on Dio.DioException catch (e) {
@@ -78,6 +79,4 @@ class AuthController {
       return {"status": "error", "message": e.error};
     }
   }
-
-
 }

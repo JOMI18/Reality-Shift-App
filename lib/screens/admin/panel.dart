@@ -147,6 +147,9 @@ class _PanelState extends State<Panel> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Consumer(builder: (context, ref, child) {
+            final username = ref.watch(userProvider.notifier).state.firstname;
+            final userRole = ref.watch(userProvider.notifier).state.role;
+            print(userRole);
             final selectedTheme = ref.watch(AppThemeProvider)["theme"];
             Color color = selectedTheme == darkTheme ? secondary : Colors.white;
             return Column(
@@ -164,7 +167,7 @@ class _PanelState extends State<Panel> {
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 28.0, vertical: 4),
-                              child: Text("Welcome, Oluwajomiloju!",
+                              child: Text("Welcome, $username!",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 21.sp, color: Colors.black)),
@@ -342,11 +345,11 @@ class _PanelState extends State<Panel> {
                                                             .toString(),
                                                         style: const TextStyle(
                                                             color:
-                                                                Color.fromARGB(
-                                                                    172,
+                                                                Color.fromRGBO(
                                                                     255,
                                                                     255,
-                                                                    255))),
+                                                                    255,
+                                                                    0.675))),
                                                   ),
                                                 ),
                                                 if (index !=
