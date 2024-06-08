@@ -14,7 +14,7 @@ class CustomBottomSheet {
     Widget? content,
     void Function(String)? onSelect,
   }) {
-    Color rootcolor = Utilities().appColors(context).secondary;
+    Color secondary = Utilities().appColors(context).secondary;
 
     showModalBottomSheet(
       context: context,
@@ -23,7 +23,7 @@ class CustomBottomSheet {
           width: 98.w,
           height: 25.h,
           decoration: BoxDecoration(
-            color: rootcolor,
+            color: secondary,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
           ),
           padding: const EdgeInsets.all(5.0),
@@ -77,7 +77,7 @@ class CustomBottomSheet {
 
   static void showDatePicker(BuildContext context,
       {required Function(String) onDateSelected}) {
-    Color rootcolor = Utilities().appColors(context).secondary;
+    Color secondary = Utilities().appColors(context).secondary;
 
     showModalBottomSheet(
       context: context,
@@ -86,7 +86,7 @@ class CustomBottomSheet {
           width: 98.w,
           height: 28.h,
           decoration: BoxDecoration(
-            color: rootcolor,
+            color: secondary,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
           ),
           padding: EdgeInsets.all(5.0),
@@ -98,6 +98,26 @@ class CustomBottomSheet {
             },
           ),
         );
+      },
+    );
+  }
+
+  static void showContent(BuildContext context, Widget content, height) {
+    showModalBottomSheet(
+      context: context,
+      builder: (
+        BuildContext context,
+      ) {
+        return Container(
+            width: 98.w,
+            height: height ,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(25)),
+            ),
+            padding: EdgeInsets.all(5.0),
+            child: content);
       },
     );
   }

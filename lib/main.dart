@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
             title: 'Reality Shift',
             debugShowCheckedModeBanner: false,
             theme: selectedTheme,
-            // initialRoute: "dashboard",
-            initialRoute: "index",
+            initialRoute: "login",
+            // initialRoute: "index",
             routes: {
               "index": (context) => const Index(),
               "onboarding": (context) => const Onboarding(),
@@ -115,23 +115,19 @@ final darkTheme = ThemeData(
 
 // world time api 
 // https://worldtimeapi.org/api/timezone/
-// build backend api
-  // configure apple and google sign in properly
+
 
 // Localization
 // ask about     isAggregator: 0,
 // log in
-// handle setting tokens to prevent reviewing screens when set
 // fix being able to click send again consistently
-// add user provider to get access to first name on login page
 // allow me to be able to control erasing on verify screen
 // handle semantic labels for accessibility
 // handle errors for img
 // add confetti on successful signup
-// make admin responsive
-//check if main users table haas img 
+// make admin responsive on web
 // optimize all images
-// validate editing user profile
+// validate editing individual user profile
 // verify in back end first
 // add all notes to continents
 // fix search navigation
@@ -143,3 +139,4 @@ final darkTheme = ThemeData(
 // 3. Figure out Alternative Reset Password Email Verification {using the OG screen}
 // 4. Create Notification for Users when API response is Successful
 // 5. Configure iOS biometrics
+// 6.Setting Profiles to rebuild after its been changed

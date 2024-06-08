@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart' as path;
+
 import 'package:reality_shift/imports.dart';
 
 class FullUserProfile extends StatefulWidget {
@@ -12,6 +16,128 @@ class FullUserProfile extends StatefulWidget {
 
 class _FullUserProfileState extends State<FullUserProfile> {
   TextEditingController keyValueCt = TextEditingController();
+  AlertInfo alert = AlertInfo();
+  final ImagePicker _picker = ImagePicker();
+
+  File? profilePicture;
+  bool showProfilePicture = true;
+  String? fileName;
+
+  String api = "http://10.0.2.2:8000";
+  // String api = "http://realityshift.com";
+
+  Widget _showImage(email, ref) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () {
+                _sendToBackEnd(email, ref);
+              },
+              child: const Row(
+                children: [
+                  Text(
+                    'Confirm Profile',
+                    style: const TextStyle(color: Colors.green),
+                  ),
+                  SizedBox(width: 12),
+                  Icon(Icons.check_box, color: Colors.green)
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  profilePicture = null;
+                  // print(profilePicture);
+                  showProfilePicture = false;
+                  Navigator.pop(context);
+                });
+              },
+              child: const Row(
+                children: [
+                  Text(
+                    "Remove Image",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  SizedBox(width: 12),
+                  Icon(Icons.delete, color: Colors.red)
+                ],
+              ),
+            )
+          ],
+        ),
+        Container(
+            height: 30.h,
+            decoration: BoxDecoration(border: Border.all(width: 12)),
+            child: profilePicture == null
+                ? const Text(
+                    "No Image Selected",
+                    style: TextStyle(color: Colors.black),
+                  )
+                : Image.file(
+                    profilePicture!,
+                    fit: BoxFit.contain,
+                  )),
+        // : Image.asset(
+        //     "lib/assets/images/cards/$fileName",
+        //     fit: BoxFit.cover,
+        //   )),
+      ]),
+    );
+  }
+
+  void _editProfileImage(email, ref) async {
+    final img = await _picker.pickImage(source: ImageSource.gallery);
+    if (img != null) {
+      final dp = File(img.path);
+      fileName = path.basename(img.path.split('\\').last);
+      // print(dp);
+      setState(() {
+        profilePicture = dp;
+        showProfilePicture = true;
+        CustomBottomSheet.showContent(context, _showImage(email, ref,),38.h);
+      });
+    }
+  }
+
+  void _sendToBackEnd(String email, ref) async {
+    FormData data = FormData();
+
+    if (profilePicture != null) {
+      data.files.add(MapEntry(
+        'profile',
+        await MultipartFile.fromFile(
+          profilePicture!.path,
+          filename: path.basename(profilePicture!.path),
+        ),
+      ));
+    }
+
+    // data.fields.add(MapEntry('email', email));
+    data.fields.add(MapEntry('email', "getjommy@gmail.com"));
+
+    AlertLoading().showAlertDialog(context);
+    final response = await UserController().profile(data);
+    AlertLoading().closeDialog(context);
+
+    print(response);
+
+    if (response['status'] == "error") {
+      alert.message = response['message'];
+      alert.showAlertDialog(context);
+      return;
+    }
+
+    ref.read(userProvider.notifier).state =
+        UserModel.fromJson(response["user"]);
+
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +147,17 @@ class _FullUserProfileState extends State<FullUserProfile> {
       appBar: CustomAppBar().generalbar(context, "My Personal Information:"),
       body: SingleChildScrollView(
         child: Consumer(builder: (context, ref, _) {
-          final firstname = ref.watch(userProvider.notifier).state.firstname;
-          final email = ref.watch(userProvider.notifier).state.email;
-          final surname = ref.watch(userProvider.notifier).state.surname;
-          final middlename = ref.watch(userProvider.notifier).state.middlename;
-          final gender = ref.watch(userProvider.notifier).state.gender;
-          final country = ref.watch(userProvider.notifier).state.country;
-          final number = ref.watch(userProvider.notifier).state.number;
-          final dob = ref.watch(userProvider.notifier).state.dob;
+          final user = ref.watch(userProvider.notifier).state;
+          final firstname = user.firstname;
+          final email = user.email;
+          final surname = user.surname;
+          final middlename = user.middlename;
+          final gender = user.gender;
+          final country = user.country;
+          final number = user.number;
+          final dob = user.dob;
+          final profile = user.image;
+          final defaultImage = profile == null ? "road.jpg" : profile;
 
           List items = [
             {"icon": Icons.ac_unit, "key": "Firstname", "value": firstname},
@@ -69,24 +198,32 @@ class _FullUserProfileState extends State<FullUserProfile> {
               "value": DateFormat('MMM dd, yyyy').format(dob)
             }
           ];
+
           return Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
               children: [
                 ComponentSlideIns(
-                  beginOffset: Offset(0, -2),
-                  child: CircleAvatar(
-                    radius: 60,
-                    backgroundImage:
-                        AssetImage("lib/assets/images/cards/bread.jpg"),
-                    child: Container(
-                        height: 30.h,
-                        width: 30.w,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(60),
-                          color: secondary.withOpacity(0.3),
-                        ),
-                        child: Icon(Icons.edit, color: Colors.black)),
+                  beginOffset: const Offset(0, -2),
+                  child: GestureDetector(
+                    onTap: () {
+                      _editProfileImage(email, ref);
+                    },
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: profile == null
+                          ? AssetImage("lib/assets/images/cards/$defaultImage")
+                              as ImageProvider
+                          : NetworkImage("$api/UserProfile/$profile"),
+                      child: Container(
+                          height: 30.h,
+                          width: 30.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(60),
+                            color: secondary.withOpacity(0.3),
+                          ),
+                          child: const Icon(Icons.edit, color: Colors.black)),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -109,7 +246,7 @@ class _FullUserProfileState extends State<FullUserProfile> {
                       return Column(
                         children: [
                           ComponentSlideIns(
-                            beginOffset: Offset(2, 0),
+                            beginOffset: const Offset(2, 0),
                             child: ListTile(
                               leading: Icon(
                                 items[index]["icon"],

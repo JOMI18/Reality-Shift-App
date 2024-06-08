@@ -9,6 +9,10 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  String api = "http://10.0.2.2:8000";
+
+  bool _showDp = false;
+
   List data = [
     {
       "key": "Account",
@@ -34,6 +38,50 @@ class _ProfileState extends State<Profile> {
     }
   ];
 
+  void _displayProfile(defaultImage, profile) {
+    print("object");
+    setState(() {
+      _showDp = true;
+      CustomBottomSheet.showContent(
+          context, _showImage(defaultImage, profile), 70.h);
+    });
+  }
+
+  Widget _showImage(defaultImage, profile) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              Navigator.pop(context);
+            });
+          },
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                "Close Image",
+                style: TextStyle(color: Colors.red),
+              ),
+              SizedBox(width: 12),
+              Icon(Icons.close_rounded, color: Colors.red)
+            ],
+          ),
+        ),
+        Container(
+          height: 48.h,
+          width: 70.w,
+          decoration: BoxDecoration(border: Border.all(width: 12)),
+          child: profile == null
+              ? Image.asset("lib/assets/images/cards/$defaultImage")
+              : Image.network("$api/UserProfile/$profile"),
+        ),
+      ]),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,9 +89,14 @@ class _ProfileState extends State<Profile> {
       body: SingleChildScrollView(
         child: Consumer(
           builder: (context, ref, _) {
-            final firstname = ref.watch(userProvider.notifier).state.firstname;
-            final email = ref.watch(userProvider.notifier).state.email;
-            final surname = ref.watch(userProvider.notifier).state.surname;
+            final user = ref.watch(userProvider.notifier).state;
+            final firstname = user.firstname;
+            final email = user.email;
+            final surname = user.surname;
+            final profile = user.image;
+            final defaultImage =
+                profile ?? "road.jpg"; // same as when testing for null
+            // final defaultImage = profile == null ? "road.jpg" : profile;
 
             return Padding(
               padding: const EdgeInsets.all(12.0),
@@ -60,10 +113,18 @@ class _ProfileState extends State<Profile> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          const CircleAvatar(
-                            radius: 50,
-                            backgroundImage: AssetImage(
-                                "lib/assets/images/backgrounds/day.jpg"),
+                          GestureDetector(
+                            onTap: () {
+                              _displayProfile(defaultImage, profile);
+                            },
+                            child: CircleAvatar(
+                              radius: 50,
+                              backgroundImage: profile == null
+                                  ? AssetImage(
+                                          "lib/assets/images/cards/$defaultImage")
+                                      as ImageProvider
+                                  : NetworkImage("$api/UserProfile/$profile"),
+                            ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,7 +150,10 @@ class _ProfileState extends State<Profile> {
                               Row(
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, "full_user_profile");
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.black,
                                         foregroundColor: Colors.white),

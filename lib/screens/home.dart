@@ -11,6 +11,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String api = "http://10.0.2.2:8000";
+
 //////////////////// SEARCH FUNCTIONALITY ////////////////////////
   TextEditingController searchController = TextEditingController();
   bool isSearchActivated = false;
@@ -253,13 +255,17 @@ class _HomeState extends State<Home> {
         FocusScope.of(context).unfocus();
       },
       child: Consumer(builder: (context, ref, _) {
-        final username = ref.watch(userProvider.notifier).state.firstname;
-        // final image = ref.watch(userProvider.notifier).state.image;
+        final user = ref.watch(userProvider.notifier).state;
+        final username = user.firstname;
+     
+
+
         final selectedTheme = ref.watch(AppThemeProvider)["theme"];
         Color colorbgWhite = selectedTheme == darkTheme ? primary : secondary;
+
         return Scaffold(
           appBar: CustomAppBar()
-              .dashboardbar(context, "Hi, $username", "fashion.jpg"),
+              .dashboardbar(context, "Hi, $username"),
           body: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.all(12),
