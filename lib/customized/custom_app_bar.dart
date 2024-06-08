@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
-import 'package:reality_shift/main.dart';
 
 class CustomAppBar {
   CustomAppBar();
@@ -32,7 +31,7 @@ class CustomAppBar {
                 "lib/assets/images/logos/$img",
                 height: 5.h,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Text("$title",
@@ -44,7 +43,9 @@ class CustomAppBar {
     );
   }
 
-  PreferredSizeWidget dashboardbar(context, title, img) {
+  PreferredSizeWidget dashboardbar(context, title) {
+    String api = "http://10.0.2.2:8000";
+
     Color secondary = Utilities().appColors(context).secondary;
     return AppBar(
         bottom: PreferredSize(
@@ -63,58 +64,68 @@ class CustomAppBar {
         ),
         automaticallyImplyLeading: false,
         centerTitle: true,
-        title: ComponentSlideIns(
-          beginOffset: const Offset(0, -2),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, "user");
-                },
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 18,
-                      backgroundColor: Colors.grey.shade200,
-                      backgroundImage: AssetImage(
-                        "lib/assets/images/navs/$img",
-                      ),
-                    ),
-                    SizedBox(
-                      width: 3.w,
-                    ),
-                    Text("$title",
-                        textAlign: TextAlign.end,
-                        style: TextStyle(fontSize: 19.sp)),
-                  ],
-                ),
-              ),
-              Row(
+        title: Consumer(
+          builder: (context, ref, _) {
+            final user = ref.watch(userProvider.notifier).state;
+            final profile = user.image;
+            final defaultImage = profile ?? "road.jpg";
+
+            return ComponentSlideIns(
+              beginOffset: const Offset(0, -2),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, "favs");
+                      Navigator.pushNamed(context, "user");
                     },
-                    child: const Icon(
-                      Icons.favorite_rounded,
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 18,
+                          backgroundColor: Colors.grey.shade200,
+                          backgroundImage: profile == null
+                              ? AssetImage(
+                                      "lib/assets/images/cards/$defaultImage")
+                                  as ImageProvider
+                              : NetworkImage("$api/UserProfile/$profile"),
+                        ),
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        Text("$title",
+                            textAlign: TextAlign.end,
+                            style: TextStyle(fontSize: 19.sp)),
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, "notify");
-                    },
-                    child: const Icon(
-                      Icons.notifications_active_rounded,
-                    ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "favs");
+                        },
+                        child: const Icon(
+                          Icons.favorite_rounded,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "notify");
+                        },
+                        child: const Icon(
+                          Icons.notifications_active_rounded,
+                        ),
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
-          ),
+              ),
+            );
+          },
         ));
   }
 

@@ -19,7 +19,7 @@ export 'package:reality_shift/screens/full_user_profile.dart';
 export 'package:reality_shift/screens/app_theme_mode.dart';
 export 'package:reality_shift/screens/forgot_password.dart';
 
-//
+//features
 export 'package:reality_shift/screens/notes/all_notes.dart';
 
 // admin
@@ -45,7 +45,6 @@ export 'package:image_picker/image_picker.dart'; // to select an image
 // export 'package:path/path.dart'; // to get the path e.g image
 export 'package:local_auth/local_auth.dart'; // for biometrics
 
-
 // services
 export 'package:reality_shift/services/utilities.dart';
 export 'package:reality_shift/services/shared_prefernces.dart';
@@ -53,12 +52,12 @@ export 'package:reality_shift/services/dio.dart';
 export 'package:reality_shift/services/state_providers.dart';
 
 //  models
-
 export 'package:reality_shift/models/user_model.dart';
 
 // controllers
 export 'package:reality_shift/controllers/auth_controller.dart';
 export 'package:reality_shift/controllers/location_controller.dart';
+export 'package:reality_shift/controllers/user_controller.dart';
 
 // custom
 export 'package:reality_shift/customized/custom_btns.dart';
