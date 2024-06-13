@@ -19,8 +19,9 @@ class MyApp extends StatelessWidget {
             title: 'Reality Shift',
             debugShowCheckedModeBanner: false,
             theme: selectedTheme,
-            initialRoute: "login",
+            // initialRoute: "login",
             // initialRoute: "index",
+            initialRoute: "dashboard",
             routes: {
               "index": (context) => const Index(),
               "onboarding": (context) => const Onboarding(),
@@ -42,7 +43,10 @@ class MyApp extends StatelessWidget {
 
               // services
               "forgot_pin": (context) => const ForgotPassword(),
-              // notes
+              "about": (context) => const AboutApp(),
+              "account_status": (context) => const AccountStatus(),
+
+              // features
               "all_notes": (context) => const AllNotes(),
 
               // admin
@@ -119,7 +123,6 @@ final darkTheme = ThemeData(
 
 // Localization
 // ask about     isAggregator: 0,
-// log in
 // fix being able to click send again consistently
 // allow me to be able to control erasing on verify screen
 // handle semantic labels for accessibility
@@ -139,4 +142,4 @@ final darkTheme = ThemeData(
 // 3. Figure out Alternative Reset Password Email Verification {using the OG screen}
 // 4. Create Notification for Users when API response is Successful
 // 5. Configure iOS biometrics
-// 6.Setting Profiles to rebuild after its been changed
+// 6. Setting Profiles to rebuild after its been changed

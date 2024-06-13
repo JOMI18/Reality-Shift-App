@@ -11,6 +11,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   String api = "http://10.0.2.2:8000";
 
+  // ignore: unused_field
   bool _showDp = false;
 
   List data = [
@@ -20,17 +21,17 @@ class _ProfileState extends State<Profile> {
         {"route": "full_user_profile", "tab": "User Information"},
         {"route": "", "tab": "Download your Data"},
         {"route": "favs", "tab": "View your Boards"},
-        {"route": "", "tab": "Deactivate or Delete your Account"},
-        {"route": "", "tab": "Log Out"}
+        {"route": "account_status", "tab": "Deactivate or Delete your Account"},
+        {"route": "signout", "tab": "Log Out"}
       ]
     },
     {
       "key": "Settings and Privacy",
       "child": [
         {"route": "", "tab": "Activate Biometrics"},
-        {"route": "", "tab": "About"},
+        {"route": "about", "tab": "About"},
         {"route": "", "tab": "Language"},
-        {"route": "", "tab": "Notifications"},
+        {"route": "notify", "tab": "Notifications"},
         {"route": "app_theme", "tab": "App Theme Mode"},
         {"route": "", "tab": "Report a Problem"},
         {"route": "", "tab": "Terms and Policies"},
@@ -199,8 +200,8 @@ class _ProfileState extends State<Profile> {
                                   data[index]["key"],
                                   style: TextStyle(fontSize: 19.sp),
                                 ),
-                                const SizedBox(
-                                  height: 5,
+                                SizedBox(
+                                  height: 2.h,
                                 ),
                                 ComponentSlideIns(
                                   beginOffset: const Offset(-2, 0),
@@ -232,18 +233,14 @@ class _ProfileState extends State<Profile> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
+                                SizedBox(
+                                  height: 2.h,
                                 ),
                               ],
                             );
                           }),
                       SizedBox(
                         height: 3.h,
-                      ),
-                      const Text("Version 1.0.0.00.1"),
-                      SizedBox(
-                        height: 1.h,
                       ),
                     ],
                   )
