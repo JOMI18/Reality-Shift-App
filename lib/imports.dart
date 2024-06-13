@@ -21,6 +21,8 @@ export 'package:reality_shift/screens/forgot_password.dart';
 
 //features
 export 'package:reality_shift/screens/notes/all_notes.dart';
+export 'package:reality_shift/screens/about.dart';
+export 'package:reality_shift/screens/account_status.dart';
 
 // admin
 export 'package:reality_shift/screens/admin/panel.dart';
@@ -44,6 +46,7 @@ export 'package:cached_network_image/cached_network_image.dart'; // optimize loa
 export 'package:image_picker/image_picker.dart'; // to select an image
 // export 'package:path/path.dart'; // to get the path e.g image
 export 'package:local_auth/local_auth.dart'; // for biometrics
+export 'package:flutter_localizations/flutter_localizations.dart'; //app languages
 
 // services
 export 'package:reality_shift/services/utilities.dart';

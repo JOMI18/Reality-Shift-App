@@ -28,7 +28,7 @@ class _NotesState extends State<Notes> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: CustomAppBar().generalbar(context, "My Quick Note Memo Pad:"),
+        appBar: CustomAppBar().welcomebar(context, "My Quick Note Memo Pad:"),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(12),

@@ -24,6 +24,8 @@ class _NotifyState extends State<Notify> {
   ];
   @override
   Widget build(BuildContext context) {
+    Color secondary = Utilities().appColors(context).secondary;
+
     return Scaffold(
       appBar: CustomAppBar().generalbar(context, "Recent Notifications:"),
       body: Padding(
@@ -46,11 +48,11 @@ class _NotifyState extends State<Notify> {
                       ),
                       title: Text(
                         "You added a note on $key",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: secondary),
                       ),
                       trailing: Text(
                         date.toString(),
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: secondary),
                       ),
                     ),
                     SizedBox(

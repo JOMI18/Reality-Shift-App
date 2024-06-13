@@ -100,7 +100,13 @@ class _FullUserProfileState extends State<FullUserProfile> {
       setState(() {
         profilePicture = dp;
         showProfilePicture = true;
-        CustomBottomSheet.showContent(context, _showImage(email, ref,),38.h);
+        CustomBottomSheet.showContent(
+            context,
+            _showImage(
+              email,
+              ref,
+            ),
+            38.h);
       });
     }
   }
@@ -237,7 +243,7 @@ class _FullUserProfileState extends State<FullUserProfile> {
                 ),
                 Divider(
                   height: 20,
-                  color: Colors.white.withOpacity(0.4),
+                  color: secondary.withOpacity(0.4),
                 ),
                 ListView.builder(
                     shrinkWrap: true,
@@ -299,7 +305,7 @@ class _FullUserProfileState extends State<FullUserProfile> {
                           ),
                           if ((index + 1) % 3 == 0 && index != items.length - 1)
                             Divider(
-                              color: Colors.white.withOpacity(0.4),
+                              color: secondary.withOpacity(0.4),
                             )
                         ],
                       );

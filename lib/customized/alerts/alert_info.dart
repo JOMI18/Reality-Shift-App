@@ -1,5 +1,6 @@
 // import 'package:reality_shift/imports.dart';
 import 'package:flutter/material.dart';
+import 'package:reality_shift/imports.dart';
 
 class AlertInfo {
   String? title;
@@ -7,16 +8,16 @@ class AlertInfo {
 
   AlertInfo();
 
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context, {VoidCallback? func, String? name}) {
+    Color secondary = Utilities().appColors(context).secondary;
     // set up the button
     Widget okButton = ElevatedButton(
-      child: const Text(
-        "OK",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+      child: Text(
+        name ?? "OK",
+        style: TextStyle(fontWeight: FontWeight.bold, color: secondary),
       ),
       onPressed: () {
+        func!();
         Navigator.of(context).pop();
       },
     );
@@ -26,14 +27,14 @@ class AlertInfo {
       surfaceTintColor: Colors.transparent,
       title: Text(
         title ?? '',
-        style:
-            const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.bold, color: secondary),
       ),
       insetPadding: const EdgeInsets.all(0),
       content: Text(
         message ?? '',
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: secondary),
       ),
       actions: [
         okButton,
