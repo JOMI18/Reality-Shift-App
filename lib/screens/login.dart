@@ -102,7 +102,8 @@ class _LoginState extends State<Login> {
 
     // await storeUserInfo(username, email, password);
     await storeUserInfo(username, email);
-    Navigator.pushNamed(context, "dashboard");
+
+    AlertSuccess().displayLottie(context, "dashboard");
   }
 
   Future<void> storeUserInfo(String username, email) async {
@@ -178,6 +179,26 @@ class _LoginState extends State<Login> {
         passwordCt.text = storedPassword;
       });
     }
+  }
+
+  void activateProfile() async {
+    if (emailCt.text == "") {
+      alert.message = "Email can't be empty";
+      alert.showAlertDialog(context);
+    }
+    String email = emailCt.text;
+
+    AlertLoading().showAlertDialog(context);
+    final response = await UserController().activate(email);
+    AlertLoading().closeDialog(context);
+    print(response);
+
+if (response["status"]=="ok") {
+    alert.message =
+        "Account Successfully Activated, You can try to log in now.";
+    alert.showAlertDialog(context);
+  
+}
   }
 
   @override
@@ -307,6 +328,42 @@ class _LoginState extends State<Login> {
                                   },
                                   child: Text(
                                     'Sign Out',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Utilities()
+                                            .appColors(context)
+                                            .secondary),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          ComponentSlideIns(
+                            beginOffset: const Offset(0, 4),
+                            duration: const Duration(milliseconds: 1200),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "If your Account is deactivated,",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    activateProfile();
+                                  },
+                                  child: Text(
+                                    'Activate Account',
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,

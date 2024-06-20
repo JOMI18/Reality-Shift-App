@@ -12,6 +12,8 @@ class _ContinentsState extends State<Continents> {
   List continentsData = [];
   String api = "http://10.0.2.2:8000";
   // String api = "http://realityshift.com";
+
+  
   void loadData() async {
     final response = await LocationController().fetchAllContinents();
     // print(response);

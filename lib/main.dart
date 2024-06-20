@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
             title: 'Reality Shift',
             debugShowCheckedModeBanner: false,
             theme: selectedTheme,
-            // initialRoute: "login",
+            initialRoute: "login",
             // initialRoute: "index",
-            initialRoute: "dashboard",
+            // initialRoute: "dashboard",
             routes: {
               "index": (context) => const Index(),
               "onboarding": (context) => const Onboarding(),
@@ -127,9 +127,8 @@ final darkTheme = ThemeData(
 // allow me to be able to control erasing on verify screen
 // handle semantic labels for accessibility
 // handle errors for img
-// add confetti on successful signup
-// make admin responsive on web
 // optimize all images
+// make admin responsive on web
 // validate editing individual user profile
 // verify in back end first
 // add all notes to continents
@@ -143,3 +142,9 @@ final darkTheme = ThemeData(
 // 4. Create Notification for Users when API response is Successful
 // 5. Configure iOS biometrics
 // 6. Setting Profiles to rebuild after its been changed
+// 7. Every User will have their on Pin Fav,Notes. e.t.c in the db
+// 8. Fix Alert to not take the entire screen
+// 9. Before deleting or deactivating verify account
+
+// In production
+// 1. check code expiration for 60secs since the queue would be running already

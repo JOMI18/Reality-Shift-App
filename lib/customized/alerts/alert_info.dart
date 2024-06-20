@@ -12,12 +12,15 @@ class AlertInfo {
     Color secondary = Utilities().appColors(context).secondary;
     // set up the button
     Widget okButton = ElevatedButton(
+      style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.black)),
       child: Text(
         name ?? "OK",
         style: TextStyle(fontWeight: FontWeight.bold, color: secondary),
       ),
       onPressed: () {
-        func!();
+        if (func != null) {
+          func();
+        }
         Navigator.of(context).pop();
       },
     );
