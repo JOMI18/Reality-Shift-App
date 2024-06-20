@@ -120,8 +120,7 @@ class _SignUpState extends State<SignUp> {
 
     pref.setString("token", response["token"]);
 
-    Navigator.pushNamed(context, "verification");
-    // then straight to dashboard
+    AlertSuccess().displayLottie(context, "verification");
   }
 
   List password_requirements = [

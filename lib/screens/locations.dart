@@ -310,8 +310,7 @@ class _LocationsState extends State<Locations> {
                           child: CircleAvatar(
                             radius: 32,
                             backgroundImage: NetworkImage(
-                              "$api/Continents/$title/Flags/$flag",
-                            ),
+                                "$api/Continents/$title/Flags/$flag"),
                           ),
                         ),
                         const SizedBox(

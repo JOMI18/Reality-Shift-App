@@ -73,6 +73,8 @@ export 'package:reality_shift/customized/custom_bottom_sheet.dart';
 export 'package:reality_shift/customized/alerts/create_new.dart';
 export 'package:reality_shift/customized/custom_error_screen.dart';
 export 'package:reality_shift/customized/custom_switch.dart';
+export 'package:reality_shift/customized/alerts/alert_success.dart';
+
 
 // transition
 export 'package:reality_shift/transitions/item_slide_ins.dart';
