@@ -48,7 +48,7 @@ class _NotesState extends State<Notes> {
                                 name: 'Create New Folder',
                                 hint: 'Enter folder name',
                                 inputCt: folderNameController,
-                                action: "Create",
+                                first_action: "Create",
                                 onpressed: () {
                                   // verify in back end first
                                   String folderName = folderNameController.text;

@@ -193,12 +193,15 @@ class _LoginState extends State<Login> {
     AlertLoading().closeDialog(context);
     print(response);
 
-if (response["status"]=="ok") {
-    alert.message =
-        "Account Successfully Activated, You can try to log in now.";
-    alert.showAlertDialog(context);
-  
-}
+    if (response["status"] == "error") {
+      alert.message = response["message"];
+      alert.showAlertDialog(context);
+    }
+    if (response["status"] == "ok") {
+      alert.message =
+          "Account Successfully Activated, You can try to log in now.";
+      alert.showAlertDialog(context);
+    }
   }
 
   @override

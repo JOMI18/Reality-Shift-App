@@ -276,7 +276,7 @@ class _FullUserProfileState extends State<FullUserProfile> {
                                     context,
                                     name: "Edit ${items[index]["key"]}",
                                     hint: "Enter ${items[index]["key"]}",
-                                    action: "Edit",
+                                    first_action: "Edit",
                                     inputCt: keyValueCt,
                                     onpressed: () {
                                       String value = keyValueCt.text;

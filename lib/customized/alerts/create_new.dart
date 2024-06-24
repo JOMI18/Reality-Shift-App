@@ -5,7 +5,13 @@ class CreateNew {
   CreateNew();
 
   static Future<String?> showFolderDialog(BuildContext context,
-      {name, hint, inputCt, onpressed, action}) async {
+      {String? name,
+      String? hint,
+      TextEditingController? inputCt,
+      VoidCallback? onpressed,
+      String? second_action,
+      String? first_action,
+      VoidCallback? option}) async {
     Color rootcolor = Utilities().appColors(context).secondary;
 
     return showDialog<String>(
@@ -14,7 +20,7 @@ class CreateNew {
         return AlertDialog(
           surfaceTintColor: Colors.transparent,
           title: Text(
-            name,
+            name ?? "",
             style: TextStyle(color: rootcolor),
           ),
           content: TextField(
@@ -36,7 +42,14 @@ class CreateNew {
             ),
             ElevatedButton(
               onPressed: onpressed,
-              child: Text(action),
+              child: Text(first_action ?? ""),
+            ),
+            TextButton(
+              onPressed: option,
+              child: Text(
+                second_action ?? "",
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         );

@@ -186,4 +186,47 @@ class CustomAppBar {
       }),
     );
   }
+
+  PreferredSizeWidget bgImgbar(context, title) {
+    Color black = Colors.black;
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 5,
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(20),
+        child: Divider(
+          height: 12,
+          thickness: 12,
+          color: black,
+        ),
+      ),
+      centerTitle: true,
+      leading: Navigator.of(context).canPop()
+          ? TextButton(
+              style: ButtonStyle(
+                overlayColor: WidgetStateProperty.all(Colors.transparent),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                size: 22,
+                color: black,
+              ),
+            )
+          : null,
+      title: ComponentSlideIns(
+        beginOffset: const Offset(0, -2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("$title",
+                textAlign: TextAlign.end,
+                style: TextStyle(fontSize: 20.sp, color: black)),
+          ],
+        ),
+      ),
+    );
+  }
 }

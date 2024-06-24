@@ -18,6 +18,7 @@ export 'package:reality_shift/screens/notify.dart';
 export 'package:reality_shift/screens/full_user_profile.dart';
 export 'package:reality_shift/screens/app_theme_mode.dart';
 export 'package:reality_shift/screens/forgot_password.dart';
+export 'package:reality_shift/screens/bucket_list.dart';
 
 //features
 export 'package:reality_shift/screens/notes/all_notes.dart';
@@ -74,7 +75,6 @@ export 'package:reality_shift/customized/alerts/create_new.dart';
 export 'package:reality_shift/customized/custom_error_screen.dart';
 export 'package:reality_shift/customized/custom_switch.dart';
 export 'package:reality_shift/customized/alerts/alert_success.dart';
-
 
 // transition
 export 'package:reality_shift/transitions/item_slide_ins.dart';

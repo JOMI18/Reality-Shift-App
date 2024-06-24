@@ -180,7 +180,12 @@ class _HomeState extends State<Home> {
       "img": "settings.jpg",
       "route": "user"
     },
-    {"bg": Colors.amber, "title": "Tips", "img": "tips.jpg", "route": ""},
+    {
+      "bg": Colors.amber,
+      "title": "To-do",
+      "img": "tips.jpg",
+      "route": "bucket_list"
+    },
     {"bg": Colors.pink, "title": "Nature", "img": "nature.jpg", "route": ""},
   ];
 
@@ -257,15 +262,12 @@ class _HomeState extends State<Home> {
       child: Consumer(builder: (context, ref, _) {
         final user = ref.watch(userProvider.notifier).state;
         final username = user.firstname;
-     
-
 
         final selectedTheme = ref.watch(AppThemeProvider)["theme"];
         Color colorbgWhite = selectedTheme == darkTheme ? primary : secondary;
 
         return Scaffold(
-          appBar: CustomAppBar()
-              .dashboardbar(context, "Hi, $username"),
+          appBar: CustomAppBar().dashboardbar(context, "Hi, $username"),
           body: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.all(12),
