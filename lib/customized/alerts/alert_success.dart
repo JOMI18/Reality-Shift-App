@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
 
 class AlertSuccess {
+  AlertSuccess();
+
   Future displayLottie(context, screen) {
     return showDialog(
       context: context,

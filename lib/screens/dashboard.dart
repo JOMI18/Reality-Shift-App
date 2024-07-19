@@ -15,7 +15,8 @@ class _DashboardState extends State<Dashboard> {
   final List<Widget> bodyWidget = const [
     Home(),
     Continents(),
-    Notes(),
+    // Notes(),
+    NotesPad(),
     Pins(),
     Profile(),
     Panel()

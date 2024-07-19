@@ -89,7 +89,7 @@ class CustomBottomSheet {
             color: secondary,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
           ),
-          padding: EdgeInsets.all(5.0),
+          padding: const EdgeInsets.all(5.0),
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.date,
             initialDateTime: DateTime.now(),
@@ -102,21 +102,29 @@ class CustomBottomSheet {
     );
   }
 
-  static void showContent(BuildContext context, Widget content, height) {
+  static void showContent(
+    BuildContext context,
+    Widget content,
+    height, {
+    Color color = Colors.white,
+  }) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled:
+          true, // Allow the bottom sheet to take up the full height
+
       builder: (
         BuildContext context,
       ) {
         return Container(
             width: 98.w,
-            height: height ,
+            height: height,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: color,
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(25)),
             ),
-            padding: EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(5.0),
             child: content);
       },
     );

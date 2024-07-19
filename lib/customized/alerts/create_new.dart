@@ -11,8 +11,8 @@ class CreateNew {
       VoidCallback? onpressed,
       String? second_action,
       String? first_action,
-      VoidCallback? option}) async {
-    Color rootcolor = Utilities().appColors(context).secondary;
+      VoidCallback? option}) {
+    Color secondary = Utilities().appColors(context).secondary;
 
     return showDialog<String>(
       context: context,
@@ -21,13 +21,13 @@ class CreateNew {
           surfaceTintColor: Colors.transparent,
           title: Text(
             name ?? "",
-            style: TextStyle(color: rootcolor),
+            style: TextStyle(color: secondary),
           ),
           content: TextField(
             controller: inputCt,
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: TextStyle(color: rootcolor.withOpacity(0.7)),
+              hintStyle: TextStyle(color: secondary.withOpacity(0.7)),
             ),
           ),
           actions: <Widget>[
@@ -37,20 +37,21 @@ class CreateNew {
               },
               child: Text(
                 'Cancel',
-                style: TextStyle(color: rootcolor),
+                style: TextStyle(color: secondary),
               ),
             ),
             ElevatedButton(
               onPressed: onpressed,
               child: Text(first_action ?? ""),
             ),
-            TextButton(
-              onPressed: option,
-              child: Text(
-                second_action ?? "",
-                style: TextStyle(color: Colors.red),
+            if (second_action != null && option != null)
+              TextButton(
+                onPressed: option,
+                child: Text(
+                  second_action,
+                  style: const TextStyle(color: Colors.red),
+                ),
               ),
-            ),
           ],
         );
       },
