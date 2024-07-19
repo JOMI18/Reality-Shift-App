@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:reality_shift/imports.dart';
 
 StateProvider<Map> signUpProvider = StateProvider<Map>((ref) => {});
-StateProvider<Map> BucketListProvider = StateProvider<Map>((ref) => {});
+StateProvider<List<Map<String, dynamic>>> BucketListProvider =
+    StateProvider<List<Map<String, dynamic>>>((ref) => []);
+StateProvider<NoteData> NotesProvider =
+    StateProvider<NoteData>((ref) => NoteData());
 StateProvider<Map<String, ThemeData>> AppThemeProvider =
     StateProvider<Map<String, ThemeData>>((ref) => {"theme": darkTheme});
 

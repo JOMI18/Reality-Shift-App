@@ -44,7 +44,7 @@ class _ProfileState extends State<Profile> {
     setState(() {
       _showDp = true;
       CustomBottomSheet.showContent(
-          context, _showImage(defaultImage, profile), 70.h);
+          context, _showImage(defaultImage, profile), 55.h);
     });
   }
 

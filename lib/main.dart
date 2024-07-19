@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
             title: 'Reality Shift',
             debugShowCheckedModeBanner: false,
             theme: selectedTheme,
-            initialRoute: "login",
+            // initialRoute: "login",
             // initialRoute: "index",
-            // initialRoute: "dashboard",
+            initialRoute: "dashboard",
             routes: {
               "index": (context) => const Index(),
               "onboarding": (context) => const Onboarding(),
@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
               "notify": (context) => const Notify(),
               "full_user_profile": (context) => const FullUserProfile(),
               "app_theme": (context) => const AppThemeMode(),
-              "bucket_list": (context) => const BucketList(),
 
               // services
               "forgot_pin": (context) => const ForgotPassword(),
@@ -48,7 +47,12 @@ class MyApp extends StatelessWidget {
               "account_status": (context) => const AccountStatus(),
 
               // features
-              "all_notes": (context) => const AllNotes(),
+              // "all_notes": (context) => const AllNotes(),
+              // "notes": (context) => const Notes(),
+              "bucket_list": (context) => const BucketList(),
+
+              "notes_pad": (context) => const NotesPad(),
+              // "new_note": (context) => CreateNewNote(),
 
               // admin
               "admin_panel": (context) => const Panel(),
@@ -147,7 +151,8 @@ final darkTheme = ThemeData(
 // 8. Fix Alert to not take the entire screen
 // 9. Before deleting or deactivating verify account
 // 10. Handle BucketListProvider state management
-
+// 11. animation for icons
+// 12. Handle SharedPreference for NotesProvider
 
 
 

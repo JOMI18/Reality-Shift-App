@@ -10,7 +10,7 @@ class Btns {
 
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            elevation: 5,    
+            elevation: 5,
             fixedSize: const Size(350, 60),
             backgroundColor: colorScheme.secondary,
             foregroundColor: Colors.black,
@@ -32,6 +32,23 @@ class Btns {
         style: ElevatedButton.styleFrom(
           elevation: 5,
           fixedSize: const Size(190, 50),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+        ),
+        onPressed: func,
+        child: Text(
+          "$title",
+          style: TextStyle(color: unchanged),
+        ));
+  }
+
+  Widget shortBtn(context, title, func) {
+    Color unchanged = const Color.fromARGB(255, 15, 34, 45);
+
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 5,
+          fixedSize: const Size(180, 50),
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10))),
         ),

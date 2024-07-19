@@ -9,7 +9,7 @@ export 'package:reality_shift/screens/login.dart';
 export 'package:reality_shift/screens/home.dart';
 export 'package:reality_shift/screens/pins.dart';
 export 'package:reality_shift/screens/profile.dart';
-export 'package:reality_shift/screens/notes.dart';
+export 'package:reality_shift/screens/dummy_data/_notes.dart';
 export 'package:reality_shift/screens/continents.dart';
 export 'package:reality_shift/screens/dashboard.dart';
 export 'package:reality_shift/screens/sign_out.dart';
@@ -19,11 +19,13 @@ export 'package:reality_shift/screens/full_user_profile.dart';
 export 'package:reality_shift/screens/app_theme_mode.dart';
 export 'package:reality_shift/screens/forgot_password.dart';
 export 'package:reality_shift/screens/bucket_list.dart';
+export 'package:reality_shift/screens/dummy_data/creating_new_note.dart';
 
 //features
-export 'package:reality_shift/screens/notes/all_notes.dart';
+export 'package:reality_shift/screens/dummy_data/_all_notes.dart';
 export 'package:reality_shift/screens/about.dart';
 export 'package:reality_shift/screens/account_status.dart';
+export 'package:reality_shift/screens/notes/notes_pad.dart';
 
 // admin
 export 'package:reality_shift/screens/admin/panel.dart';
@@ -48,6 +50,8 @@ export 'package:image_picker/image_picker.dart'; // to select an image
 // export 'package:path/path.dart'; // to get the path e.g image
 export 'package:local_auth/local_auth.dart'; // for biometrics
 export 'package:flutter_localizations/flutter_localizations.dart'; //app languages
+export 'package:flutter_speed_dial/flutter_speed_dial.dart'; //replicating floating action buttons
+export 'package:flutter_quill/flutter_quill.dart'; // in-text editing
 
 // services
 export 'package:reality_shift/services/utilities.dart';
@@ -57,6 +61,8 @@ export 'package:reality_shift/services/state_providers.dart';
 
 //  models
 export 'package:reality_shift/models/user_model.dart';
+export 'package:reality_shift/models/notes_model.dart';
+export 'package:reality_shift/models/notes_data_model.dart';
 
 // controllers
 export 'package:reality_shift/controllers/auth_controller.dart';
@@ -75,6 +81,8 @@ export 'package:reality_shift/customized/alerts/create_new.dart';
 export 'package:reality_shift/customized/custom_error_screen.dart';
 export 'package:reality_shift/customized/custom_switch.dart';
 export 'package:reality_shift/customized/alerts/alert_success.dart';
+export 'package:reality_shift/customized/custom_folder.dart';
+export 'package:reality_shift/models/folder_model.dart';
 
 // transition
 export 'package:reality_shift/transitions/item_slide_ins.dart';
