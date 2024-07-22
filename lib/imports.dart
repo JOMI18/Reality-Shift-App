@@ -20,6 +20,8 @@ export 'package:reality_shift/screens/app_theme_mode.dart';
 export 'package:reality_shift/screens/forgot_password.dart';
 export 'package:reality_shift/screens/bucket_list.dart';
 export 'package:reality_shift/screens/dummy_data/creating_new_note.dart';
+export 'package:reality_shift/screens/notes/folders.dart';
+
 
 //features
 export 'package:reality_shift/screens/dummy_data/_all_notes.dart';
@@ -63,6 +65,8 @@ export 'package:reality_shift/services/state_providers.dart';
 export 'package:reality_shift/models/user_model.dart';
 export 'package:reality_shift/models/notes_model.dart';
 export 'package:reality_shift/models/notes_data_model.dart';
+export 'package:reality_shift/models/folder_data_model.dart';
+
 
 // controllers
 export 'package:reality_shift/controllers/auth_controller.dart';

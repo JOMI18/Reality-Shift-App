@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
               "bucket_list": (context) => const BucketList(),
 
               "notes_pad": (context) => const NotesPad(),
+              "folders": (context) => MyFolders(),
               // "new_note": (context) => CreateNewNote(),
 
               // admin
