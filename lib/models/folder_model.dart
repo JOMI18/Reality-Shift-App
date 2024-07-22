@@ -1,16 +1,18 @@
-// import 'package:flutter/material.dart';
-
 class Folder {
+  int id;
+  int content_number;
   String name;
-  DateTime dateAdded;
+  String dateCreated;
   List<Folder> subFolders;
   List<String> notes;
   String? route;
 
   Folder(
       {required this.name,
-      required this.dateAdded,
+      required this.dateCreated,
       this.subFolders = const [],
       this.notes = const [],
-      route});
+      required this.id,
+      required this.content_number,
+      this.route});
 }

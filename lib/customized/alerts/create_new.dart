@@ -13,6 +13,7 @@ class CreateNew {
       String? first_action,
       VoidCallback? option}) {
     Color secondary = Utilities().appColors(context).secondary;
+    Color primary = Utilities().appColors(context).primary;
 
     return showDialog<String>(
       context: context,
@@ -41,11 +42,17 @@ class CreateNew {
               ),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  disabledBackgroundColor: secondary.withOpacity(0.2),
+                  disabledForegroundColor: primary),
               onPressed: onpressed,
               child: Text(first_action ?? ""),
             ),
-            if (second_action != null && option != null)
-              TextButton(
+            if (second_action != null)
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    disabledBackgroundColor: Colors.black.withOpacity(0.4),
+                    disabledForegroundColor: primary),
                 onPressed: option,
                 child: Text(
                   second_action,

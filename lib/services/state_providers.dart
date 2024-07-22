@@ -6,6 +6,8 @@ StateProvider<List<Map<String, dynamic>>> BucketListProvider =
     StateProvider<List<Map<String, dynamic>>>((ref) => []);
 StateProvider<NoteData> NotesProvider =
     StateProvider<NoteData>((ref) => NoteData());
+StateProvider<FolderData> FolderProvider =
+    StateProvider<FolderData>((ref) => FolderData());
 StateProvider<Map<String, ThemeData>> AppThemeProvider =
     StateProvider<Map<String, ThemeData>>((ref) => {"theme": darkTheme});
 

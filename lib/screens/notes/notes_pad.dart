@@ -109,7 +109,7 @@ class _NotesPadState extends State<NotesPad> {
   // edit note
   void _editNote(Note note, ref, primary) {
     final noteData = ref.read(NotesProvider.notifier).state;
-    print(noteData);
+    // print(noteData);
 
     titleCt.text = note.title;
     bodyCt.text = note.text;
