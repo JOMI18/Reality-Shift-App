@@ -49,6 +49,8 @@ class Btns {
         style: ElevatedButton.styleFrom(
           elevation: 5,
           fixedSize: const Size(180, 50),
+          disabledBackgroundColor: Colors.white.withOpacity(0.4),
+          disabledForegroundColor: unchanged,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10))),
         ),

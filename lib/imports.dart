@@ -85,7 +85,7 @@ export 'package:reality_shift/customized/alerts/create_new.dart';
 export 'package:reality_shift/customized/custom_error_screen.dart';
 export 'package:reality_shift/customized/custom_switch.dart';
 export 'package:reality_shift/customized/alerts/alert_success.dart';
-export 'package:reality_shift/customized/custom_folder.dart';
+export 'package:reality_shift/screens/dummy_data/custom_folder.dart';
 export 'package:reality_shift/models/folder_model.dart';
 
 // transition

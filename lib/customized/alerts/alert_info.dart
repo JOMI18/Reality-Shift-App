@@ -30,6 +30,8 @@ class AlertInfo {
       surfaceTintColor: Colors.transparent,
       title: Text(
         title ?? '',
+        // overflow: TextOverflow.visible,
+        // softWrap: true,
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, color: secondary),
       ),

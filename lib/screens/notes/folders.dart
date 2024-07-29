@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:reality_shift/imports.dart';
 
 class MyFolders extends StatefulWidget {
@@ -11,6 +12,7 @@ class MyFolders extends StatefulWidget {
 class _MyFoldersState extends State<MyFolders> {
   bool doesSubFolderExist = false;
   bool isEditActive = false;
+  bool isNoteBeingCreated = false;
   bool isCreateActionActive = false;
   TextEditingController textCt = TextEditingController();
   String? selectedItem;
@@ -34,22 +36,30 @@ class _MyFoldersState extends State<MyFolders> {
           });
           _renameFolder(folder, folderData);
         }),
-        _buildPopupMenuItem(
-            "New", Icons.create_new_folder_sharp, Colors.teal, null),
-        _buildPopupMenuItem(
-            "Share", Icons.ios_share_rounded, Colors.teal, null),
-        _buildPopupMenuItem(
-            "Group by Date", Icons.calendar_month, Colors.teal, null,
-            isGroupByDate: true),
+        _buildPopupMenuItem("New", Icons.create_new_folder_sharp, Colors.teal, () {
+          _createSubFolder(folder, folderData);
+        }),
+        _buildPopupMenuItem("Share", Icons.ios_share_rounded, Colors.teal, null),
+        _buildPopupMenuItem("Group by Date", Icons.calendar_month, Colors.teal, null, isGroupByDate: true),
         _buildPopupMenuItem("Delete", Icons.delete, Colors.red, () {
-          folderData.deleteFolder(folder);
+          _confirmDelete(folder, folderData);
         }, isDelete: true),
       ],
     );
   }
 
-  PopupMenuItem<String> _buildPopupMenuItem(
-      String title, IconData icon, Color iconColor, VoidCallback? onTap,
+  void _confirmDelete(Folder folder, FolderData folderData) {
+    AlertInfo alert = AlertInfo();
+
+    alert.title = "Delete ${folder.name} FOLDER? ";
+    alert.message = "Are you sure you want to delete this folder?";
+    alert.showAlertDialog(context, func: () {
+      folderData.deleteFolder(folder);
+      Navigator.pop(context);
+    }, name: "Yes");
+  }
+
+  PopupMenuItem<String> _buildPopupMenuItem(String title, IconData icon, Color iconColor, VoidCallback? onTap,
       {bool isDelete = false, bool isGroupByDate = false}) {
     return PopupMenuItem<String>(
       value: title,
@@ -82,8 +92,7 @@ class _MyFoldersState extends State<MyFolders> {
     showFolderDialog(id, folderData, folder: folder);
   }
 
-  Future<String?> showFolderDialog(int id, FolderData folderData,
-      {Folder? folder}) {
+  Future<String?> showFolderDialog(int id, FolderData folderData, {Folder? folder, Folder? parentFolder}) {
     return CreateNew.showFolderDialog(context,
         name: 'Create New Folder',
         hint: 'Enter folder name',
@@ -118,12 +127,25 @@ class _MyFoldersState extends State<MyFolders> {
                     route: '',
                     content_number: 0,
                   );
-                  folderData.addNewFolders(newFolder);
+
+                  if (parentFolder != null) {
+                    folderData.addSubFolders(parentFolder, newFolder);
+                  } else {
+                    folderData.addNewFolders(newFolder);
+                  }
                   textCt.clear();
                   Navigator.of(context).pop();
                 });
               }
             : null);
+  }
+
+  void _createSubFolder(parentFolder, folderData) {
+    setState(() {
+      isCreateActionActive = true;
+    });
+    int id = folderData.getAllFolders().length + parentFolder.subFolders.length;
+    showFolderDialog(id, folderData, parentFolder: parentFolder);
   }
 
   @override
@@ -134,61 +156,70 @@ class _MyFoldersState extends State<MyFolders> {
       builder: (context, ref, _) {
         final folderData = ref.read(FolderProvider.notifier).state;
         final selectedTheme = ref.watch(AppThemeProvider)["theme"];
-        Color transitionColor =
-            selectedTheme == darkTheme ? secondary : primary;
+        Color transitionColor = selectedTheme == darkTheme ? secondary : primary;
         // final folderData = ref.watch(FolderProvider);
         return Scaffold(
-          floatingActionButton: _buildSpeedDial(folderData),
+          floatingActionButton: isNoteBeingCreated ? null : _buildSpeedDial(folderData),
           appBar: CustomAppBar().welcomebar(context, "My Memo Pad:"),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 28, 12, 12.0),
-              child: Column(
-                children: [
-                  ComponentSlideIns(
-                    beginOffset: const Offset(2, 0),
+          body: isNoteBeingCreated
+              // ? NotesPad(isNoteBeingCreated: isNoteBeingCreated)
+              ? NotesPad(
+                  isNoteBeingCreated: isNoteBeingCreated,
+                  onBackArrowPressed: () {
+                    setState(() {
+                      isNoteBeingCreated = false;
+                    });
+                  },
+                )
+              // ? Navigator.pushNamed(context, "notes_pad", arguments: {isNoteBeingCreated: isNoteBeingCreated})
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 28, 12, 12.0),
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.folder_copy_rounded,
-                              color: secondary,
-                              size: 25,
-                            ),
-                            const SizedBox(
-                              width: 15,
-                            ),
-                            Flexible(
-                              child: Text(
-                                "All Folders".toUpperCase(),
-                                softWrap: true,
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontSize: 20.sp,
-                                  overflow: TextOverflow.visible,
-                                  color: secondary,
-                                  fontWeight: FontWeight.w900,
-                                ),
+                        ComponentSlideIns(
+                          beginOffset: const Offset(2, 0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.folder_copy_rounded,
+                                    color: secondary,
+                                    size: 25,
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Flexible(
+                                      child: Text("All Folders".toUpperCase(),
+                                          softWrap: true,
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                              fontSize: 20.sp,
+                                              overflow: TextOverflow.visible,
+                                              color: secondary,
+                                              fontWeight: FontWeight.w900))),
+                                ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        ComponentSlideIns(
+                            beginOffset: const Offset(0, 3),
+                            child: Column(
+                              children: [
+                                _buildFoldersList(folderData, transitionColor, secondary),
+                              ],
+                            ))
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  ComponentSlideIns(
-                      beginOffset: const Offset(0, 3),
-                      child: _buildFoldersList(
-                          folderData, transitionColor, secondary))
-                ],
-              ),
-            ),
-          ),
+                ),
         );
       },
     );
@@ -214,13 +245,14 @@ class _MyFoldersState extends State<MyFolders> {
           label: 'Create Note',
           labelStyle: const TextStyle(color: Colors.black),
           onTap: () {
-            Navigator.pushNamed(context, "notes_pad");
+            setState(() {
+              isNoteBeingCreated = true;
+            });
+            // Navigator.pushNamed(context, "notes_pad");
           },
         ),
         SpeedDialChild(
-          child: isEditActive
-              ? const Icon(Icons.done_all_sharp)
-              : const Icon(Icons.edit_square),
+          child: isEditActive ? const Icon(Icons.done_all_sharp) : const Icon(Icons.edit_square),
           label: isEditActive ? "Done" : 'Edit',
           labelStyle: const TextStyle(color: Colors.black),
           onTap: () {
@@ -242,29 +274,34 @@ class _MyFoldersState extends State<MyFolders> {
       color: Colors.black,
       shape: const RoundedRectangleBorder(
           side: BorderSide(width: 2, color: Colors.teal),
-          borderRadius: BorderRadius.vertical(
-              top: Radius.circular(15), bottom: Radius.circular(15))),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(15), bottom: Radius.circular(15))),
       child: Column(
           children: List.generate(folders.length, (index) {
         final folder = folders[index];
-        final isEditable =
-            index >= 2; // Folders from index 2 onwards are editable
-        final isDisabled = index < 2; // Folders at index 0 and 1 are disabled
-        // bool isExpanded = doesSubFolderExist == folder.sub_folders.isNotEmpty;
+        // print(index);
+        final isLastFolder = index == folders.length - 1; // Check if it is the last folder
+        // print(isLastFolder);
+        // final isEditable = index >= 2 && !isLastFolder; // Folders from index 2 onwards are editable
+        final isDisabled = index < 2 || isLastFolder; // Folders at index 0, 1, and the last folder are disabled
+        final isEditable = !isDisabled; // Editable if not disabled
+        doesSubFolderExist = doesSubFolderExist == folder.subFolders.isNotEmpty;
 
+        // print(doesSubFolderExist); // print(isDisabled);
         return Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
               Row(
                 children: [
-                  _buildFolderInfo(folder, transitionColor, isDisabled),
-                  if (isEditActive)
-                    isEditable
-                        ? _buildEditIcon(folder, folderData)
-                        : Container(),
+                  _buildFolderInfo(folder, transitionColor, isDisabled, isLastFolder),
+                  _buildEditIcon(folder, folderData, isEditable)
                 ],
               ),
+              if (folder.subFolders.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+                  child: _buildSubFoldersList(folder.subFolders, folderData, transitionColor, secondary),
+                ),
               if (index != folders.length - 1)
                 Padding(
                   padding: EdgeInsets.fromLTRB(10.w, 10, 0, 0),
@@ -277,12 +314,38 @@ class _MyFoldersState extends State<MyFolders> {
     );
   }
 
-  Widget _buildFolderInfo(folder, transitionColor, isDisabled) {
+  Widget _buildSubFoldersList(List<Folder> subFolders, folderData, transitionColor, secondary) {
+    return Column(
+      children: List.generate(subFolders.length, (index) {
+        final subFolder = subFolders[index];
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(0, 4, 0, 2),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  _buildFolderInfo(subFolder, transitionColor, false, false, isSubFolder: true),
+                  _buildEditIcon(subFolder, folderData, true),
+                ],
+              ),
+              if (index != subFolders.length - 1)
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10.w, 10, 0, 0),
+                  child: Divider(height: 1, color: secondary.withOpacity(0.4)),
+                ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildFolderInfo(folder, transitionColor, isDisabled, isLastFolder, {bool isSubFolder = false}) {
     return Flexible(
       child: Row(
         children: [
           Icon(
-            Icons.folder,
+            isLastFolder ? Icons.delete : Icons.folder,
             color: isEditActive
                 ? isDisabled
                     ? Colors.grey.withOpacity(0.4)
@@ -315,20 +378,16 @@ class _MyFoldersState extends State<MyFolders> {
                 ),
                 Row(
                   children: [
-                    Text(
-                      "${folder.content_number}",
-                      style: TextStyle(
-                          height: 1.8,
-                          fontWeight: FontWeight.w700,
-                          color: isEditActive
-                              ? isDisabled
-                                  ? Colors.grey.withOpacity(0.7)
-                                  : Colors.white
-                              : Colors.white),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    )
+                    Text("${folder.content_number}",
+                        style: TextStyle(
+                            height: 1.8,
+                            fontWeight: FontWeight.w700,
+                            color: isEditActive
+                                ? isDisabled
+                                    ? Colors.grey.withOpacity(0.7)
+                                    : Colors.white
+                                : Colors.white)),
+                    const SizedBox(width: 10)
                   ],
                 ),
               ],
@@ -339,21 +398,21 @@ class _MyFoldersState extends State<MyFolders> {
     );
   }
 
-  Widget _buildEditIcon(folder, folderData) {
+  Widget _buildEditIcon(folder, folderData, isEditable) {
     String name = folder.name;
     return GestureDetector(
       onTap: () {
         setState(() {
-          doesSubFolderExist = !doesSubFolderExist;
+          // print(doesSubFolderExist);
+          // doesSubFolderExist = !doesSubFolderExist;
         });
       },
       child: isEditActive
-          ? showEditingIcon(folder, folderData, name)
-          : Icon(
-              doesSubFolderExist
-                  ? Icons.keyboard_arrow_right_outlined
-                  : Icons.expand_more_rounded,
-              color: doesSubFolderExist ? Colors.yellow : Colors.white),
+          ? isEditable
+              ? showEditingIcon(folder, folderData, name)
+              : Container()
+          : Icon(Icons.keyboard_arrow_right_outlined, color: Colors.white.withOpacity(0.6)),
+      // color: doesSubFolderExist ? Colors.yellow : Colors.white.withOpacity(0.6)),
     );
   }
 }
@@ -367,4 +426,4 @@ class _MyFoldersState extends State<MyFolders> {
 //     )),
 //   )
 
-// fix dialog blog to edit actions and show recently deleted notes
+

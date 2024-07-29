@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
               // "notes": (context) => const Notes(),
               "bucket_list": (context) => const BucketList(),
 
-              "notes_pad": (context) => const NotesPad(),
+              "notes_pad": (context) => NotesPad(),
               "folders": (context) => MyFolders(),
               // "new_note": (context) => CreateNewNote(),
 
@@ -81,8 +81,7 @@ final lightTheme = ThemeData(
     bodySmall: TextStyle(color: Colors.black),
   ),
 
-  bottomNavigationBarTheme:
-      const BottomNavigationBarThemeData(backgroundColor: Color(0xFFFFF5D0)),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Color(0xFFFFF5D0)),
   bottomAppBarTheme: const BottomAppBarTheme(
     color: Color(0xFFFFF5D0),
   ),
@@ -110,8 +109,7 @@ final darkTheme = ThemeData(
     bodyLarge: TextStyle(color: Colors.white),
     bodySmall: TextStyle(color: Colors.white),
   ),
-  bottomNavigationBarTheme:
-      const BottomNavigationBarThemeData(backgroundColor: Color(0xFF0F222D)),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Color(0xFF0F222D)),
   bottomAppBarTheme: const BottomAppBarTheme(
     color: Color(0xFF0F222D),
   ),
@@ -128,7 +126,7 @@ final darkTheme = ThemeData(
 
 
 // Localization
-// ask about     isAggregator: 0,
+// ask about isAggregator: 0,
 // fix being able to click send again consistently
 // allow me to be able to control erasing on verify screen
 // handle semantic labels for accessibility
@@ -154,6 +152,9 @@ final darkTheme = ThemeData(
 // 10. Handle BucketListProvider state management
 // 11. animation for icons
 // 12. Handle SharedPreference for NotesProvider
+// 13. figure out how to delete sub folders
+// 14. figure out how to add new note w/o and w parent folder 
+// 15. fix the icon color for if sub folders arrow color for if it exists
 
 
 
